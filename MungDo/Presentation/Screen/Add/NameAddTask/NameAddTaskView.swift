@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddNameTaskView: View {
+struct NameAddTaskView: View {
     var body: some View {
         VStack(spacing: 30) {
             Text("Add Name Task View")
@@ -36,6 +36,6 @@ struct AddNameTaskView: View {
 
 #Preview {
     NavigationStack {
-        AddNameTaskView()
+        NameAddTaskView()
     }
 } 

@@ -18,7 +18,7 @@ struct CheckTaskView: View {
                 .font(.body)
                 .foregroundColor(.gray)
             
-            NavigationLink(destination: AddNameTaskView()) {
+            NavigationLink(destination: NameAddTaskView()) {
                 Text("Next: Add Name")
                     .font(.title2)
                     .foregroundColor(.white)
