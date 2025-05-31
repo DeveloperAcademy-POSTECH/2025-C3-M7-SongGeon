@@ -10,7 +10,7 @@ import SwiftUI
 struct NameAddTaskView: View {
     var body: some View {
         VStack(spacing: 30) {
-            Text("Add Name Task View")
+            Text("어떤 일을 추가할까요?")
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
