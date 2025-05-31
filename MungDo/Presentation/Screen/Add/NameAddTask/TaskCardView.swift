@@ -41,5 +41,5 @@ struct TaskCardView: View {
         TaskCardView(title: "산책하기", isSelected: false)
     }
     .padding()
-    .background(Color(red: 1.0, green: 0.95, blue: 0.92)) // 배경도 원본 화면과 유사하게 설정
+    .background(Color.backgroundPrimary)
 }
