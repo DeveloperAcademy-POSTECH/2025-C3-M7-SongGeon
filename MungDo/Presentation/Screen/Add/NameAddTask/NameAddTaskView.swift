@@ -15,12 +15,13 @@ struct NameAddTaskView: View {
             "목욕하기",
             "외부기생충 약\n먹이기"
         ]
+    let title: String = "어떤 일을 추가할까요?"
     
     @State private var selectedIndex: Int? = nil
     
     var body: some View {
         VStack(alignment: .leading, spacing: 28) {
-            Text("어떤 일을 추가할까요?")
+            Text(title)
                 .font(.system(size: 37, weight: .semibold))
                 .padding(28)
             
