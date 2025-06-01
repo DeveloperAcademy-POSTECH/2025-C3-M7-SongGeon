@@ -16,8 +16,10 @@ struct NameAddTaskView: View {
             "외부기생충 약\n먹이기"
         ]
     let title: String = "어떤 일을 추가할까요?"
+    let buttonTitle: String = "다음"
     
     @State private var selectedIndex: Int? = nil
+    @State private var goToNext = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 28) {
@@ -33,21 +35,32 @@ struct NameAddTaskView: View {
                         }
                 }
             }
-
-            HStack{
+            
+            HStack {
                 Spacer()
-                NavigationLink(destination: CalendarAddTaskView()) {
-                    Text("다음")
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.white)
-                        .frame(width: 316, height: 64)
-                        .background(selectedIndex == nil ? Color.buttonDisable : Color.buttonPrimary)
-                        .cornerRadius(18)
+                NavigationActionButton(
+                    title: buttonTitle,
+                    isEnabled: selectedIndex != nil
+                ) {
+                    goToNext = true
                 }
-                .disabled(selectedIndex == nil)
                 Spacer()
             }
             .padding(.bottom, 28)
+            
+            NavigationLink(
+                destination: CalendarAddTaskView(),
+                //다음 페이지로 선택한 task 카테고리 전달하기
+                //destination: {
+                //  if let selectedIndex = selectedIndex {
+                //                      CalendarAddTaskView(taskTitle: taskTitles[selectedIndex])
+                //                        }
+                //                    },
+                isActive: $goToNext,
+                label: {
+                    EmptyView()
+                }
+            )
         }
         .padding(55)
         .background(Color.backgroundPrimary)
