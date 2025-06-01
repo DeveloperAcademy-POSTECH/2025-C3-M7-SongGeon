@@ -49,7 +49,7 @@ struct NameAddTaskView: View {
             
             HStack {
                 Spacer()
-                NavigationActionButton(
+                CustomButton(
                     title: buttonTitle,
                     isEnabled: selectedIndex != nil
                 ) {
