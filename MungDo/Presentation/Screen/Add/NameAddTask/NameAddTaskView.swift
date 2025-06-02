@@ -25,15 +25,6 @@ struct NameAddTaskView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 28) {
-            CustomNavigationBar(
-                showDepth: true,
-                currentDepth: 1,
-                totalDepth: 2,
-                onBack: {
-                    dismiss()
-                }
-            )
-            
             Text(title)
                 .font(.system(size: 37, weight: .semibold))
                 .padding(28)
@@ -74,10 +65,20 @@ struct NameAddTaskView: View {
             )
             .padding(28)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(55)
         .background(Color.backgroundPrimary)
-        .navigationBarBackButtonHidden(true) //수정: 기본 뒤로가기 버튼 숨김
-        .navigationBarHidden(true) //수정: 기본 내비게이션 바 숨김
+        .navigationBarBackButtonHidden(true)
+        .toolbar{
+            CustomToolBar(
+                showDepth: true,
+                currentDepth: 1,
+                totalDepth: 2,
+                onBack: {
+                    dismiss()
+                }
+            )
+        }
     }
 }
 
