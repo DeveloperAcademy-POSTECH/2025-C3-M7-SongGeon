@@ -32,13 +32,13 @@ struct CompletedTaskView: View {
     }
     
     @State private var currentIndex = 0
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         ZStack {
             // 배경색
             Color(.backgroundPrimary)
                 .ignoresSafeArea()
-
 
             VStack(spacing: 30) {
                 if completedTasks.isEmpty {
@@ -122,13 +122,31 @@ struct CompletedTaskView: View {
                         )
                         .shadow(color: .green.opacity(0.3), radius: 8, x: 0, y: 4)
                     }
-
-
                 }
-                
             }
         }
         .navigationBarTitleDisplayMode(.large)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .resizable()
+                        .frame(width: 12, height: 20)
+                        .foregroundColor(Color.buttonSecondary)
+                }
+            }
+            
+            ToolbarItem(placement: .principal) {
+                Text("완료된 할 일")
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundColor(.black)
+            }
+        }
+        .toolbarBackground(Color.backgroundPrimary, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 

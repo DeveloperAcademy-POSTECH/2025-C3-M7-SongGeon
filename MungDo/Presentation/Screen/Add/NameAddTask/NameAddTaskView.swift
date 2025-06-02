@@ -24,6 +24,7 @@ struct NameAddTaskView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 28) {
+
             Text(title)
                 .font(.system(size: 37, weight: .semibold))
                 .padding(28)
@@ -37,7 +38,8 @@ struct NameAddTaskView: View {
                         }
                 }
             }
-            
+            .padding(.bottom, 40)
+
             HStack {
                 Spacer()
                 CustomButton(
@@ -68,6 +70,7 @@ struct NameAddTaskView: View {
                 }
             )
         }
+
     }
 }
 
