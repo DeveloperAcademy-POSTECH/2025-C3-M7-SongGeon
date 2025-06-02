@@ -13,6 +13,8 @@ struct CalendarAddTaskView: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         VStack{
             HStack{
@@ -36,6 +38,7 @@ struct CalendarAddTaskView: View {
                     isEnabled: true
                 ) {
                     //버튼 기능 구현 필요
+
                 }
                 Spacer()
             }
@@ -55,6 +58,7 @@ struct CalendarAddTaskView: View {
                 }
             )
         }
+
     }
 }
 

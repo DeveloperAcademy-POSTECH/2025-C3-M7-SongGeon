@@ -25,6 +25,7 @@ struct NameAddTaskView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 28) {
+
             Text(title)
                 .font(.system(size: 37, weight: .semibold))
                 .padding(28)
@@ -37,7 +38,8 @@ struct NameAddTaskView: View {
                         }
                 }
             }
-            
+            .padding(.bottom, 40)
+
             HStack {
                 Spacer()
                 CustomButton(
@@ -52,18 +54,11 @@ struct NameAddTaskView: View {
             
             NavigationLink(
                 destination: CalendarAddTaskView(),
-                //다음 페이지로 선택한 task 카테고리 전달하기
-                //destination: {
-                //  if let selectedIndex = selectedIndex {
-                //                      CalendarAddTaskView(taskTitle: taskTitles[selectedIndex])
-                //                        }
-                //                    },
                 isActive: $goToNext,
                 label: {
                     EmptyView()
                 }
             )
-            .padding(28)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(55)
@@ -79,6 +74,7 @@ struct NameAddTaskView: View {
                 }
             )
         }
+
     }
 }
 
