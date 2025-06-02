@@ -9,6 +9,9 @@ import SwiftUI
 
 struct CalendarAddTaskView: View {
     let title: String = "\'심장사상충 약 먹이기\' 언제부터 시작할까요?"
+    let buttonTitle: String = "완료"
+    
+    @Environment(\.dismiss) private var dismiss
     
     @Environment(\.dismiss) private var dismiss
     
@@ -28,47 +31,34 @@ struct CalendarAddTaskView: View {
               .background(.white)
               .cornerRadius(20)
             
-            HStack{
+            HStack {
                 Spacer()
-                NavigationLink(destination: CheckTaskView()) {
-                    Text("완료")
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.white)
-                        .frame(width: 316, height: 64)
-                        .background(Color.buttonPrimary)
-                        .cornerRadius(18)
+                CustomButton(
+                    title: buttonTitle,
+                    isEnabled: true
+                ) {
+                    //버튼 기능 구현 필요
+
                 }
                 Spacer()
             }
             .padding(.bottom, 28)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(55)
         .background(Color.backgroundPrimary)
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
+        .toolbar{
+            CustomToolBar(
+                showDepth: true,
+                currentDepth: 2,
+                totalDepth: 2,
+                onBack: {
                     dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .resizable()
-                        .frame(width: 12, height: 20)
-                        .foregroundColor(Color.buttonSecondary)
                 }
-            }
-            
-            ToolbarItem(placement: .principal) {
-                DepthIndicator(current: 2, total: 2)
-            }
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Rectangle()
-                    .frame(width: 22, height: 36)
-                    .opacity(0)
-            }
+            )
         }
-        .toolbarBackground(Color.backgroundPrimary, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+
     }
 }
 

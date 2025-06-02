@@ -24,7 +24,8 @@ struct NameAddTaskView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 28) {
+
             Text(title)
                 .font(.system(size: 37, weight: .semibold))
                 .padding(28)
@@ -59,33 +60,21 @@ struct NameAddTaskView: View {
                 }
             )
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(55)
         .background(Color.backgroundPrimary)
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
+        .toolbar{
+            CustomToolBar(
+                showDepth: true,
+                currentDepth: 1,
+                totalDepth: 2,
+                onBack: {
                     dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .resizable()
-                        .frame(width: 12, height: 20)
-                        .foregroundColor(Color.buttonSecondary)
                 }
-            }
-            
-            ToolbarItem(placement: .principal) {
-                DepthIndicator(current: 1, total: 2)
-            }
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Rectangle()
-                    .frame(width: 22, height: 36)
-                    .opacity(0)
-            }
+            )
         }
-        .toolbarBackground(Color.backgroundPrimary, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+
     }
 }
 

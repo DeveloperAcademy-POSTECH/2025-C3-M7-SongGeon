@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CheckTaskView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         VStack(spacing: 30) {
             Text("Check Task View")
@@ -29,8 +31,18 @@ struct CheckTaskView: View {
             
             Spacer()
         }
-        .padding()
-        .navigationTitle("Check Task")
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(55)
+        .background(Color.backgroundPrimary)
+        .navigationBarBackButtonHidden(true)
+        .toolbar{
+            CustomToolBar(
+                showDepth: false,
+                onBack: {
+                    dismiss()
+                }
+            )
+        }
     }
 }
 
