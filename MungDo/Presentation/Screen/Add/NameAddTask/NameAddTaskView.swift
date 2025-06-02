@@ -40,7 +40,7 @@ struct NameAddTaskView: View {
             
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 28) {
                 ForEach(taskTitles.indices, id: \.self) { index in
-                    TaskCardView(title: taskTitles[index], isSelected: selectedIndex == index)
+                    TaskTagCardView(title: taskTitles[index], isSelected: selectedIndex == index)
                         .onTapGesture {
                             selectedIndex = index
                         }
