@@ -24,16 +24,7 @@ struct NameAddTaskView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 28) {
-            CustomNavigationBar(
-                showDepth: true,
-                currentDepth: 1,
-                totalDepth: 2,
-                onBack: {
-                    dismiss()
-                }
-            )
-            
+        VStack(alignment: .leading, spacing: 0) {
             Text(title)
                 .font(.system(size: 37, weight: .semibold))
                 .padding(28)
@@ -46,7 +37,8 @@ struct NameAddTaskView: View {
                         }
                 }
             }
-            
+            .padding(.bottom, 40)
+
             HStack {
                 Spacer()
                 CustomButton(
@@ -61,23 +53,39 @@ struct NameAddTaskView: View {
             
             NavigationLink(
                 destination: CalendarAddTaskView(),
-                //다음 페이지로 선택한 task 카테고리 전달하기
-                //destination: {
-                //  if let selectedIndex = selectedIndex {
-                //                      CalendarAddTaskView(taskTitle: taskTitles[selectedIndex])
-                //                        }
-                //                    },
                 isActive: $goToNext,
                 label: {
                     EmptyView()
                 }
             )
-            .padding(28)
         }
         .padding(55)
         .background(Color.backgroundPrimary)
-        .navigationBarBackButtonHidden(true) //수정: 기본 뒤로가기 버튼 숨김
-        .navigationBarHidden(true) //수정: 기본 내비게이션 바 숨김
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .resizable()
+                        .frame(width: 12, height: 20)
+                        .foregroundColor(Color.buttonSecondary)
+                }
+            }
+            
+            ToolbarItem(placement: .principal) {
+                DepthIndicator(current: 1, total: 2)
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Rectangle()
+                    .frame(width: 22, height: 36)
+                    .opacity(0)
+            }
+        }
+        .toolbarBackground(Color.backgroundPrimary, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 

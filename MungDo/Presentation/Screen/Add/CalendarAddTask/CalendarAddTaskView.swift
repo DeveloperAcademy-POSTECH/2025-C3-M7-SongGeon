@@ -10,6 +10,8 @@ import SwiftUI
 struct CalendarAddTaskView: View {
     let title: String = "\'심장사상충 약 먹이기\' 언제부터 시작할까요?"
     
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         VStack{
             HStack{
@@ -33,7 +35,7 @@ struct CalendarAddTaskView: View {
                         .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.white)
                         .frame(width: 316, height: 64)
-                        .background( Color.buttonPrimary)
+                        .background(Color.buttonPrimary)
                         .cornerRadius(18)
                 }
                 Spacer()
@@ -42,6 +44,31 @@ struct CalendarAddTaskView: View {
         }
         .padding(55)
         .background(Color.backgroundPrimary)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .resizable()
+                        .frame(width: 12, height: 20)
+                        .foregroundColor(Color.buttonSecondary)
+                }
+            }
+            
+            ToolbarItem(placement: .principal) {
+                DepthIndicator(current: 2, total: 2)
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Rectangle()
+                    .frame(width: 22, height: 36)
+                    .opacity(0)
+            }
+        }
+        .toolbarBackground(Color.backgroundPrimary, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 
