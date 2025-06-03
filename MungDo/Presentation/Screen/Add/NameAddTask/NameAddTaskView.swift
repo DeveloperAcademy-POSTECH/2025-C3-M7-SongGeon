@@ -9,16 +9,9 @@ import SwiftUI
 
 struct NameAddTaskView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var selectedIndex: Int? = nil
+    @State private var selectedTaskType: TaskType? = nil
     @State private var path = NavigationPath()
     
-    let taskTitles = [
-            "심장사상충 약\n먹이기",
-            "산책하기",
-            "광견병·코로나\n예방접종하기",
-            "목욕하기",
-            "외부기생충 약\n먹이기"
-        ]
     let title: String = "어떤 일을 추가할까요?"
     var onComplete: () -> Void
     
@@ -31,10 +24,12 @@ struct NameAddTaskView: View {
             
             //Mark: 태스크 카드를 Grid로 나열
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 28) {
-                ForEach(taskTitles.indices, id: \.self) { index in
-                    TaskTagCardView(title: taskTitles[index], isSelected: selectedIndex == index)
+                ForEach(TaskType.allCases) { taskType in
+                    TaskTagCardView(
+                        title: taskType.displayName,
+                        isSelected: selectedTaskType == taskType)
                         .onTapGesture {
-                            selectedIndex = index
+                            selectedTaskType = taskType
                         }
                 }
             }
@@ -44,13 +39,12 @@ struct NameAddTaskView: View {
                 Spacer()
                 CustomButton(
                     action: {
-                        if let selectedIndex = selectedIndex {
-                            let selectedTitle = taskTitles[selectedIndex]
-                            path.append(selectedTitle) // 목적지로 이동
+                        if let selectedTask = selectedTaskType {
+                            path.append(selectedTask)
                         }
                     },
                     title: "다음",
-                    isEnabled: selectedIndex != nil
+                    isEnabled: selectedTaskType != nil
                 )
                 Spacer()
             }

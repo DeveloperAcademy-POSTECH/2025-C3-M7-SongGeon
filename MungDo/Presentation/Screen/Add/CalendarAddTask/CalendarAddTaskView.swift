@@ -10,14 +10,13 @@ import SwiftUI
 struct CalendarAddTaskView: View {
     @Environment(\.dismiss) private var dismiss
     
-    let taskTitle: String
-    let title: String = "\'심장사상충 약 먹이기\' 언제부터 시작할까요?"
+    let taskType: TaskType
     var onComplete: () -> Void
     
     var body: some View {
         VStack{
             HStack{
-                Text(title)
+                Text("'\(taskType.displayName)' 언제부터 시작할까요?")
                     .font(.system(size: 37, weight: .semibold))
                     .padding(28)
                 Spacer()
