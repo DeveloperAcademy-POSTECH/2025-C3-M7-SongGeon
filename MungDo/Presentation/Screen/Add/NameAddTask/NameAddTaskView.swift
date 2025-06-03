@@ -37,15 +37,19 @@ struct NameAddTaskView: View {
 
             HStack {
                 Spacer()
-                CustomButton(
-                    action: {
-                        if let selectedTask = selectedTaskType {
-                            path.append(selectedTask)
-                        }
-                    },
-                    title: "다음",
-                    isEnabled: selectedTaskType != nil
-                )
+                if let selectedTask = selectedTaskType {
+                    NavigationLink(
+                        destination: CalendarAddTaskView(
+                            taskType: selectedTask,
+                            onComplete: onComplete
+                        )
+                    ) {
+                        CustomButtonLabel(title: "다음")
+                    }
+                } else {
+                    // 비활성화된 버튼처럼 보이도록 디자인
+                    CustomButtonLabel(title: "다음", isEnabled: false)
+                }
                 Spacer()
             }
             .padding(.bottom, 28)
@@ -68,8 +72,8 @@ struct NameAddTaskView: View {
     }
 }
 
-//#Preview {
-//    NavigationStack {
-//        NameAddTaskView()
-//    }
-//} 
+#Preview {
+    NavigationStack {
+        NameAddTaskView(onComplete: {})
+    }
+}

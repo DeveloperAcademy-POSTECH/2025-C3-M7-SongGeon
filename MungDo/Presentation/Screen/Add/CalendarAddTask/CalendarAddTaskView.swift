@@ -24,17 +24,18 @@ struct CalendarAddTaskView: View {
             
             //달력 구현 영역
             Rectangle()
-              .foregroundColor(.clear)
-              .frame(width: 628, height: 403)
-              .background(.white)
-              .cornerRadius(20)
+                .foregroundColor(.clear)
+                .frame(width: 628, height: 403)
+                .background(.white)
+                .cornerRadius(20)
             
             HStack {
                 Spacer()
-                CustomButton(
-                    action: { onComplete() },
-                    title: "완료"
-                )
+                Button(action: {
+                    onComplete()
+                }) {
+                    CustomButtonLabel(title: "완료")
+                }
                 Spacer()
             }
             .padding(.bottom, 28)

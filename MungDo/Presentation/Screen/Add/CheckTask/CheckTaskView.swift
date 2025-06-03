@@ -20,11 +20,11 @@ struct CheckTaskView: View {
             Text("태스크를 체크하는 화면입니다")
                 .font(.body)
                 .foregroundColor(.gray)
-
-            CustomButton(
-                action: {showTaskFlow = true},
-                title: "추가하기"
-            )
+            
+            Button(action: { showTaskFlow = true }) {
+                CustomButtonLabel(title: "추가하기")
+            }
+            
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -48,6 +48,7 @@ struct CheckTaskView: View {
         }
     }
 }
+
 
 #Preview {
     NavigationStack {
