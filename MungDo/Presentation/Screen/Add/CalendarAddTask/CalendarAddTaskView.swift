@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct CalendarAddTaskView: View {
+    @Environment(\.dismiss) private var dismiss
+    
+    let taskTitle: String
     let title: String = "\'심장사상충 약 먹이기\' 언제부터 시작할까요?"
-    let buttonTitle: String = "완료"
-    
-    @Environment(\.dismiss) private var dismiss
-    
-    @Environment(\.dismiss) private var dismiss
+    var onComplete: () -> Void
     
     var body: some View {
         VStack{
@@ -34,12 +33,9 @@ struct CalendarAddTaskView: View {
             HStack {
                 Spacer()
                 CustomButton(
-                    title: buttonTitle,
-                    isEnabled: true
-                ) {
-                    //버튼 기능 구현 필요
-
-                }
+                    action: { onComplete() },
+                    title: "완료"
+                )
                 Spacer()
             }
             .padding(.bottom, 28)
@@ -62,8 +58,8 @@ struct CalendarAddTaskView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        CalendarAddTaskView()
-    }
-} 
+//#Preview {
+//    NavigationStack {
+//        CalendarAddTaskView()
+//    }
+//} 

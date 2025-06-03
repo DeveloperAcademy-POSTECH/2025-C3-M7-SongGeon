@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct CustomButton: View {
-    let title: String
-    let isEnabled: Bool
     let action: () -> Void
+    let title: String
+    var isEnabled: Bool = true
     var width: CGFloat = 316
     var height: CGFloat = 64
     var fontSize: CGFloat = 20
-
+    
     var body: some View {
         Button(action: action) {
             Text(title)
