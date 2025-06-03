@@ -125,7 +125,7 @@ struct CompletedTaskView: View {
                 }
             }
         }
-        .navigationBarTitleDisplayMode(.large)
+//        .navigationBarTitleDisplayMode(.large)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -139,11 +139,11 @@ struct CompletedTaskView: View {
                 }
             }
             
-            ToolbarItem(placement: .principal) {
-                Text("완료된 할 일")
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundColor(.black)
-            }
+//            ToolbarItem(placement: .principal) {
+//                Text("완료된 할 일")
+//                    .font(.system(size: 20, weight: .semibold))
+//                    .foregroundColor(.black)
+//            }
         }
         .toolbarBackground(Color.backgroundPrimary, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
