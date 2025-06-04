@@ -22,12 +22,16 @@ struct CalendarAddTaskView: View {
                 Spacer()
             }
             
-            //달력 구현 영역
-            Rectangle()
-                .foregroundColor(.clear)
-                .frame(width: 628, height: 403)
-                .background(.white)
-                .cornerRadius(20)
+            // 캘린더 영역
+            ZStack{
+                Rectangle()
+                    .foregroundColor(.clear)
+                    .frame(width: 628, height: 403)
+                    .background(.white)
+                    .cornerRadius(20)
+                TestCalendarView()
+                    .frame(width: 600, height: 380)
+            }
             
             HStack {
                 Spacer()
@@ -42,7 +46,7 @@ struct CalendarAddTaskView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(55)
-        .background(Color.backgroundPrimary)
+        .background(Color("BackgroundPrimary"))
         .navigationBarBackButtonHidden(true)
         .toolbar{
             CustomToolBar(

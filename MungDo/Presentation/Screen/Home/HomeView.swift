@@ -29,7 +29,7 @@ struct HomeView: View {
                             CardView(image:Image("Home/home_add"), title:"날짜별로 모아보기")
                         }
                         
-                        NavigationLink(destination: TodoListView()) {
+                        NavigationLink(destination: CompletedTaskView()) {
 //                            Text("Todo List")
 //                                .font(.title2)
 //                                .foregroundColor(.white)
