@@ -14,34 +14,21 @@ struct CalendarAddTaskView: View {
     var onComplete: () -> Void
     
     var body: some View {
-        VStack(spacing: 40) {
-            // 제목
-            HStack {
+        VStack{
+            HStack{
                 Text("'\(taskType.displayName)' 언제부터 시작할까요?")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.black)
+                    .font(.system(size: 37, weight: .semibold))
+                    .padding(28)
                 Spacer()
             }
             
-            // 캘린더 영역
-            HStack {
-                Spacer()
-                TestCalendarView()
-                    .aspectRatio(1.6, contentMode: .fit)
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color.white)
-                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                    )
-                    .frame(maxWidth: 600)
-                Spacer()
-            }
+            //달력 구현 영역
+            Rectangle()
+                .foregroundColor(.clear)
+                .frame(width: 628, height: 403)
+                .background(.white)
+                .cornerRadius(20)
             
-            Spacer()
-            
-            // 완료 버튼
             HStack {
                 Spacer()
                 Button(action: {
@@ -51,30 +38,28 @@ struct CalendarAddTaskView: View {
                 }
                 Spacer()
             }
+            .padding(.bottom, 28)
         }
-        .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("BackgroundPrimary"))
+        .padding(55)
+        .background(Color.backgroundPrimary)
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
+        .toolbar{
+            CustomToolBar(
+                showDepth: true,
+                currentDepth: 2,
+                totalDepth: 2,
+                onBack: {
                     dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .resizable()
-                        .frame(width: 12, height: 20)
-                        .foregroundColor(Color("ButtonSecondary"))
                 }
-            }
+            )
         }
-        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+
     }
 }
 
-#Preview {
-    NavigationStack {
-        CalendarAddTaskView(taskType: .vaccination, onComplete: {})
-    }
-} 
+//#Preview {
+//    NavigationStack {
+//        CalendarAddTaskView()
+//    }
+//} 
