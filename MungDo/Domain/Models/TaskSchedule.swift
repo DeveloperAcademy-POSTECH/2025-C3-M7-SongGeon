@@ -33,8 +33,8 @@ struct TaskSchedule: Identifiable {
         }
     }
     
-    func scheduledDates(forMonth month: Int, year: Int) -> [Date] {
-        var dates: [Date] = []
+    func scheduledTasksForMonth(forMonth month: Int, year: Int) -> [TaskItem] {
+        var scheduledTasks: [TaskItem] = []
         var currentDate = startDate
         let calendar = Calendar.current
         let cycle = taskType.defaultCycle
@@ -48,11 +48,12 @@ struct TaskSchedule: Identifiable {
         // 반복 날짜 계산
         while currentDate <= endOfMonth {
             if currentDate >= startOfMonth {
-                dates.append(currentDate)
+                var taskItem = TaskItem(taskType: self.taskType, date: currentDate, isCompleted: false)
+                scheduledTasks.append(taskItem)
             }
             currentDate = calendar.date(byAdding: .day, value: cycle, to: currentDate)!
         }
         
-        return dates
+        return scheduledTasks
     }
 }
