@@ -18,48 +18,54 @@ struct CheckTaskView: View {
     ]
     
     var body: some View {
-        HStack(spacing: 40){
-            // 왼쪽 캘린더
-            ZStack{
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 680 , height: 680)
-                    .background(.white)
-                    .cornerRadius(20)
-                TestCalendarView()
-                    .frame(width: 656 , height: 620)
-            }
-            
-            // 오른쪽 태스크 리스트
-            VStack(spacing: 20) {
-                HStack {
-                    Text("오늘의 일정")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.black)
-                    Spacer()
-                }
-                
-                ScrollView {
-                    LazyVStack(spacing: 12) {
-                        ForEach(Array(tasks.enumerated()), id: \.element.id) { index, task in
-                            TaskListItemView(taskItem: $tasks[index])
-                        }
+        GeometryReader { geometry in
+            HStack(spacing: geometry.size.width * 0.03) { // 화면 너비의 3%
+                // 왼쪽 캘린더 (전체 너비의 60%)
+                VStack {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.white)
+                            .aspectRatio(1.0, contentMode: .fit) // 정사각형 비율 유지
+                        
+                        TestCalendarView()
+                            .padding(.all, geometry.size.width * 0.015) // 너비의 1.5%만큼 패딩
                     }
-                    .padding(.vertical, 8)
                 }
-                .frame(maxHeight: 400)
+                .frame(maxWidth: geometry.size.width * 0.6)
                 
-                Spacer()
-                
-                Button(action: { showTaskFlow = true }) {
-                    CustomButtonLabel(title: "추가하기")
+                // 오른쪽 태스크 리스트 (전체 너비의 35%)
+                VStack(spacing: geometry.size.height * 0.025) { // 높이의 2.5%
+                    // 제목
+                    HStack {
+                        Text("오늘의 일정")
+                            .font(.system(size: geometry.size.width * 0.02, weight: .bold)) // 너비 기반 폰트
+                            .foregroundColor(.black)
+                        Spacer()
+                    }
+                    
+                    // 태스크 리스트
+                    ScrollView {
+                        LazyVStack(spacing: geometry.size.height * 0.015) { // 높이의 1.5%
+                            ForEach(Array(tasks.enumerated()), id: \.element.id) { index, task in
+                                TaskListItemView(taskItem: $tasks[index])
+                            }
+                        }
+                        .padding(.vertical, geometry.size.height * 0.01)
+                    }
+                    .frame(maxHeight: geometry.size.height * 0.5) // 최대 높이 50%
+                    
+                    Spacer()
+                    
+                    // 추가하기 버튼
+                    Button(action: { showTaskFlow = true }) {
+                        CustomButtonLabel(title: "추가하기")
+                    }
                 }
+                .frame(maxWidth: geometry.size.width * 0.35)
             }
-            .frame(width: 400)
+            .padding(.all, geometry.size.width * 0.04) // 전체 너비의 4%만큼 패딩
         }
-        
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(55)
         .background(Color("BackgroundPrimary"))
         .fullScreenCover(isPresented: $showTaskFlow) {
             NavigationStack {
@@ -70,13 +76,19 @@ struct CheckTaskView: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
-            CustomToolBar(
-                showDepth: false,
-                onBack: {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
                     dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .resizable()
+                        .frame(width: 12, height: 20)
+                        .foregroundColor(Color("ButtonSecondary"))
                 }
-            )
+            }
         }
+        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 
