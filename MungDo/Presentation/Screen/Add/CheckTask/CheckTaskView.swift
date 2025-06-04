@@ -93,6 +93,10 @@ struct TaskItem: Identifiable, Hashable, Equatable {
     let date: Date
     var isCompleted: Bool
     
+    var image: Image {
+        taskType.displayIcon // TaskType에 정의된 displayIcon을 사용
+    }
+    
     init(taskType: TaskType, date: Date, isCompleted: Bool = false) {
         self.taskType = taskType
         self.date = date

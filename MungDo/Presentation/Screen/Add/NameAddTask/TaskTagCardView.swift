@@ -16,7 +16,7 @@ struct TaskTagCardView: View {
         HStack(alignment: .center, spacing: 16){
             ZStack {
                 Circle()
-                    .fill(Color("ButtonTertiary"))
+                    .fill(Color("Secondary03"))
                     .frame(width: 96, height: 96)
 
                 image
