@@ -28,7 +28,7 @@ struct HomeView: View {
 //                                .frame(width: 200, height: 50)
 //                                .background(Color.green)
 //                                .cornerRadius(10)
-                            CardView(image:Image("Home/home_look"), title:"오늘 할 일 열어놓기")
+                            HomeCardView(image:Image("Home/home_look"), title:"오늘 할 일 열어놓기")
 
                         }
                     }
