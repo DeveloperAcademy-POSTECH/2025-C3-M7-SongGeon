@@ -33,7 +33,6 @@ struct CompletedTaskView: View {
 
     @State private var currentIndex = 0
     @Environment(\.dismiss) private var dismiss
-
     var body: some View {
         ZStack {
             // 배경색
@@ -125,7 +124,7 @@ struct CompletedTaskView: View {
                 }
             }
         }
-//        .navigationBarTitleDisplayMode(.large)
+//      .navigationBarTitleDisplayMode(.large)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -138,7 +137,6 @@ struct CompletedTaskView: View {
                         .foregroundColor(Color.buttonSecondary)
                 }
             }
-
 //            ToolbarItem(placement: .principal) {
 //                Text("완료된 할 일")
 //                    .font(.system(size: 20, weight: .semibold))
