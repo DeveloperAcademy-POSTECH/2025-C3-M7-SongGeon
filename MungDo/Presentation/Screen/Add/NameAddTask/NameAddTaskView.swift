@@ -16,83 +16,69 @@ struct NameAddTaskView: View {
     var onComplete: () -> Void
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 32) {
-            // 제목
-            HStack {
-                Text(title)
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.black)
-                Spacer()
-            }
+        ZStack {
+            Color.backgroundPrimary.edgesIgnoringSafeArea(.all)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    selectedTaskType = nil
+                }
             
-            // 태스크 카드 그리드
-            LazyVGrid(
-                columns: [
-                    GridItem(.flexible()),
-                    GridItem(.flexible()),
-                    GridItem(.flexible())
-                ],
-                spacing: 24
-            ) {
-                ForEach(TaskType.allCases) { taskType in
-                    TaskTagCardView(
-                        title: taskType.displayName,
-                        image: taskType.displayIcon,
-                        isSelected: selectedTaskType == taskType
-                    )
-                    .onTapGesture {
-                        if selectedTaskType == taskType {
-                            selectedTaskType = nil
-                        } else {
-                            selectedTaskType = taskType
+            VStack(alignment: .leading, spacing: 28) {
+                Text(title)
+                    .font(.system(size: 37, weight: .semibold))
+                    .padding(28)
+                
+                //Mark: 태스크 카드를 Grid로 나열
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 28) {
+                    ForEach(TaskType.allCases) { taskType in
+                        TaskTagCardView(
+                            title: taskType.displayName,
+                            isSelected: selectedTaskType == taskType)
+                        .onTapGesture {
+                            if selectedTaskType == taskType {
+                                selectedTaskType = nil // 다시 누르면 해제
+                            } else {
+                                selectedTaskType = taskType
+                            }
                         }
                     }
                 }
-            }
-            
-            Spacer()
-            
-            // 다음 버튼
-            HStack {
-                Spacer()
-                if let selectedTask = selectedTaskType {
-                    NavigationLink(
-                        destination: CalendarAddTaskView(
-                            taskType: selectedTask,
-                            onComplete: onComplete
-                        )
-                    ) {
-                        CustomButtonLabel(title: "다음")
+                .padding(.bottom, 40)
+                
+                HStack {
+                    Spacer()
+                    if let selectedTask = selectedTaskType {
+                        NavigationLink(
+                            destination: CalendarAddTaskView(
+                                taskType: selectedTask,
+                                onComplete: onComplete
+                            )
+                        ) {
+                            CustomButtonLabel(title: "다음")
+                        }
+                    } else {
+                        // 비활성화된 버튼처럼 보이도록 디자인
+                        CustomButtonLabel(title: "다음", isEnabled: false)
                     }
-                } else {
-                    CustomButtonLabel(title: "다음", isEnabled: false)
+                    Spacer()
                 }
-                Spacer()
+                .padding(.bottom, 28)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(55)
+            .navigationBarBackButtonHidden(true)
+            .toolbar{
+                CustomToolBar(
+                    showDepth: true,
+                    currentDepth: 1,
+                    totalDepth: 2,
+                    onBack: {
+                        dismiss()
+                    }
+                )
             }
         }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("BackgroundPrimary"))
-        .contentShape(Rectangle())
-        .onTapGesture {
-            selectedTaskType = nil
-        }
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .resizable()
-                        .frame(width: 12, height: 20)
-                        .foregroundColor(Color("ButtonSecondary"))
-                }
-            }
-        }
-        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+
     }
 }
 
