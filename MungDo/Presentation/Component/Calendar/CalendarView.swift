@@ -22,6 +22,9 @@ struct CalendarView: UIViewRepresentable {
         calendar.delegate = context.coordinator
         calendar.dataSource = context.coordinator
         
+        // 빈 날짜 표시
+        calendar.placeholderType = .fillHeadTail
+        
         // 헤더
         calendar.headerHeight = 100
         calendar.appearance.headerDateFormat = "yyyy년 MM월"
