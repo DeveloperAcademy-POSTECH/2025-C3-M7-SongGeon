@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct TestCalendarView: View {
-    //이벤트 생성 예시
-    @State var events: [CalendarView.Event] = [CalendarView.Event(date: .now, status: .before)]
+    //task 생성 예시
+    @State var tasks:[Task] = [Task(taskType: .walk, taskState: .scheduled, scheduledDate: .now)]
+    
     @State private var reloadTrigger = false
     @State private var currentPage: Date = Date()
     
@@ -58,7 +59,7 @@ struct TestCalendarView: View {
                 }
                 
             }
-            CalendarView(events: $events, currentPage: $currentPage)
+            CalendarView(tasks: $tasks, currentPage: $currentPage)
                 .id(reloadTrigger)
             //일정 완료 테스트 버튼
 //            Button{

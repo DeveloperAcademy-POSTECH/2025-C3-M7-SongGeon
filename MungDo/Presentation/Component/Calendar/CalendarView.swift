@@ -2,20 +2,9 @@ import SwiftUI
 import FSCalendar
 
 struct CalendarView: UIViewRepresentable {
-    @Binding var events:[Event]
+    @Binding var tasks: [Task]
     @Binding var currentPage: Date
     
-    //일정이 있는 날짜 배열 (예시: 4일에 일정이 있다고 가정)
-    struct Event: Identifiable {
-        let id = UUID()
-        let date: Date
-        var status: Status
-        
-        enum Status {
-            case before
-            case done
-        }
-    }
     
     func makeUIView(context: Context) -> FSCalendar {
         let calendar = FSCalendar()
@@ -66,11 +55,11 @@ struct CalendarView: UIViewRepresentable {
     
     class Coordinator: NSObject, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance { // FSCalendarDelegateAppearance 추가
         var parent: CalendarView
-
+        
         init(_ parent: CalendarView) {
             self.parent = parent
         }
-
+        
         func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
             //parent.selectedDate = date
         }
@@ -78,28 +67,35 @@ struct CalendarView: UIViewRepresentable {
         //일정이 있는 날짜에만 점(이벤트) 표시
         func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
             let calendar = Calendar.current
-            for event in parent.events {
-                if calendar.isDate(event.date, inSameDayAs: date) {
-                    return 1 // 점 하나 표시
+            for task in parent.tasks {
+                if let taskDate = task.scheduledDate{
+                    if calendar.isDate(taskDate, inSameDayAs: date) {
+                        return 1 // 점 하나 표시
+                    }
                 }
             }
             return 0 // 점 없음
         }
         
         func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
-                    let calendar = Calendar.current
-                    for event in parent.events {
-                        if calendar.isDate(event.date, inSameDayAs: date) {
-                            switch event.status {
-                            case .before:
-                                return [UIColor.red]
-                            case .done:
-                                return [UIColor.green]
-                            }
+            let calendar = Calendar.current
+            for task in parent.tasks {
+                if let taskDate = task.scheduledDate{
+                    if calendar.isDate(taskDate, inSameDayAs: date) {
+                        switch task.taskState {
+                        case .scheduled:
+                            return [UIColor.red]
+                        case .completed:
+                            return [.checkPrimary]
+                        case .postponed:
+                            return [.backgroundPrimary]
                         }
                     }
-                    return nil
                 }
+                
+            }
+            return nil
+        }
     }
 }
 
