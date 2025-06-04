@@ -18,12 +18,11 @@ struct CompletedTaskView: View {
 
     // 임시 데이터
     @State private var tasks: [TaskItem] = [
-        TaskItem(title: "숨이 심장사상충 약 먹이기", isCompleted: true, imageName: ""),
-        TaskItem(title: "산책 30분 하기", isCompleted: true, imageName: ""),
-        TaskItem(title: "사료 챙겨주기", isCompleted: true, imageName: ""),
-        TaskItem(title: "목욕시키기", isCompleted: true, imageName: ""),
-        TaskItem(title: "병원 예약하기", isCompleted: true, imageName: ""),
-        TaskItem(title: "놀아주기", isCompleted: true, imageName: "")
+        TaskItem(title: "심장사상충 약 먹이기", isCompleted: true, imageName: "heartwormIcon"),
+        TaskItem(title: "산책하기", isCompleted: true, imageName: "walkIcon"),
+        TaskItem(title: "광견병•코로나 예방접종하기", isCompleted: true, imageName: "vaccinationIcon"),
+        TaskItem(title: "목욕하기", isCompleted: true, imageName: "bathIcon"),
+        TaskItem(title: "외부기생충 약 먹이기", isCompleted: true, imageName: "externalParasiteIcon"),
     ]
 
     // 완료된 태스크만 필터링
@@ -31,12 +30,19 @@ struct CompletedTaskView: View {
         tasks.filter { $0.isCompleted }
     }
 
+    // 모든 태스크 완료 여부 확인
+    private var allTasksCompleted: Bool {
+        return tasks.allSatisfy { $0.isCompleted }
+    }
+
     @State private var currentIndex = 0
     @Environment(\.dismiss) private var dismiss
+    @State private var showCelebration = false
+
     var body: some View {
         ZStack {
             // 배경색
-            Color(.backgroundPrimary)
+            Color("BackgroundPrimary")
                 .ignoresSafeArea()
 
             VStack(spacing: 30) {
@@ -56,41 +62,48 @@ struct CompletedTaskView: View {
                             .foregroundColor(.gray)
                     }
                 } else {
-
                     // 카드 캐러셀
-                    GeometryReader { geometry in
-                        let cardWidth: CGFloat = 647
-                        let cardSpacing: CGFloat = 20
-
+                    ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHStack(spacing: cardSpacing) {
+                            LazyHStack(spacing: 20) {
+                                // 첫 번째 셀을 가운데에 오게 하기 위한 leading spacer
+                                Spacer()
+                                    .frame(width: (UIScreen.main.bounds.width - 647) / 2)
+                                
                                 ForEach(Array(completedTasks.enumerated()), id: \.element.id) { index, task in
                                     TaskCardView(task: task)
-                                        .frame(width: cardWidth, height: 403)
+                                        .frame(width: 647, height: 403)
                                         .scaleEffect(index == currentIndex ? 1.0 : 0.9)
                                         .opacity(index == currentIndex ? 1.0 : 0.7)
                                         .animation(.easeInOut(duration: 0.3), value: currentIndex)
+                                        .id(index)
                                 }
+                                
+                                // 마지막 셀을 가운데에 오게 하기 위한 trailing spacer
+                                Spacer()
+                                    .frame(width: (UIScreen.main.bounds.width - 647) / 2)
                             }
-                            .padding(.horizontal, (geometry.size.width - cardWidth) / 2)
                         }
-                        .content
-                        .offset(x: -CGFloat(currentIndex) * (cardWidth + cardSpacing))
-                        .animation(.easeInOut(duration: 0.3), value: currentIndex)
+                        .scrollDisabled(true) // 수동 스크롤 비활성화
+                        .onChange(of: currentIndex) { oldValue, newValue in
+                            withAnimation(.easeInOut(duration: 0.5)) {
+                                proxy.scrollTo(newValue, anchor: .center)
+                            }
+                        }
                         .gesture(
                             DragGesture()
                                 .onEnded { value in
                                     let threshold: CGFloat = 50
-                                    if value.translation.width > threshold && currentIndex > 0 {
-                                        currentIndex -= 1
-                                    } else if value.translation.width < -threshold && currentIndex < completedTasks.count - 1 {
-                                        currentIndex += 1
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        if value.translation.width > threshold && currentIndex > 0 {
+                                            currentIndex -= 1
+                                        } else if value.translation.width < -threshold && currentIndex < completedTasks.count - 1 {
+                                            currentIndex += 1
+                                        }
                                     }
                                 }
                         )
                     }
-                    .frame(height: 420)
-                    .clipped()
 
                     // 페이지 인디케이터
                     HStack(spacing: 8) {
@@ -104,12 +117,31 @@ struct CompletedTaskView: View {
 
                     // 완료됨 버튼 (카드 밖으로 이동)
                     Button(action: {
-                        // 완료 취소 액션
-                        print("완료 취소 버튼 탭됨")
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            if currentIndex < completedTasks.count - 1 {
+                                currentIndex += 1
+                            } else {
+                                // 마지막 카드에서 모든 태스크가 완료되었다면 축하 화면으로
+                                if allTasksCompleted {
+                                    showCelebration = true
+                                } else {
+                                    // 마지막 카드에서는 처음으로 돌아가기
+                                    currentIndex = 0
+                                }
+                            }
+                        }
                     }) {
                         HStack {
-
-                            Text("완료")
+                            let isLastCard = currentIndex >= completedTasks.count - 1
+                            let buttonText = if allTasksCompleted && isLastCard {
+                                "완료!"
+                            } else if isLastCard {
+                                "처음으로"
+                            } else {
+                                "다음"
+                            }
+                            
+                            Text(buttonText)
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundColor(.white)
                         }
@@ -117,14 +149,18 @@ struct CompletedTaskView: View {
                         .padding(.horizontal, 120)
                         .background(
                             RoundedRectangle(cornerRadius: 18)
-                                .fill(Color.buttonPrimary)
+                                .fill(Color("ButtonPrimary"))
                         )
                         .shadow(color: .green.opacity(0.3), radius: 8, x: 0, y: 4)
                     }
                 }
             }
         }
-//      .navigationBarTitleDisplayMode(.large)
+        .fullScreenCover(isPresented: $showCelebration) {
+            AllTasksCompletedView(onDismiss: {
+                showCelebration = false
+            })
+        }
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -134,68 +170,22 @@ struct CompletedTaskView: View {
                     Image(systemName: "chevron.left")
                         .resizable()
                         .frame(width: 12, height: 20)
-                        .foregroundColor(Color.buttonSecondary)
+                        .foregroundColor(Color("ButtonSecondary"))
                 }
             }
-//            ToolbarItem(placement: .principal) {
-//                Text("완료된 할 일")
-//                    .font(.system(size: 20, weight: .semibold))
-//                    .foregroundColor(.black)
-//            }
         }
-        .toolbarBackground(Color.backgroundPrimary, for: .navigationBar)
+        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 
-struct TaskCardView: View {
-    let task: CompletedTaskView.TaskItem
-    @State private var isPressed = false
 
-    var body: some View {
-        VStack {
-            Spacer()
-            // 이미지 중앙 배치
-            ZStack {
-                Circle()
-                    .fill(Color.pink.opacity(0.1))
-                    .frame(width: 213, height: 213)
-                Image(systemName: task.imageName)
-                    .font(.system(size: 50))
-                    .foregroundColor(.pink)
-            }
-            // 텍스트는 이미지 바로 아래
-            Text(task.title)
-                .font(.system(size: 27, weight: .semibold))
-                .foregroundColor(.black)
-                .multilineTextAlignment(.center)
-                .lineLimit(3)
-                .padding(.top, 20)
-                .padding(.horizontal, 20)
-            Spacer()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: 24)
-                .fill(Color.white)
-        )
-        .scaleEffect(isPressed ? 0.95 : 1.0)
-        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        .onTapGesture {
-            withAnimation(.easeInOut(duration: 0.1)) {
-                isPressed = true
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                withAnimation(.easeInOut(duration: 0.1)) {
-                    isPressed = false
-                }
-            }
-        }
-    }
-}
+
 
 #Preview {
     NavigationStack {
         CompletedTaskView()
     }
 }
+
+
