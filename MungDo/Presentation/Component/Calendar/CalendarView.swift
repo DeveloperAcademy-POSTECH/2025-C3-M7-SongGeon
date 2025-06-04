@@ -30,6 +30,8 @@ struct CalendarView: UIViewRepresentable {
         calendar.scrollEnabled = false // 스크롤 막고 버튼으로만 이동
         calendar.headerHeight = 0
         
+        calendar.appearance.todayColor = .buttonSecondary
+        
         // 요일
         calendar.appearance.weekdayFont = .systemFont(ofSize: 18)
         calendar.appearance.weekdayTextColor = .gray
@@ -106,24 +108,48 @@ struct TestCalendarView: View {
     
     var body: some View {
         VStack{
-            HStack {
-                Spacer()
-                Button(action: {
-                    currentPage = moveMonth(by: -1)
-                }) {
-                    Image(systemName: "chevron.left")
+            ZStack{
+                HStack {
+                    Button {
+                        currentPage = Date()
+                    } label: {
+                        Text("오늘")
+                            .font(.system(size: 16))
+                            .foregroundStyle(.buttonPrimary)
+                            .padding(.horizontal)
+                            .padding(.vertical, 6)
+                            .overlay {
+                                Capsule()
+                                    .fill(.clear)
+                                    .stroke(.buttonPrimary, lineWidth: 1)
+                            }
+                    }
+                    .padding()
+                    .padding(.horizontal, 40)
+                    Spacer()
                 }
-                .padding()
-                Text(monthTitle(for: currentPage))
-                    .font(.system(size: 26, weight: .bold))
-                    .bold()
-                Button(action: {
-                    currentPage = moveMonth(by: 1)
-                }) {
-                    Image(systemName: "chevron.right")
+                HStack{
+                    Spacer()
+                    Button(action: {
+                        currentPage = moveMonth(by: -1)
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundStyle(.gray)
+                    }
+                    .padding()
+                    Text(monthTitle(for: currentPage))
+                        .font(.system(size: 26, weight: .bold))
+                        .bold()
+                    Button(action: {
+                        currentPage = moveMonth(by: 1)
+                    }) {
+                        Image(systemName: "chevron.right")
+                            .foregroundStyle(.gray)
+                    }
+                    .padding()
+                    Spacer()
                 }
-                .padding()
-                Spacer()
+                
             }
             CalendarView(events: $events, currentPage: $currentPage)
                 .id(reloadTrigger)
