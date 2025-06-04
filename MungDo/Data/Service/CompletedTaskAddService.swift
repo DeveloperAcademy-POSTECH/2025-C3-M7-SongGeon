@@ -1,5 +1,5 @@
 //
-//  CompletedTaskViewModel.swift
+//  CompletedTaskAddService.swift
 //  MungDo
 //
 //  Created by Zhen on 6/4/25.
@@ -8,14 +8,14 @@
 import Foundation
 import Combine
 
-final class CompletedTaskViewModel: ObservableObject {
+final class CompletedTaskAddService: ObservableObject {
     
     @Published var taskDisplayName: String = ""
     @Published var taskDoneDate: Date = Date()
     
-    @Published var isSaving: Bool = false
-    @Published var saveErrorMessage: String? = nil
-    @Published var saveSuccess: Bool = false
+    var isSaving: Bool = false
+    var saveErrorMessage: String? = nil
+    var saveSuccess: Bool = false
     
     func saveTaskToDb(num: Int){
         self.isSaving = true
@@ -35,11 +35,10 @@ final class CompletedTaskViewModel: ObservableObject {
                 } else {
                     self?.saveSuccess = true
                 }
-                self?.taskDisplayName = ""
-                self?.taskDoneDate = Date()
             }
             
         }
         
     }
 }
+
