@@ -15,7 +15,7 @@ struct CompletedTaskView: View {
         let isCompleted: Bool
         let imageName: String
     }
-    
+
     // 임시 데이터
     @State private var tasks: [TaskItem] = [
         TaskItem(title: "숨이 심장사상충 약 먹이기", isCompleted: true, imageName: ""),
@@ -25,20 +25,19 @@ struct CompletedTaskView: View {
         TaskItem(title: "병원 예약하기", isCompleted: true, imageName: ""),
         TaskItem(title: "놀아주기", isCompleted: true, imageName: "")
     ]
-    
+
     // 완료된 태스크만 필터링
     private var completedTasks: [TaskItem] {
         tasks.filter { $0.isCompleted }
     }
-    
+
     @State private var currentIndex = 0
-    
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
         ZStack {
             // 배경색
             Color(.backgroundPrimary)
                 .ignoresSafeArea()
-
 
             VStack(spacing: 30) {
                 if completedTasks.isEmpty {
@@ -47,22 +46,22 @@ struct CompletedTaskView: View {
                         Image(systemName: "checkmark.circle")
                             .font(.system(size: 80))
                             .foregroundColor(.gray)
-                        
+
                         Text("완료된 일정이 없습니다")
                             .font(.title2)
                             .foregroundColor(.gray)
-                        
+
                         Text("일정을 추가하고 완료해보세요!")
                             .font(.body)
                             .foregroundColor(.gray)
                     }
                 } else {
-                    
+
                     // 카드 캐러셀
                     GeometryReader { geometry in
                         let cardWidth: CGFloat = 647
                         let cardSpacing: CGFloat = 20
-                        
+
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHStack(spacing: cardSpacing) {
                                 ForEach(Array(completedTasks.enumerated()), id: \.element.id) { index, task in
@@ -109,7 +108,7 @@ struct CompletedTaskView: View {
                         print("완료 취소 버튼 탭됨")
                     }) {
                         HStack {
-                            
+
                             Text("완료")
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundColor(.white)
@@ -122,20 +121,37 @@ struct CompletedTaskView: View {
                         )
                         .shadow(color: .green.opacity(0.3), radius: 8, x: 0, y: 4)
                     }
-
-
                 }
-                
             }
         }
-        .navigationBarTitleDisplayMode(.large)
+//      .navigationBarTitleDisplayMode(.large)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .resizable()
+                        .frame(width: 12, height: 20)
+                        .foregroundColor(Color.buttonSecondary)
+                }
+            }
+//            ToolbarItem(placement: .principal) {
+//                Text("완료된 할 일")
+//                    .font(.system(size: 20, weight: .semibold))
+//                    .foregroundColor(.black)
+//            }
+        }
+        .toolbarBackground(Color.backgroundPrimary, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 
 struct TaskCardView: View {
     let task: CompletedTaskView.TaskItem
     @State private var isPressed = false
-    
+
     var body: some View {
         VStack {
             Spacer()
@@ -182,4 +198,4 @@ struct TaskCardView: View {
     NavigationStack {
         CompletedTaskView()
     }
-} 
+}

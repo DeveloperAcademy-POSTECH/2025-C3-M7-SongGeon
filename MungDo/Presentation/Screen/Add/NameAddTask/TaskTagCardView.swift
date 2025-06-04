@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TaskCardView: View {
+struct TaskTagCardView: View {
     let title: String
     let isSelected: Bool
 
@@ -37,8 +37,8 @@ struct TaskCardView: View {
 
 #Preview {
     VStack(spacing: 20) {
-        TaskCardView(title: "심장사상충 약\n먹이기", isSelected: true)
-        TaskCardView(title: "산책하기", isSelected: false)
+        TaskTagCardView(title: "심장사상충 약\n먹이기", isSelected: true)
+        TaskTagCardView(title: "산책하기", isSelected: false)
     }
     .padding()
     .background(Color.backgroundPrimary)
