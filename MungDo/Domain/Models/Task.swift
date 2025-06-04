@@ -6,6 +6,8 @@
 //
 import Foundation
 
+//삭제 예정
+
 struct Task: Identifiable {
     let id: UUID
     let taskType: TaskType
@@ -28,6 +30,4 @@ struct Task: Identifiable {
         self.taskState = taskState
         self.scheduledDate = scheduledDate
     }
-    //아직 작성중
-    
 }
