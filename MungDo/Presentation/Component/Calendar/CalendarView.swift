@@ -10,6 +10,7 @@ struct CalendarView: UIViewRepresentable {
         let calendar = FSCalendar()
         calendar.delegate = context.coordinator
         calendar.dataSource = context.coordinator
+        calendar.register(TaskDotCell.self, forCellReuseIdentifier: "cell")
         
         // 빈 날짜 표시
         calendar.placeholderType = .fillHeadTail
@@ -64,37 +65,30 @@ struct CalendarView: UIViewRepresentable {
             //parent.selectedDate = date
         }
         
-        //일정이 있는 날짜에만 점(이벤트) 표시
-        func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-            let calendar = Calendar.current
-            for task in parent.tasks {
-                if let taskDate = task.scheduledDate{
-                    if calendar.isDate(taskDate, inSameDayAs: date) {
-                        return 1 // 점 하나 표시
-                    }
+        func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
+            let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position) as! TaskDotCell
+
+            // task 있는 날짜에만 점 보이게 + 상태에 따라 색상 다르게
+            if let task = parent.tasks.first(where: {
+                if let taskDate = $0.scheduledDate {
+                    return Calendar.current.isDate(taskDate, inSameDayAs: date)
                 }
-            }
-            return 0 // 점 없음
-        }
-        
-        func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
-            let calendar = Calendar.current
-            for task in parent.tasks {
-                if let taskDate = task.scheduledDate{
-                    if calendar.isDate(taskDate, inSameDayAs: date) {
-                        switch task.taskState {
-                        case .scheduled:
-                            return [UIColor.red]
-                        case .completed:
-                            return [.checkPrimary]
-                        case .postponed:
-                            return [.backgroundPrimary]
-                        }
-                    }
+                return false
+            }) {
+                cell.customDot.isHidden = false
+                switch task.taskState {
+                case .scheduled:
+                    cell.customDot.backgroundColor = .red
+                case .completed:
+                    cell.customDot.backgroundColor = .checkPrimary
+                case .postponed:
+                    cell.customDot.backgroundColor = .backgroundPrimary
                 }
-                
+            } else {
+                cell.customDot.isHidden = true
             }
-            return nil
+
+            return cell
         }
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TestCalendarView: View {
     //task 생성 예시
-    @State var tasks:[Task] = [Task(taskType: .walk, taskState: .scheduled, scheduledDate: .now)]
+    @State var tasks:[Task] = [Task(taskType: .walk, taskState: .completed, scheduledDate: .now), Task(taskType: .externalParasite, taskState: .scheduled, scheduledDate: Calendar.current.date(from: DateComponents(year: 2025, month: 6  , day: 11))!)]
     
     @State private var reloadTrigger = false
     @State private var currentPage: Date = Date()
