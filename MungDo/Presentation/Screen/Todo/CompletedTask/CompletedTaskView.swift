@@ -19,11 +19,10 @@ struct CompletedTaskView: View {
     // 임시 데이터
     @State private var tasks: [TaskItem] = [
         TaskItem(title: "심장사상충 약 먹이기", isCompleted: true, imageName: "heartwormIcon"),
-        TaskItem(title: "산책 30분 하기", isCompleted: true, imageName: "walkIcon"),
-        TaskItem(title: "광견병·코로나 예방접종하기", isCompleted: true, imageName: "vaccinationIcon"),
-        TaskItem(title: "목욕시키기", isCompleted: true, imageName: "bathIcon"),
+        TaskItem(title: "산책하기", isCompleted: true, imageName: "walkIcon"),
+        TaskItem(title: "광견병•코로나 예방접종하기", isCompleted: true, imageName: "vaccinationIcon"),
+        TaskItem(title: "목욕하기", isCompleted: true, imageName: "bathIcon"),
         TaskItem(title: "외부기생충 약 먹이기", isCompleted: true, imageName: "externalParasiteIcon"),
-        TaskItem(title: "놀아주기", isCompleted: true, imageName: "walkIcon")
     ]
 
     // 완료된 태스크만 필터링
