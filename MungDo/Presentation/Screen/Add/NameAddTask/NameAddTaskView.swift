@@ -66,7 +66,6 @@ struct NameAddTaskView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(55)
-//            .background(Color.backgroundPrimary)
             .navigationBarBackButtonHidden(true)
             .toolbar{
                 CustomToolBar(
