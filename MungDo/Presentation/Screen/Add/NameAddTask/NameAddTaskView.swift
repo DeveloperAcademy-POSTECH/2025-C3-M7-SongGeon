@@ -38,6 +38,7 @@ struct NameAddTaskView: View {
                 ForEach(TaskType.allCases) { taskType in
                     TaskTagCardView(
                         title: taskType.displayName,
+                        image: taskType.displayIcon,
                         isSelected: selectedTaskType == taskType
                     )
                     .onTapGesture {
