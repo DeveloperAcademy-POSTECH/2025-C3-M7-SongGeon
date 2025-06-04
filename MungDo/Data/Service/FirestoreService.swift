@@ -12,6 +12,7 @@ final class FirestoreService {
     static let shared = FirestoreService()  //싱글톤... 인스턴스 하나만 만들어서 공유
     private let db = Firestore.firestore()
     
+    //task 추가
     func addTask (
         num: Int,
         taskDisplayName: String,
@@ -42,7 +43,7 @@ final class FirestoreService {
                 "taskDoneDate" : Timestamp(date: taskDoneDate)
             ]
             
-            let ref = taskColl.addDocument(data: data) { err in
+            var ref = taskColl.addDocument(data: data) { err in
                 if let err = err {
                     //실제 추가 시 error 발생
                     completion(error)
@@ -53,6 +54,7 @@ final class FirestoreService {
             }
         }
     }
+    
 
 }
 

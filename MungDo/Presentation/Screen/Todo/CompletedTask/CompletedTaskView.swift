@@ -38,6 +38,7 @@ struct CompletedTaskView: View {
 
     //db 확인용
     @StateObject private var addService = CompletedTaskAddService()
+    // 임시로 넣어 둔 user 번호 (식별)
     let userNum: Int = 1011112222
 
     @State private var currentIndex = 0
