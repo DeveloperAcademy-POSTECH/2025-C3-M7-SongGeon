@@ -51,7 +51,7 @@ struct CheckTaskView: View {
                 
                 Spacer()
                 
-                Button(action: { showTaskFlow = true }) {
+                Button(action: {showTaskFlow = true }) {
                     CustomButtonLabel(title: "추가하기")
                 }
             }
@@ -63,9 +63,12 @@ struct CheckTaskView: View {
         .background(Color("BackgroundPrimary"))
         .fullScreenCover(isPresented: $showTaskFlow) {
             NavigationStack {
-                NameAddTaskView(onComplete: {
-                    showTaskFlow = false
-                })
+                NameAddTaskView(
+                    onComplete: { showTaskFlow = false },
+                    selectedDate: Date()
+                    // to: 이토
+                    // 달력에서 선택한 날짜가 전달되도록 수정해주신다면 감사감사
+                )
             }
         }
         .navigationBarBackButtonHidden(true)

@@ -26,6 +26,13 @@ struct TaskSchedule: Identifiable {
         self.startDate = date
     }
     
+    mutating func advanceToNextCycle() {
+        let calendar = Calendar.current
+        if let nextDate = calendar.date(byAdding: .day, value: taskType.defaultCycle, to: startDate) {
+            self.startDate = nextDate
+        }
+    }
+    
     func scheduledDates(forMonth month: Int, year: Int) -> [Date] {
         var dates: [Date] = []
         var currentDate = startDate
