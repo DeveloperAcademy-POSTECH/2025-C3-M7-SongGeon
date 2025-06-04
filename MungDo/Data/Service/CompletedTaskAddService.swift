@@ -10,12 +10,13 @@ import Combine
 
 final class CompletedTaskAddService: ObservableObject {
     
-    @Published var taskDisplayName: String = ""
-    @Published var taskDoneDate: Date = Date()
+    var taskDisplayName: String = ""
+    var taskDoneDate: Date = Date()
     
     var isSaving: Bool = false
     var saveErrorMessage: String? = nil
     var saveSuccess: Bool = false
+    
     
     func saveTaskToDb(num: Int){
         self.isSaving = true
@@ -40,5 +41,6 @@ final class CompletedTaskAddService: ObservableObject {
         }
         
     }
+    
 }
 
