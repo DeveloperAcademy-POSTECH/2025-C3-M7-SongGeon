@@ -86,5 +86,4 @@ struct TestCalendarView: View {
         formatter.locale = Locale(identifier: "ko_KR")
         return formatter.string(from: date)
     }
-    
 }

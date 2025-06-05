@@ -122,13 +122,14 @@ struct CompletedTaskView: View {
 
                     // 완료됨 버튼 (카드 밖으로 이동)
                     Button(action: {
+                        //MARK: - task 완료 처리 로직 필요
                         let task = completedTasks[currentIndex]
-                            addService.taskDisplayName = task.title
-                            addService.taskDoneDate = Date()
-
-                            // 2) DB 저장 트리거
-                            addService.saveTaskToDb(num: userNum)
+                        addService.taskDisplayName = task.title
+                        addService.taskDoneDate = Date()
                         
+                        // 2) DB 저장 트리거
+                        addService.saveTaskToDb(num: userNum)
+                        //MARK: - 여기까지
                         
                         withAnimation(.easeInOut(duration: 0.5)) {
                             if currentIndex < completedTasks.count - 1 {
