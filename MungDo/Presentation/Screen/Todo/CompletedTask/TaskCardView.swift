@@ -17,7 +17,7 @@ struct TaskCardView: View {
             // 이미지 중앙 배치
             ZStack {
                 Circle()
-                    .fill(Color.pink.opacity(0.1))
+                    .fill(Color("Secondary03"))
                     .frame(width: 213, height: 213)
                 
                 // 이미지 에셋 사용 (fallback으로 시스템 이미지)

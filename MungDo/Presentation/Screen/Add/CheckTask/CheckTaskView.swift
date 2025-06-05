@@ -18,23 +18,27 @@ struct CheckTaskView: View {
     ]
     
     var body: some View {
-        HStack(spacing: 40){
+        HStack(spacing: 40) {
             // 왼쪽 캘린더
-            ZStack{
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 680 , height: 680)
-                    .background(.white)
-                    .cornerRadius(20)
+            VStack {
                 TestCalendarView()
-                    .frame(width: 656 , height: 620)
+                    .aspectRatio(1.0, contentMode: .fit)
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.white)
+                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                    )
             }
+            .frame(maxWidth: .infinity)
             
             // 오른쪽 태스크 리스트
             VStack(spacing: 20) {
+                Spacer()
                 HStack {
                     Text("오늘의 일정")
-                        .font(.system(size: 24, weight: .bold))
+                        .font(.title2)
+                        .fontWeight(.bold)
                         .foregroundColor(.black)
                     Spacer()
                 }
@@ -45,21 +49,17 @@ struct CheckTaskView: View {
                             TaskListItemView(taskItem: $tasks[index])
                         }
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical)
                 }
-                .frame(maxHeight: 400)
-                
-                Spacer()
+                .frame(maxHeight: .infinity)
                 
                 Button(action: {showTaskFlow = true }) {
                     CustomButtonLabel(title: "추가하기")
                 }
             }
-            .frame(width: 400)
+            .frame(maxWidth: .infinity)
         }
-        
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(55)
+        .padding()
         .background(Color("BackgroundPrimary"))
         .fullScreenCover(isPresented: $showTaskFlow) {
             NavigationStack {
@@ -73,13 +73,19 @@ struct CheckTaskView: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
-            CustomToolBar(
-                showDepth: false,
-                onBack: {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
                     dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .resizable()
+                        .frame(width: 12, height: 20)
+                        .foregroundColor(Color("ButtonSecondary"))
                 }
-            )
+            }
         }
+        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 

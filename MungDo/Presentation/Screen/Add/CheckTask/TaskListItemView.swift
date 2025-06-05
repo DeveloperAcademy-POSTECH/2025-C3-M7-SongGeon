@@ -10,26 +10,21 @@ import SwiftUI
 // 태스크 리스트 아이템 뷰
 struct TaskListItemView: View {
     @Binding var taskItem: TaskItem
-    
+
     var body: some View {
         HStack(spacing: 16) {
             // 아이콘
             ZStack {
                 Circle()
-                    .fill(taskItem.taskType == .vaccination ? Color.red.opacity(0.1) : Color.orange.opacity(0.1))
+                    .fill(Color("Secondary03"))
                     .frame(width: 50, height: 50)
-                
-                if taskItem.taskType == .vaccination {
-                    Image(systemName: "cross.fill")
-                        .foregroundColor(.red)
-                        .font(.system(size: 20))
-                } else {
-                    Image(systemName: "pawprint.fill")
-                        .foregroundColor(.orange)
-                        .font(.system(size: 20))
-                }
+
+                taskItem.image // TaskItem의 이미지 사용
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 30, height: 30) // 아이콘 크기 조정
             }
-            
+
             // 제목
             VStack(alignment: .leading, spacing: 2) {
                 Text(taskItem.taskType.displayName)
@@ -37,9 +32,9 @@ struct TaskListItemView: View {
                     .foregroundColor(.black)
                     .multilineTextAlignment(.leading)
             }
-            
+
             Spacer()
-            
+
             // 완료 체크박스
             Button(action: {
                 taskItem.isCompleted.toggle()
@@ -48,7 +43,7 @@ struct TaskListItemView: View {
                     Circle()
                         .stroke(taskItem.isCompleted ? Color.green : Color.gray.opacity(0.5), lineWidth: 2)
                         .frame(width: 24, height: 24)
-                    
+
                     if taskItem.isCompleted {
                         Image(systemName: "checkmark")
                             .foregroundColor(.green)
