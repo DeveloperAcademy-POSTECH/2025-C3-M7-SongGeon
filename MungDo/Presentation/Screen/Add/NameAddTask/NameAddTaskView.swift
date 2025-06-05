@@ -25,32 +25,32 @@ struct NameAddTaskView: View {
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
                 Spacer()
-            }
-            
-            // 태스크 카드 그리드
-            LazyVGrid(
-                columns: [
-                    GridItem(.flexible()),
-                    GridItem(.flexible()),
-                    GridItem(.flexible())
-                ],
-                spacing: 24
-            ) {
-                ForEach(TaskType.allCases) { taskType in
-                    TaskTagCardView(
-                        title: taskType.displayName,
-                        image: taskType.displayIcon,
-                        isSelected: selectedTaskType == taskType
-                    )
-                    .onTapGesture {
-                        if selectedTaskType == taskType {
-                            selectedTaskType = nil
-                        } else {
-                            selectedTaskType = taskType
+                
+                // 태스크 카드 그리드
+                LazyVGrid(
+                    columns: [
+                        GridItem(.flexible()),
+                        GridItem(.flexible()),
+                        GridItem(.flexible())
+                    ],
+                    spacing: 24
+                ) {
+                    ForEach(TaskType.allCases) { taskType in
+                        TaskTagCardView(
+                            title: taskType.displayName,
+                            image: taskType.displayIcon,
+                            isSelected: selectedTaskType == taskType
+                        )
+                        .onTapGesture {
+                            if selectedTaskType == taskType {
+                                selectedTaskType = nil
+                            } else {
+                                selectedTaskType = taskType
+                            }
                         }
                     }
+                    .padding(.bottom, 40)
                 }
-                .padding(.bottom, 40)
                 
                 HStack {
                     Spacer()
@@ -68,10 +68,8 @@ struct NameAddTaskView: View {
                         // 비활성화된 버튼처럼 보이도록 디자인
                         CustomButtonLabel(title: "다음", isEnabled: false)
                     }
-                } else {
-                    CustomButtonLabel(title: "다음", isEnabled: false)
+                    Spacer()
                 }
-                Spacer()
             }
         }
         .padding()

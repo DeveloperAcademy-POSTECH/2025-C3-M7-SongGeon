@@ -19,7 +19,7 @@ struct TaskListItemView: View {
                     .fill(Color("Secondary03"))
                     .frame(width: 50, height: 50)
 
-                taskItem.image // TaskItem의 이미지 사용
+                taskItem.taskType.displayIcon // TaskItem의 이미지 사용
                     .resizable()
                     .scaledToFit()
                     .frame(width: 30, height: 30) // 아이콘 크기 조정
