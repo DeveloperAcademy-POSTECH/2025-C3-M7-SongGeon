@@ -40,8 +40,6 @@ struct CalendarView: UIViewRepresentable {
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
         calendar.locale = Locale(identifier: "ko_KR")
         
-        // 이벤트 점
-        calendar.appearance.eventDefaultColor = .red
         
         return calendar
     }
@@ -50,6 +48,7 @@ struct CalendarView: UIViewRepresentable {
         uiView.setCurrentPage(currentPage, animated: true)
         uiView.reloadData()
     }
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
@@ -76,7 +75,7 @@ struct CalendarView: UIViewRepresentable {
                 if taskItem.isCompleted {
                     cell.customDot.backgroundColor = .checkPrimary
                 } else {
-                    cell.customDot.backgroundColor = .red
+                    cell.customDot.backgroundColor = .buttonPrimary
                 }
             } else {
                 cell.customDot.isHidden = true

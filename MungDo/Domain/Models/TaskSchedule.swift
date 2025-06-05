@@ -29,7 +29,7 @@ struct TaskSchedule: Identifiable {
     mutating func advanceToNextCycle() {
         let calendar = Calendar.current
         if let nextDate = calendar.date(byAdding: .day, value: taskType.defaultCycle, to: startDate) {
-            self.startDate = nextDate
+            setStartDate(nextDate)
         }
     }
     
