@@ -9,7 +9,8 @@ import Foundation
 struct TaskItem: Identifiable, Hashable, Equatable {
     let id = UUID()
     let taskType: TaskType
-    let date: Date
+    // let -> var 변경, 사유 : delay 구현 
+    var date: Date
     var isCompleted: Bool
     
     init(taskType: TaskType, date: Date, isCompleted: Bool = false) {
