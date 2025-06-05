@@ -16,6 +16,7 @@ struct TestCalendarView: View {
     
     @State private var reloadTrigger = false
     @State private var currentPage: Date = Date()
+    @State var showDots: Bool
     
     var body: some View {
         VStack{
@@ -62,7 +63,7 @@ struct TestCalendarView: View {
                 }
                 
             }
-            CalendarView(tasks: $tasks, currentPage: $currentPage)
+            CalendarView(tasks: $tasks, currentPage: $currentPage, showDots: $showDots)
                 .id(reloadTrigger)
             //일정 완료 테스트 버튼
 //            Button{

@@ -21,7 +21,7 @@ struct CheckTaskView: View {
         HStack(spacing: 40) {
             // 왼쪽 캘린더
             VStack {
-                TestCalendarView()
+                TestCalendarView(showDots: true)
                     .aspectRatio(1.0, contentMode: .fit)
                     .padding()
                     .background(
