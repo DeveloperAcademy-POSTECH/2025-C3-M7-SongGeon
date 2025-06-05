@@ -10,18 +10,14 @@ import SwiftUI
 struct NameAddTaskView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selectedTaskType: TaskType? = nil
-    @State private var path = NavigationPath()
     
     let title: String = "어떤 일을 추가할까요?"
     var onComplete: () -> Void
+    var selectedDate: Date
     
     var body: some View {
         ZStack {
             Color.backgroundPrimary.edgesIgnoringSafeArea(.all)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    selectedTaskType = nil
-                }
             
             VStack(alignment: .leading, spacing: 28) {
                 Text(title)
@@ -51,7 +47,8 @@ struct NameAddTaskView: View {
                         NavigationLink(
                             destination: CalendarAddTaskView(
                                 taskType: selectedTask,
-                                onComplete: onComplete
+                                onComplete: onComplete,
+                                selectedDate: self.selectedDate
                             )
                         ) {
                             CustomButtonLabel(title: "다음")
@@ -84,6 +81,6 @@ struct NameAddTaskView: View {
 
 #Preview {
     NavigationStack {
-        NameAddTaskView(onComplete: {})
+        NameAddTaskView(onComplete: {}, selectedDate: Date())
     }
 }

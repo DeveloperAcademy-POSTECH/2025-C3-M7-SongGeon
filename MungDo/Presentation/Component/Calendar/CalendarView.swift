@@ -2,7 +2,7 @@ import SwiftUI
 import FSCalendar
 
 struct CalendarView: UIViewRepresentable {
-    @Binding var tasks: [Task]
+    @Binding var tasks: [TaskItem]
     @Binding var currentPage: Date
     
     
@@ -69,25 +69,19 @@ struct CalendarView: UIViewRepresentable {
             let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position) as! TaskDotCell
 
             // task 있는 날짜에만 점 보이게 + 상태에 따라 색상 다르게
-            if let task = parent.tasks.first(where: {
-                if let taskDate = $0.scheduledDate {
-                    return Calendar.current.isDate(taskDate, inSameDayAs: date)
-                }
-                return false
+            if let taskItem = parent.tasks.first(where: {
+                Calendar.current.isDate($0.date, inSameDayAs: date)
             }) {
                 cell.customDot.isHidden = false
-                switch task.taskState {
-                case .scheduled:
-                    cell.customDot.backgroundColor = .red
-                case .completed:
+                if taskItem.isCompleted {
                     cell.customDot.backgroundColor = .checkPrimary
-                case .postponed:
-                    cell.customDot.backgroundColor = .backgroundPrimary
+                } else {
+                    cell.customDot.backgroundColor = .red
                 }
             } else {
                 cell.customDot.isHidden = true
             }
-
+            
             return cell
         }
     }
