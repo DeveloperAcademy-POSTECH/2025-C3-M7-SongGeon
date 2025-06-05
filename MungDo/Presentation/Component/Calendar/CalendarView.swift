@@ -2,25 +2,15 @@ import SwiftUI
 import FSCalendar
 
 struct CalendarView: UIViewRepresentable {
-    @Binding var events:[Event]
+    @Binding var tasks: [TaskItem]
     @Binding var currentPage: Date
     
-    //일정이 있는 날짜 배열 (예시: 4일에 일정이 있다고 가정)
-    struct Event: Identifiable {
-        let id = UUID()
-        let date: Date
-        var status: Status
-        
-        enum Status {
-            case before
-            case done
-        }
-    }
     
     func makeUIView(context: Context) -> FSCalendar {
         let calendar = FSCalendar()
         calendar.delegate = context.coordinator
         calendar.dataSource = context.coordinator
+        calendar.register(TaskDotCell.self, forCellReuseIdentifier: "cell")
         
         // 빈 날짜 표시
         calendar.placeholderType = .fillHeadTail
@@ -66,40 +56,34 @@ struct CalendarView: UIViewRepresentable {
     
     class Coordinator: NSObject, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance { // FSCalendarDelegateAppearance 추가
         var parent: CalendarView
-
+        
         init(_ parent: CalendarView) {
             self.parent = parent
         }
-
+        
         func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
             //parent.selectedDate = date
         }
         
-        //일정이 있는 날짜에만 점(이벤트) 표시
-        func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-            let calendar = Calendar.current
-            for event in parent.events {
-                if calendar.isDate(event.date, inSameDayAs: date) {
-                    return 1 // 점 하나 표시
+        func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
+            let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position) as! TaskDotCell
+
+            // task 있는 날짜에만 점 보이게 + 상태에 따라 색상 다르게
+            if let taskItem = parent.tasks.first(where: {
+                Calendar.current.isDate($0.date, inSameDayAs: date)
+            }) {
+                cell.customDot.isHidden = false
+                if taskItem.isCompleted {
+                    cell.customDot.backgroundColor = .checkPrimary
+                } else {
+                    cell.customDot.backgroundColor = .red
                 }
+            } else {
+                cell.customDot.isHidden = true
             }
-            return 0 // 점 없음
+            
+            return cell
         }
-        
-        func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
-                    let calendar = Calendar.current
-                    for event in parent.events {
-                        if calendar.isDate(event.date, inSameDayAs: date) {
-                            switch event.status {
-                            case .before:
-                                return [UIColor.red]
-                            case .done:
-                                return [UIColor.green]
-                            }
-                        }
-                    }
-                    return nil
-                }
     }
 }
 

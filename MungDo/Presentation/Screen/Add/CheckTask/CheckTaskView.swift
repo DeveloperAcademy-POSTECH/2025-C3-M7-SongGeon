@@ -53,7 +53,7 @@ struct CheckTaskView: View {
                 }
                 .frame(maxHeight: .infinity)
                 
-                Button(action: { showTaskFlow = true }) {
+                Button(action: {showTaskFlow = true }) {
                     CustomButtonLabel(title: "추가하기")
                 }
             }
@@ -63,9 +63,12 @@ struct CheckTaskView: View {
         .background(Color("BackgroundPrimary"))
         .fullScreenCover(isPresented: $showTaskFlow) {
             NavigationStack {
-                NameAddTaskView(onComplete: {
-                    showTaskFlow = false
-                })
+                NameAddTaskView(
+                    onComplete: { showTaskFlow = false },
+                    selectedDate: Date()
+                    // to: 이토
+                    // 달력에서 선택한 날짜가 전달되도록 수정해주신다면 감사감사
+                )
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -83,41 +86,6 @@ struct CheckTaskView: View {
         }
         .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-    }
-}
-
-// TaskItem 모델
-struct TaskItem: Identifiable, Hashable, Equatable {
-    let id = UUID()
-    let taskType: TaskType
-    let date: Date
-    var isCompleted: Bool
-    
-    var image: Image {
-        taskType.displayIcon // TaskType에 정의된 displayIcon을 사용
-    }
-    
-    init(taskType: TaskType, date: Date, isCompleted: Bool = false) {
-        self.taskType = taskType
-        self.date = date
-        self.isCompleted = isCompleted
-    }
-    
-    var formattedDate: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "M월 d일"
-        formatter.locale = Locale(identifier: "ko_KR")
-        return formatter.string(from: date)
-    }
-    
-    // Equatable 구현
-    static func == (lhs: TaskItem, rhs: TaskItem) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
-    // Hashable 구현
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
     }
 }
 

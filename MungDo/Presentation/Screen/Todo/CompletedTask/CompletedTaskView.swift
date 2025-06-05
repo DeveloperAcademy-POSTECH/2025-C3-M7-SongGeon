@@ -35,6 +35,11 @@ struct CompletedTaskView: View {
         return tasks.allSatisfy { $0.isCompleted }
     }
 
+    //db 확인용
+    @StateObject private var addService = CompletedTaskAddService()
+    // 임시로 넣어 둔 user 번호 (식별)
+    let userNum: Int = 1011112222
+
     @State private var currentIndex = 0
     @Environment(\.dismiss) private var dismiss
     @State private var showCelebration = false
@@ -117,6 +122,14 @@ struct CompletedTaskView: View {
 
                     // 완료됨 버튼 (카드 밖으로 이동)
                     Button(action: {
+                        let task = completedTasks[currentIndex]
+                            addService.taskDisplayName = task.title
+                            addService.taskDoneDate = Date()
+
+                            // 2) DB 저장 트리거
+                            addService.saveTaskToDb(num: userNum)
+                        
+                        
                         withAnimation(.easeInOut(duration: 0.5)) {
                             if currentIndex < completedTasks.count - 1 {
                                 currentIndex += 1

@@ -10,15 +10,16 @@ import SwiftUI
 struct NameAddTaskView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selectedTaskType: TaskType? = nil
-    @State private var path = NavigationPath()
     
     let title: String = "어떤 일을 추가할까요?"
     var onComplete: () -> Void
+    var selectedDate: Date
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 32) {
-            // 제목
-            HStack {
+        ZStack {
+            Color.backgroundPrimary.edgesIgnoringSafeArea(.all)
+            
+            VStack(alignment: .leading, spacing: 28) {
                 Text(title)
                     .font(.largeTitle)
                     .fontWeight(.semibold)
@@ -49,21 +50,23 @@ struct NameAddTaskView: View {
                         }
                     }
                 }
-            }
-            
-            Spacer()
-            
-            // 다음 버튼
-            HStack {
-                Spacer()
-                if let selectedTask = selectedTaskType {
-                    NavigationLink(
-                        destination: CalendarAddTaskView(
-                            taskType: selectedTask,
-                            onComplete: onComplete
-                        )
-                    ) {
-                        CustomButtonLabel(title: "다음")
+                .padding(.bottom, 40)
+                
+                HStack {
+                    Spacer()
+                    if let selectedTask = selectedTaskType {
+                        NavigationLink(
+                            destination: CalendarAddTaskView(
+                                taskType: selectedTask,
+                                onComplete: onComplete,
+                                selectedDate: self.selectedDate
+                            )
+                        ) {
+                            CustomButtonLabel(title: "다음")
+                        }
+                    } else {
+                        // 비활성화된 버튼처럼 보이도록 디자인
+                        CustomButtonLabel(title: "다음", isEnabled: false)
                     }
                 } else {
                     CustomButtonLabel(title: "다음", isEnabled: false)
@@ -98,6 +101,6 @@ struct NameAddTaskView: View {
 
 #Preview {
     NavigationStack {
-        NameAddTaskView(onComplete: {})
+        NameAddTaskView(onComplete: {}, selectedDate: Date())
     }
 }

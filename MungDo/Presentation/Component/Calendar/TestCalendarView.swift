@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct TestCalendarView: View {
-    //이벤트 생성 예시
-    @State var events: [CalendarView.Event] = [CalendarView.Event(date: .now, status: .before)]
+    //task 생성 예시
+    @State var tasks:[TaskItem] = [
+        TaskItem(taskType: .walk, date: .now, isCompleted: true),
+        TaskItem(taskType: .externalParasite, date: Calendar.current.date(from: DateComponents(year: 2025, month: 6  , day: 11))!, isCompleted: false)
+    ]
+    
     @State private var reloadTrigger = false
     @State private var currentPage: Date = Date()
     
@@ -58,7 +62,7 @@ struct TestCalendarView: View {
                 }
                 
             }
-            CalendarView(events: $events, currentPage: $currentPage)
+            CalendarView(tasks: $tasks, currentPage: $currentPage)
                 .id(reloadTrigger)
             //일정 완료 테스트 버튼
 //            Button{

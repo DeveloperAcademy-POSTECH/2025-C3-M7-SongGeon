@@ -12,6 +12,7 @@ struct CalendarAddTaskView: View {
     
     let taskType: TaskType
     var onComplete: () -> Void
+    var selectedDate: Date
     
     var body: some View {
         VStack(spacing: 40) {
@@ -23,10 +24,13 @@ struct CalendarAddTaskView: View {
                     .foregroundColor(.black)
                 Spacer()
             }
-            
-            // 캘린더 영역
-            HStack {
-                Spacer()
+            //MARK: - 캘린더 view
+            ZStack{
+                Rectangle()
+                    .foregroundColor(.clear)
+                    .frame(width: 628, height: 403)
+                    .background(.white)
+                    .cornerRadius(20)
                 TestCalendarView()
                     .aspectRatio(1.6, contentMode: .fit)
                     .padding()
@@ -38,6 +42,8 @@ struct CalendarAddTaskView: View {
                     .frame(maxWidth: 600)
                 Spacer()
             }
+            //Todo - selectedDate 가 먼저 선택되도록 수정
+            //Todo - 만약 사용자가 다른 Date를 선택하면 그 값을 selectedDate로 저장하기
             
             Spacer()
             
@@ -46,6 +52,8 @@ struct CalendarAddTaskView: View {
                 Spacer()
                 Button(action: {
                     onComplete()
+                    let newSchedule = TaskSchedule(taskType: self.taskType, startDate: self.selectedDate)
+                    //Todo - 생성한 TaskSchedule을 저장하는 로직이 필요
                 }) {
                     CustomButtonLabel(title: "완료")
                 }
@@ -75,6 +83,10 @@ struct CalendarAddTaskView: View {
 
 #Preview {
     NavigationStack {
-        CalendarAddTaskView(taskType: .vaccination, onComplete: {})
+        CalendarAddTaskView(
+            taskType: .walk,
+            onComplete: {},
+            selectedDate: Date()
+        )
     }
-} 
+}
