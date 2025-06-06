@@ -11,20 +11,20 @@ import SwiftData
 struct CalendarAddTaskView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-    
+
     let taskType: TaskType
     var onComplete: () -> Void
     @State var selectedDate: Date
     @State private var cycleDays: Int
     @State private var showingCycleOptions = false
-    
+
     init(taskType: TaskType, onComplete: @escaping () -> Void, selectedDate: Date) {
         self.taskType = taskType
         self.onComplete = onComplete
         self._selectedDate = State(initialValue: selectedDate)
         self._cycleDays = State(initialValue: taskType.defaultCycle)
     }
-    
+
     // 주기 옵션들
     private let cycleOptions = [
         (1, "매일"),
@@ -34,7 +34,7 @@ struct CalendarAddTaskView: View {
         (90, "3개월마다"),
         (365, "1년마다")
     ]
-    
+
     var body: some View {
         VStack(spacing: 40) {
             // 제목
@@ -45,7 +45,7 @@ struct CalendarAddTaskView: View {
                     .foregroundColor(.black)
                 Spacer()
             }
-            
+
             // 캘린더 view
             ZStack {
                 Rectangle()
@@ -53,7 +53,8 @@ struct CalendarAddTaskView: View {
                     .frame(width: 628, height: 403)
                     .background(.white)
                     .cornerRadius(20)
-                TestCalendarView(showDots: false, selectedDate: $selectedDate)
+
+                TaskCalendarView(selectedDate: $selectedDate)
                     .aspectRatio(1.6, contentMode: .fit)
                     .padding()
                     .background(
@@ -64,7 +65,7 @@ struct CalendarAddTaskView: View {
                     .frame(maxWidth: 600)
                 Spacer()
             }
-            
+
             // 반복 주기 설정
             VStack(spacing: 16) {
                 HStack {
@@ -74,7 +75,7 @@ struct CalendarAddTaskView: View {
                         .foregroundColor(.black)
                     Spacer()
                 }
-                
+
                 Button(action: {
                     showingCycleOptions.toggle()
                 }) {
@@ -94,7 +95,7 @@ struct CalendarAddTaskView: View {
                             .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                     )
                 }
-                
+
                 if showingCycleOptions {
                     LazyVStack(spacing: 8) {
                         ForEach(cycleOptions, id: \.0) { option in
@@ -125,9 +126,9 @@ struct CalendarAddTaskView: View {
                     .animation(.easeInOut(duration: 0.3), value: showingCycleOptions)
                 }
             }
-            
+
             Spacer()
-            
+
             // 완료 버튼
             HStack {
                 Spacer()
@@ -159,17 +160,17 @@ struct CalendarAddTaskView: View {
         .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
     }
-    
+
     // MARK: - Helper Methods
-    
+
     private func getCycleDisplayText() -> String {
         return cycleOptions.first { $0.0 == cycleDays }?.1 ?? "사용자 정의 (\(cycleDays)일마다)"
     }
-    
+
     private func saveTaskSchedule() {
         let newSchedule = TaskScheduleEntity(taskType: taskType, startDate: selectedDate)
         modelContext.insert(newSchedule)
-        
+
         do {
             try modelContext.save()
             print("TaskSchedule saved successfully")

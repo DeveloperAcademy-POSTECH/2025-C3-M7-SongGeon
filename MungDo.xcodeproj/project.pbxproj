@@ -20,9 +20,24 @@
 		FFCD0B3C2DE837270081B599 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FF13BCAB2DF2F1A700A5B05F /* Exceptions for "MungDo" folder in "MungDo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Presentation/Component/Calendar/TestCalendarView.swift,
+				Presentation/ReusableView/CustomButtonLabel.swift,
+				Presentation/ReusableView/TaskTagCardView.swift,
+			);
+			target = FFCD0AC92DE809A60081B599 /* MungDo */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FFCD0ACC2DE809A60081B599 /* MungDo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FF13BCAB2DF2F1A700A5B05F /* Exceptions for "MungDo" folder in "MungDo" target */,
+			);
 			path = MungDo;
 			sourceTree = "<group>";
 		};

@@ -17,19 +17,19 @@ struct CompletedTaskView: View {
     // SwiftData에서 오늘의 태스크를 불러오기
     @Query private var allTaskItems: [TaskItemEntity]
     @Query private var allTaskSchedules: [TaskScheduleEntity]
-    
+
     // 오늘 예정된 태스크들 (완료되지 않은 것들)
     private var todayTasks: [TaskItem] {
         let today = Date()
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: today)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
-        
+
         // 저장된 태스크 중 오늘 것들
         let savedTasks = allTaskItems.filter { entity in
             entity.date >= startOfDay && entity.date < endOfDay
         }.map { $0.toTaskItem() }
-        
+
         // 스케줄에 따라 생성해야 할 오늘의 태스크들
         var scheduledTasks: [TaskItem] = []
         for schedule in allTaskSchedules {
@@ -37,7 +37,7 @@ struct CompletedTaskView: View {
                 forMonth: calendar.component(.month, from: today),
                 year: calendar.component(.year, from: today)
             )
-            
+
             for scheduledTask in scheduledTasksForMonth {
                 if calendar.isDate(scheduledTask.date, inSameDayAs: today) {
                     // 이미 저장된 태스크가 있는지 확인
@@ -45,14 +45,14 @@ struct CompletedTaskView: View {
                         savedTask.taskType == scheduledTask.taskType &&
                         calendar.isDate(savedTask.date, inSameDayAs: scheduledTask.date)
                     }
-                    
+
                     if !exists {
                         scheduledTasks.append(scheduledTask)
                     }
                 }
             }
         }
-        
+
         return savedTasks + scheduledTasks
     }
 
@@ -96,7 +96,7 @@ struct CompletedTaskView: View {
                                 // 첫 번째 셀을 가운데에 오게 하기 위한 leading spacer
                                 Spacer()
                                     .frame(width: (UIScreen.main.bounds.width - 647) / 2)
-                                
+
                                 ForEach(Array(todayTasks.enumerated()), id: \.element.id) { index, task in
                                     TaskCardView(taskItem: task)
                                         .frame(width: 647, height: 403)
@@ -105,7 +105,7 @@ struct CompletedTaskView: View {
                                         .animation(.easeInOut(duration: 0.3), value: currentIndex)
                                         .id(index)
                                 }
-                                
+
                                 // 마지막 셀을 가운데에 오게 하기 위한 trailing spacer
                                 Spacer()
                                     .frame(width: (UIScreen.main.bounds.width - 647) / 2)
@@ -146,7 +146,7 @@ struct CompletedTaskView: View {
                     Button(action: {
                         let task = todayTasks[currentIndex]
                         completeCurrentTask(task)
-                        
+
                         withAnimation(.easeInOut(duration: 0.5)) {
                             if currentIndex < todayTasks.count - 1 {
                                 currentIndex += 1
@@ -170,7 +170,7 @@ struct CompletedTaskView: View {
                             } else {
                                 "다음"
                             }
-                            
+
                             Text(buttonText)
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundColor(.white)
@@ -207,15 +207,15 @@ struct CompletedTaskView: View {
         .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
     }
-    
+
     // MARK: - Helper Methods
-    
+
     private func completeCurrentTask(_ task: TaskItem) {
         // 완료 상태로 변경
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: task.date)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
-        
+
         // 기존 저장된 태스크 찾기
         if let existingEntity = allTaskItems.first(where: { entity in
             entity.taskTypeRawValue == task.taskType.rawValue &&
@@ -232,15 +232,15 @@ struct CompletedTaskView: View {
             )
             modelContext.insert(newEntity)
         }
-        
+
         do {
             try modelContext.save()
-            
+
             // Firebase에 저장 (기존 CompletedTaskAddService 활용)
             addService.taskDisplayName = task.taskType.displayName
             addService.taskDoneDate = task.date
             addService.saveTaskToDb(num: userNum)
-            
+
         } catch {
             print("Failed to save completed task: \(error)")
         }
