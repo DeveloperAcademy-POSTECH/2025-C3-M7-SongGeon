@@ -13,13 +13,13 @@ struct TestCalendarView: View {
         TaskItem(taskType: .walk, date: .now, isCompleted: true),
         TaskItem(taskType: .externalParasite, date: Calendar.current.date(from: DateComponents(year: 2025, month: 6  , day: 11))!, isCompleted: false)
     ]
-    
+
     @State private var reloadTrigger = false
     @State private var currentPage: Date = Date()
     @State var showDots: Bool
     @Binding var selectedDate: Date
-    
-    
+
+
     var body: some View {
         VStack{
             ZStack{
@@ -63,7 +63,7 @@ struct TestCalendarView: View {
                     .padding()
                     Spacer()
                 }
-                
+
             }
             CalendarView(tasks: $tasks, currentPage: $currentPage, showDots: $showDots, selectedDate: $selectedDate)
                 .id(reloadTrigger)
