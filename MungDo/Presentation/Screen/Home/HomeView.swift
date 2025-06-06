@@ -21,8 +21,15 @@ struct HomeView: View {
                             HomeCardView(image:Image("Home/home_add"), title:"날짜별로 모아보기")
                         }
                         
-                        NavigationLink(destination: TodoListView()) {
+                        NavigationLink(destination: CompletedTaskView()) {
+//                            Text("Todo List")
+//                                .font(.title2)
+//                                .foregroundColor(.white)
+//                                .frame(width: 200, height: 50)
+//                                .background(Color.green)
+//                                .cornerRadius(10)
                             HomeCardView(image:Image("Home/home_look"), title:"오늘 할 일 열어놓기")
+
                         }
                     }
                     .padding(.horizontal, 48)

@@ -6,95 +6,135 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CompletedTaskView: View {
-    // 임시 데이터 모델
-    struct TaskItem {
-        let id = UUID()
-        let title: String
-        let isCompleted: Bool
-        let imageName: String
-    }
-
-    // 임시 데이터
-    @State private var tasks: [TaskItem] = [
-        TaskItem(title: "숨이 심장사상충 약 먹이기", isCompleted: true, imageName: ""),
-        TaskItem(title: "산책 30분 하기", isCompleted: true, imageName: ""),
-        TaskItem(title: "사료 챙겨주기", isCompleted: true, imageName: ""),
-        TaskItem(title: "목욕시키기", isCompleted: true, imageName: ""),
-        TaskItem(title: "병원 예약하기", isCompleted: true, imageName: ""),
-        TaskItem(title: "놀아주기", isCompleted: true, imageName: "")
-    ]
-
-    // 완료된 태스크만 필터링
-    private var completedTasks: [TaskItem] {
-        tasks.filter { $0.isCompleted }
-    }
-
-    @State private var currentIndex = 0
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @State private var currentIndex = 0
+    @State private var showCelebration = false
+
+    // SwiftData에서 오늘의 태스크를 불러오기
+    @Query private var allTaskItems: [TaskItemEntity]
+    @Query private var allTaskSchedules: [TaskScheduleEntity]
+
+    // 오늘 예정된 태스크들 (완료되지 않은 것들)
+    private var todayTasks: [TaskItem] {
+        let today = Date()
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: today)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
+
+        // 저장된 태스크 중 오늘 것들
+        let savedTasks = allTaskItems.filter { entity in
+            entity.date >= startOfDay && entity.date < endOfDay
+        }.map { $0.toTaskItem() }
+
+        // 스케줄에 따라 생성해야 할 오늘의 태스크들
+        var scheduledTasks: [TaskItem] = []
+        for schedule in allTaskSchedules {
+            let scheduledTasksForMonth = schedule.toTaskSchedule().scheduledTasksForMonth(
+                forMonth: calendar.component(.month, from: today),
+                year: calendar.component(.year, from: today)
+            )
+
+            for scheduledTask in scheduledTasksForMonth {
+                if calendar.isDate(scheduledTask.date, inSameDayAs: today) {
+                    // 이미 저장된 태스크가 있는지 확인
+                    let exists = savedTasks.contains { savedTask in
+                        savedTask.taskType == scheduledTask.taskType &&
+                        calendar.isDate(savedTask.date, inSameDayAs: scheduledTask.date)
+                    }
+
+                    if !exists {
+                        scheduledTasks.append(scheduledTask)
+                    }
+                }
+            }
+        }
+
+        return savedTasks + scheduledTasks
+    }
+
+    // 모든 태스크 완료 여부 확인
+    private var allTasksCompleted: Bool {
+        return todayTasks.allSatisfy { $0.isCompleted }
+    }
+
+    //db 확인용
+    @StateObject private var addService = CompletedTaskAddService()
+    // 임시로 넣어 둔 user 번호 (식별)
+    let userNum: Int = 1011112222
+
     var body: some View {
         ZStack {
             // 배경색
-            Color(.backgroundPrimary)
+            Color("BackgroundPrimary")
                 .ignoresSafeArea()
 
             VStack(spacing: 30) {
-                if completedTasks.isEmpty {
+                if todayTasks.isEmpty {
                     // 완료된 태스크가 없을 때
                     VStack(spacing: 20) {
                         Image(systemName: "checkmark.circle")
                             .font(.system(size: 80))
                             .foregroundColor(.gray)
 
-                        Text("완료된 일정이 없습니다")
+                        Text("오늘 예정된 일정이 없습니다")
                             .font(.title2)
                             .foregroundColor(.gray)
 
-                        Text("일정을 추가하고 완료해보세요!")
+                        Text("일정을 추가해보세요!")
                             .font(.body)
                             .foregroundColor(.gray)
                     }
                 } else {
-
                     // 카드 캐러셀
-                    GeometryReader { geometry in
-                        let cardWidth: CGFloat = 647
-                        let cardSpacing: CGFloat = 20
-
+                    ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHStack(spacing: cardSpacing) {
-                                ForEach(Array(completedTasks.enumerated()), id: \.element.id) { index, task in
-                                    TaskCardView(task: task)
-                                        .frame(width: cardWidth, height: 403)
+                            LazyHStack(spacing: 20) {
+                                // 첫 번째 셀을 가운데에 오게 하기 위한 leading spacer
+                                Spacer()
+                                    .frame(width: (UIScreen.main.bounds.width - 647) / 2)
+
+                                ForEach(Array(todayTasks.enumerated()), id: \.element.id) { index, task in
+                                    TaskCardView(taskItem: task)
+                                        .frame(width: 647, height: 403)
                                         .scaleEffect(index == currentIndex ? 1.0 : 0.9)
                                         .opacity(index == currentIndex ? 1.0 : 0.7)
                                         .animation(.easeInOut(duration: 0.3), value: currentIndex)
+                                        .id(index)
                                 }
+
+                                // 마지막 셀을 가운데에 오게 하기 위한 trailing spacer
+                                Spacer()
+                                    .frame(width: (UIScreen.main.bounds.width - 647) / 2)
                             }
-                            .padding(.horizontal, (geometry.size.width - cardWidth) / 2)
                         }
-                        .content
-                        .offset(x: -CGFloat(currentIndex) * (cardWidth + cardSpacing))
-                        .animation(.easeInOut(duration: 0.3), value: currentIndex)
+                        .scrollDisabled(true) // 수동 스크롤 비활성화
+                        .onChange(of: currentIndex) { oldValue, newValue in
+                            withAnimation(.easeInOut(duration: 0.5)) {
+                                proxy.scrollTo(newValue, anchor: .center)
+                            }
+                        }
                         .gesture(
                             DragGesture()
                                 .onEnded { value in
                                     let threshold: CGFloat = 50
-                                    if value.translation.width > threshold && currentIndex > 0 {
-                                        currentIndex -= 1
-                                    } else if value.translation.width < -threshold && currentIndex < completedTasks.count - 1 {
-                                        currentIndex += 1
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        if value.translation.width > threshold && currentIndex > 0 {
+                                            currentIndex -= 1
+                                        } else if value.translation.width < -threshold && currentIndex < todayTasks.count - 1 {
+                                            currentIndex += 1
+                                        }
                                     }
                                 }
                         )
                     }
-                    .frame(height: 420)
-                    .clipped()
 
                     // 페이지 인디케이터
                     HStack(spacing: 8) {
-                        ForEach(0..<completedTasks.count, id: \.self) { index in
+                        ForEach(0..<todayTasks.count, id: \.self) { index in
                             Circle()
                                 .fill(index == currentIndex ? Color.pink : Color.gray.opacity(0.3))
                                 .frame(width: 8, height: 8)
@@ -104,12 +144,34 @@ struct CompletedTaskView: View {
 
                     // 완료됨 버튼 (카드 밖으로 이동)
                     Button(action: {
-                        // 완료 취소 액션
-                        print("완료 취소 버튼 탭됨")
+                        let task = todayTasks[currentIndex]
+                        completeCurrentTask(task)
+
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            if currentIndex < todayTasks.count - 1 {
+                                currentIndex += 1
+                            } else {
+                                // 마지막 카드에서 모든 태스크가 완료되었다면 축하 화면으로
+                                if allTasksCompleted {
+                                    showCelebration = true
+                                } else {
+                                    // 마지막 카드에서는 처음으로 돌아가기
+                                    currentIndex = 0
+                                }
+                            }
+                        }
                     }) {
                         HStack {
+                            let isLastCard = currentIndex >= todayTasks.count - 1
+                            let buttonText = if allTasksCompleted && isLastCard {
+                                "완료!"
+                            } else if isLastCard {
+                                "처음으로"
+                            } else {
+                                "다음"
+                            }
 
-                            Text("완료")
+                            Text(buttonText)
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundColor(.white)
                         }
@@ -117,14 +179,18 @@ struct CompletedTaskView: View {
                         .padding(.horizontal, 120)
                         .background(
                             RoundedRectangle(cornerRadius: 18)
-                                .fill(Color.buttonPrimary)
+                                .fill(Color("ButtonPrimary"))
                         )
                         .shadow(color: .green.opacity(0.3), radius: 8, x: 0, y: 4)
                     }
                 }
             }
         }
-//      .navigationBarTitleDisplayMode(.large)
+        .fullScreenCover(isPresented: $showCelebration) {
+            AllTasksCompletedView(onDismiss: {
+                showCelebration = false
+            })
+        }
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -134,62 +200,49 @@ struct CompletedTaskView: View {
                     Image(systemName: "chevron.left")
                         .resizable()
                         .frame(width: 12, height: 20)
-                        .foregroundColor(Color.buttonSecondary)
+                        .foregroundColor(Color("ButtonSecondary"))
                 }
             }
-//            ToolbarItem(placement: .principal) {
-//                Text("완료된 할 일")
-//                    .font(.system(size: 20, weight: .semibold))
-//                    .foregroundColor(.black)
-//            }
         }
-        .toolbarBackground(Color.backgroundPrimary, for: .navigationBar)
+        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
     }
-}
 
-struct TaskCardView: View {
-    let task: CompletedTaskView.TaskItem
-    @State private var isPressed = false
+    // MARK: - Helper Methods
 
-    var body: some View {
-        VStack {
-            Spacer()
-            // 이미지 중앙 배치
-            ZStack {
-                Circle()
-                    .fill(Color.pink.opacity(0.1))
-                    .frame(width: 213, height: 213)
-                Image(systemName: task.imageName)
-                    .font(.system(size: 50))
-                    .foregroundColor(.pink)
-            }
-            // 텍스트는 이미지 바로 아래
-            Text(task.title)
-                .font(.system(size: 27, weight: .semibold))
-                .foregroundColor(.black)
-                .multilineTextAlignment(.center)
-                .lineLimit(3)
-                .padding(.top, 20)
-                .padding(.horizontal, 20)
-            Spacer()
+    private func completeCurrentTask(_ task: TaskItem) {
+        // 완료 상태로 변경
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: task.date)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
+
+        // 기존 저장된 태스크 찾기
+        if let existingEntity = allTaskItems.first(where: { entity in
+            entity.taskTypeRawValue == task.taskType.rawValue &&
+            entity.date >= startOfDay && entity.date < endOfDay
+        }) {
+            // 기존 태스크 업데이트
+            existingEntity.isCompleted = true
+        } else {
+            // 새로운 완료 태스크 생성
+            let newEntity = TaskItemEntity(
+                taskType: task.taskType,
+                date: task.date,
+                isCompleted: true
+            )
+            modelContext.insert(newEntity)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: 24)
-                .fill(Color.white)
-        )
-        .scaleEffect(isPressed ? 0.95 : 1.0)
-        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        .onTapGesture {
-            withAnimation(.easeInOut(duration: 0.1)) {
-                isPressed = true
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                withAnimation(.easeInOut(duration: 0.1)) {
-                    isPressed = false
-                }
-            }
+
+        do {
+            try modelContext.save()
+
+            // Firebase에 저장 (기존 CompletedTaskAddService 활용)
+            addService.taskDisplayName = task.taskType.displayName
+            addService.taskDoneDate = task.date
+            addService.saveTaskToDb(num: userNum)
+
+        } catch {
+            print("Failed to save completed task: \(error)")
         }
     }
 }
@@ -198,4 +251,8 @@ struct TaskCardView: View {
     NavigationStack {
         CompletedTaskView()
     }
+    .modelContainer(for: [TaskItemEntity.self, TaskScheduleEntity.self])
 }
+
+
+

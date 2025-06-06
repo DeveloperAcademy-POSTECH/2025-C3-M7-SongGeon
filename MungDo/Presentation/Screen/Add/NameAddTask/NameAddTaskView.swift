@@ -10,40 +10,47 @@ import SwiftUI
 struct NameAddTaskView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selectedTaskType: TaskType? = nil
-    @State private var path = NavigationPath()
     
     let title: String = "어떤 일을 추가할까요?"
     var onComplete: () -> Void
+    var selectedDate: Date
     
     var body: some View {
         ZStack {
             Color.backgroundPrimary.edgesIgnoringSafeArea(.all)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    selectedTaskType = nil
-                }
             
             VStack(alignment: .leading, spacing: 28) {
                 Text(title)
-                    .font(.system(size: 37, weight: .semibold))
-                    .padding(28)
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.black)
+                Spacer()
                 
-                //Mark: 태스크 카드를 Grid로 나열
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 28) {
+                // 태스크 카드 그리드
+                LazyVGrid(
+                    columns: [
+                        GridItem(.flexible()),
+                        GridItem(.flexible()),
+                        GridItem(.flexible())
+                    ],
+                    spacing: 24
+                ) {
                     ForEach(TaskType.allCases) { taskType in
                         TaskTagCardView(
                             title: taskType.displayName,
-                            isSelected: selectedTaskType == taskType)
+                            image: taskType.displayIcon,
+                            isSelected: selectedTaskType == taskType
+                        )
                         .onTapGesture {
                             if selectedTaskType == taskType {
-                                selectedTaskType = nil // 다시 누르면 해제
+                                selectedTaskType = nil
                             } else {
                                 selectedTaskType = taskType
                             }
                         }
                     }
+                    .padding(.bottom, 40)
                 }
-                .padding(.bottom, 40)
                 
                 HStack {
                     Spacer()
@@ -51,7 +58,8 @@ struct NameAddTaskView: View {
                         NavigationLink(
                             destination: CalendarAddTaskView(
                                 taskType: selectedTask,
-                                onComplete: onComplete
+                                onComplete: onComplete,
+                                selectedDate: self.selectedDate
                             )
                         ) {
                             CustomButtonLabel(title: "다음")
@@ -62,29 +70,35 @@ struct NameAddTaskView: View {
                     }
                     Spacer()
                 }
-                .padding(.bottom, 28)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(55)
-//            .background(Color.backgroundPrimary)
-            .navigationBarBackButtonHidden(true)
-            .toolbar{
-                CustomToolBar(
-                    showDepth: true,
-                    currentDepth: 1,
-                    totalDepth: 2,
-                    onBack: {
-                        dismiss()
-                    }
-                )
             }
         }
-
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("BackgroundPrimary"))
+        .contentShape(Rectangle())
+        .onTapGesture {
+            selectedTaskType = nil
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .resizable()
+                        .frame(width: 12, height: 20)
+                        .foregroundColor(Color("ButtonSecondary"))
+                }
+            }
+        }
+        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 
 #Preview {
     NavigationStack {
-        NameAddTaskView(onComplete: {})
+        NameAddTaskView(onComplete: {}, selectedDate: Date())
     }
 }
