@@ -16,44 +16,20 @@ struct CompletedTaskView: View {
 
     // SwiftData에서 오늘의 태스크를 불러오기
     @Query private var allTaskItems: [TaskItemEntity]
-    @Query private var allTaskSchedules: [TaskScheduleEntity]
 
-    // 오늘 예정된 태스크들 (완료되지 않은 것들)
+    // 오늘 저장된 태스크들만 (스케줄에서 생성된 것 제외)
     private var todayTasks: [TaskItem] {
         let today = Date()
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: today)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
 
-        // 저장된 태스크 중 오늘 것들
+        // 저장된 태스크 중 오늘 것들만 반환 (스케줄에 따라 생성된 것 제외)
         let savedTasks = allTaskItems.filter { entity in
             entity.date >= startOfDay && entity.date < endOfDay
         }.map { $0.toTaskItem() }
 
-        // 스케줄에 따라 생성해야 할 오늘의 태스크들
-        var scheduledTasks: [TaskItem] = []
-        for schedule in allTaskSchedules {
-            let scheduledTasksForMonth = schedule.toTaskSchedule().scheduledTasksForMonth(
-                forMonth: calendar.component(.month, from: today),
-                year: calendar.component(.year, from: today)
-            )
-
-            for scheduledTask in scheduledTasksForMonth {
-                if calendar.isDate(scheduledTask.date, inSameDayAs: today) {
-                    // 이미 저장된 태스크가 있는지 확인
-                    let exists = savedTasks.contains { savedTask in
-                        savedTask.taskType == scheduledTask.taskType &&
-                        calendar.isDate(savedTask.date, inSameDayAs: scheduledTask.date)
-                    }
-
-                    if !exists {
-                        scheduledTasks.append(scheduledTask)
-                    }
-                }
-            }
-        }
-
-        return savedTasks + scheduledTasks
+        return savedTasks
     }
 
     // 모든 태스크 완료 여부 확인

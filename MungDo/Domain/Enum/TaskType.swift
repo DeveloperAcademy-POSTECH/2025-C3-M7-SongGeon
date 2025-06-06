@@ -39,13 +39,13 @@ enum TaskType: String, CaseIterable, Identifiable, Hashable {
     }
     //임시 파일명이므로 나중에 아이콘 이미지 제작 완료 후 수정 필요
     
-    //Mark: 권장 태스크 주기
+    //Mark: 권장 태스크 주기 (모든 태스크가 일주일 주기)
     var defaultCycle: Int {
         switch self {
-        case .heartworm: return 30
-        case .vaccination: return 365
-        case .bath: return 365
-        case .externalParasite: return 365
+        case .heartworm: return 7
+        case .vaccination: return 7
+        case .bath: return 7
+        case .externalParasite: return 7
         case .walk: return 7
         }
     }
