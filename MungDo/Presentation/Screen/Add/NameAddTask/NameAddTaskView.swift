@@ -15,11 +15,12 @@ struct NameAddTaskView: View {
     var onComplete: () -> Void
     var selectedDate: Date
     
+    
     var body: some View {
         ZStack {
             Color.backgroundPrimary.edgesIgnoringSafeArea(.all)
             
-            VStack(alignment: .leading, spacing: 28) {
+            VStack(alignment: .leading, spacing: 16) {
                 Text(title)
                     .font(.largeTitle)
                     .fontWeight(.semibold)
@@ -33,7 +34,7 @@ struct NameAddTaskView: View {
                         GridItem(.flexible()),
                         GridItem(.flexible())
                     ],
-                    spacing: 24
+                    spacing: 30
                 ) {
                     ForEach(TaskType.allCases) { taskType in
                         TaskTagCardView(
@@ -49,8 +50,9 @@ struct NameAddTaskView: View {
                             }
                         }
                     }
-                    .padding(.bottom, 40)
+                    .padding(.bottom, 76)
                 }
+                //.padding(.bottom, 50)
                 
                 HStack {
                     Spacer()
@@ -81,11 +83,11 @@ struct NameAddTaskView: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     dismiss()
                 }) {
-                    Image(systemName: "chevron.left")
+                    Image(systemName: "xmark")
                         .resizable()
                         .frame(width: 12, height: 20)
                         .foregroundColor(Color("ButtonSecondary"))

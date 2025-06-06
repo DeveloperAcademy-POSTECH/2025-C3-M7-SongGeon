@@ -17,11 +17,18 @@ struct CheckTaskView: View {
     // SwiftData에서 태스크를 불러오기
     @Query private var allTaskItems: [TaskItemEntity]
 
+
     // 현재 선택된 날짜의 저장된 태스크만 필터링
     private var tasksForSelectedDate: [TaskItem] {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: selectedDate)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
+        
+        //안찍힘! 
+        print("▶ [Debug] allTaskItems count: \(allTaskItems.count)")
+            for entity in allTaskItems {
+                print("  • 엔티티 date=\(entity.date), type=\(entity.taskTypeRawValue), completed=\(entity.isCompleted)")
+            }
 
         // 저장된 태스크 아이템들 중 선택된 날짜에 해당하는 것들만
         let savedTasks = allTaskItems.filter { entity in

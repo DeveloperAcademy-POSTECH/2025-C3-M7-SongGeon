@@ -49,9 +49,11 @@ struct CalendarAddTaskView: View {
                             .fill(Color.white)
                             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                     )
-                    .frame(maxWidth: 600)
+                    .frame(maxWidth: 800)
                 Spacer()
             }
+            .padding(.top, 50)
+
 
             // 주기 안내 텍스트
             VStack(spacing: 8) {
@@ -70,6 +72,7 @@ struct CalendarAddTaskView: View {
                     Spacer()
                 }
             }
+
 
             Spacer()
 
