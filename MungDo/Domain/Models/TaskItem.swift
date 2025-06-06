@@ -10,6 +10,7 @@ struct TaskItem: Identifiable, Hashable, Equatable {
     let id = UUID()
     let taskType: TaskType
     // let -> var 변경, 사유 : delay 구현
+
     var date: Date
     var isCompleted: Bool
 
