@@ -9,7 +9,8 @@ import SwiftUI
 
 // 태스크 리스트 아이템 뷰
 struct TaskListItemView: View {
-    @Binding var taskItem: TaskItem
+    let taskItem: TaskItem
+    let onToggleComplete: (TaskItem) -> Void
 
     var body: some View {
         HStack(spacing: 16) {
@@ -19,10 +20,10 @@ struct TaskListItemView: View {
                     .fill(Color("Secondary03"))
                     .frame(width: 50, height: 50)
 
-                taskItem.taskType.displayIcon // TaskItem의 이미지 사용
+                taskItem.taskType.displayIcon
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 30, height: 30) // 아이콘 크기 조정
+                    .frame(width: 30, height: 30)
             }
 
             // 제목
@@ -37,7 +38,7 @@ struct TaskListItemView: View {
 
             // 완료 체크박스
             Button(action: {
-                taskItem.isCompleted.toggle()
+                onToggleComplete(taskItem)
             }) {
                 ZStack {
                     Circle()
@@ -58,4 +59,12 @@ struct TaskListItemView: View {
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
     }
+}
+
+#Preview {
+    TaskListItemView(
+        taskItem: TaskItem(taskType: .walk, date: Date(), isCompleted: false),
+        onToggleComplete: { _ in }
+    )
+    .padding()
 }
