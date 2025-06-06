@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TaskCardView: View {
-    let task: CompletedTaskView.TaskItem
+    let taskItem: TaskItem
     @State private var isPressed = false
 
     var body: some View {
@@ -20,21 +20,15 @@ struct TaskCardView: View {
                     .fill(Color("Secondary03"))
                     .frame(width: 213, height: 213)
                 
-                // 이미지 에셋 사용 (fallback으로 시스템 이미지)
-                if !task.imageName.isEmpty {
-                    Image(task.imageName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 120, height: 120)
-                        .foregroundColor(.pink)
-                } else {
-                    Image(systemName: "pawprint.fill")
-                        .font(.system(size: 50))
-                        .foregroundColor(.pink)
-                }
+                // TaskType의 displayIcon 사용
+                taskItem.taskType.displayIcon
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 120, height: 120)
+                    .foregroundColor(Color.pink)
             }
             // 텍스트는 이미지 바로 아래
-            Text(task.title)
+            Text(taskItem.taskType.displayName)
                 .font(.system(size: 27, weight: .semibold))
                 .foregroundColor(.black)
                 .multilineTextAlignment(.center)
@@ -61,4 +55,10 @@ struct TaskCardView: View {
             }
         }
     }
+}
+
+#Preview {
+    TaskCardView(taskItem: TaskItem(taskType: .walk, date: Date(), isCompleted: false))
+        .frame(width: 647, height: 403)
+        .padding()
 }

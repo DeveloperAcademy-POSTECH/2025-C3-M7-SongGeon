@@ -29,5 +29,6 @@ struct MungDoApp: App {
         WindowGroup {
             HomeView()
         }
+        .modelContainer(for: [TaskItemEntity.self, TaskScheduleEntity.self])
     }
 }
