@@ -10,7 +10,7 @@ import SwiftUI
 struct CheckTaskView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showTaskFlow = false
-    
+    @State var selectedDate:Date = Date()
     // 샘플 태스크 데이터
     @State private var tasks: [TaskItem] = [
         TaskItem(taskType: .vaccination, date: Date(), isCompleted: true),
@@ -21,7 +21,7 @@ struct CheckTaskView: View {
         HStack(spacing: 40) {
             // 왼쪽 캘린더
             VStack {
-                TestCalendarView(showDots: true)
+                TestCalendarView(showDots: true, selectedDate: $selectedDate)
                     .aspectRatio(1.0, contentMode: .fit)
                     .padding()
                     .background(

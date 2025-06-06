@@ -5,6 +5,7 @@ struct CalendarView: UIViewRepresentable {
     @Binding var tasks: [TaskItem]
     @Binding var currentPage: Date
     @Binding var showDots: Bool
+    @Binding var selectedDate: Date
     
     func makeUIView(context: Context) -> FSCalendar {
         let calendar = FSCalendar()
@@ -61,32 +62,32 @@ struct CalendarView: UIViewRepresentable {
         }
         
         func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-            //parent.selectedDate = date
+            parent.selectedDate = date
+            let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd"
+                formatter.timeZone = TimeZone(identifier: "Asia/Seoul")  // ✅ 한국 시간 기준
+                print("사용자가 선택한 날짜: \(formatter.string(from: date))")
         }
         
         func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-                    let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position) as! TaskDotCell
-
-                    // ✅ showDots가 true일 때만 점 표시
-                    if parent.showDots {
-                        if let taskItem = parent.tasks.first(where: {
-                            Calendar.current.isDate($0.date, inSameDayAs: date)
-                        }) {
-                            cell.customDot.isHidden = false
-                            cell.customDot.backgroundColor = taskItem.isCompleted ? .checkPrimary : .buttonPrimary
-                        } else {
-                            cell.customDot.isHidden = true
-                        }
-                    } else {
-                        cell.customDot.isHidden = true
-                    }
-
-                    return cell
+            let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position) as! TaskDotCell
+            
+            // ✅ showDots가 true일 때만 점 표시
+            if parent.showDots {
+                if let taskItem = parent.tasks.first(where: {
+                    Calendar.current.isDate($0.date, inSameDayAs: date)
+                }) {
+                    cell.customDot.isHidden = false
+                    cell.customDot.backgroundColor = taskItem.isCompleted ? .checkPrimary : .buttonPrimary
+                } else {
+                    cell.customDot.isHidden = true
                 }
+            } else {
+                cell.customDot.isHidden = true
+            }
+            
+            return cell
+        }
     }
 }
 
-
-#Preview {
-    TestCalendarView(showDots: true)
-}

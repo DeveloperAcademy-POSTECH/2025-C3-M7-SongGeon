@@ -17,6 +17,8 @@ struct TestCalendarView: View {
     @State private var reloadTrigger = false
     @State private var currentPage: Date = Date()
     @State var showDots: Bool
+    @Binding var selectedDate: Date
+    
     
     var body: some View {
         VStack{
@@ -63,15 +65,8 @@ struct TestCalendarView: View {
                 }
                 
             }
-            CalendarView(tasks: $tasks, currentPage: $currentPage, showDots: $showDots)
+            CalendarView(tasks: $tasks, currentPage: $currentPage, showDots: $showDots, selectedDate: $selectedDate)
                 .id(reloadTrigger)
-            //일정 완료 테스트 버튼
-//            Button{
-//                events[0].status = .done
-//                reloadTrigger.toggle()
-//            }label:{
-//                Text("완료")
-//            }
         }
     }
     // 월 이동 함수

@@ -12,7 +12,7 @@ struct CalendarAddTaskView: View {
     
     let taskType: TaskType
     var onComplete: () -> Void
-    var selectedDate: Date
+    @State var selectedDate: Date
     
     var body: some View {
         VStack(spacing: 40) {
@@ -31,7 +31,7 @@ struct CalendarAddTaskView: View {
                     .frame(width: 628, height: 403)
                     .background(.white)
                     .cornerRadius(20)
-                TestCalendarView(showDots: false)
+                TestCalendarView(showDots: false, selectedDate: $selectedDate)
                     .aspectRatio(1.6, contentMode: .fit)
                     .padding()
                     .background(
