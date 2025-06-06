@@ -4,8 +4,8 @@ import FSCalendar
 struct CalendarView: UIViewRepresentable {
     @Binding var tasks: [TaskItemEntity]
     @Binding var currentPage: Date
-    @Binding var showDots: Bool
     @Binding var selectedDate: Date
+    
 
     func makeUIView(context: Context) -> FSCalendar {
         let calendar = FSCalendar()
@@ -47,6 +47,7 @@ struct CalendarView: UIViewRepresentable {
 
     func updateUIView(_ uiView: FSCalendar, context: Context) {
         uiView.setCurrentPage(currentPage, animated: true)
+        uiView.select(selectedDate)
         uiView.reloadData()
     }
 
@@ -72,8 +73,6 @@ struct CalendarView: UIViewRepresentable {
         func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
             let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position) as! TaskDotCell
 
-            // ✅ showDots가 true일 때만 점 표시
-            if parent.showDots {
                 if let taskItem = parent.tasks.first(where: {
                     Calendar.current.isDate($0.date, inSameDayAs: date)
                 }) {
@@ -82,9 +81,7 @@ struct CalendarView: UIViewRepresentable {
                 } else {
                     cell.customDot.isHidden = true
                 }
-            } else {
-                cell.customDot.isHidden = true
-            }
+            
 
             return cell
         }

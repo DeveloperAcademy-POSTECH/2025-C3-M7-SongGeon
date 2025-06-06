@@ -13,7 +13,7 @@ struct CheckTaskView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var showTaskFlow = false
     @State private var selectedDate = Date()
-
+    
     // SwiftData에서 태스크를 불러오기
     @Query private var allTaskItems: [TaskItemEntity]
 
@@ -35,7 +35,7 @@ struct CheckTaskView: View {
         HStack(spacing: 40) {
             // 왼쪽 캘린더
             VStack {
-                FSCustomCalendarView(tasks: allTaskItems, showDots: true, selectedDate: $selectedDate)
+                FSCustomCalendarView(tasks: allTaskItems, selectedDate: $selectedDate)
                     .aspectRatio(1.0, contentMode: .fit)
                     .padding()
                     .background(
@@ -151,9 +151,9 @@ struct CheckTaskView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        CheckTaskView()
-    }
-    .modelContainer(for: [TaskItemEntity.self, TaskScheduleEntity.self])
-}
+//#Preview {
+//    NavigationStack {
+//        CheckTaskView()
+//    }
+//    .modelContainer(for: [TaskItemEntity.self, TaskScheduleEntity.self])
+//}

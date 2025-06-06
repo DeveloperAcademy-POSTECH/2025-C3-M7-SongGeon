@@ -12,7 +12,6 @@ struct FSCustomCalendarView: View {
     @State var tasks:[TaskItemEntity] = []
     @State private var reloadTrigger = false
     @State private var currentPage: Date = Date()
-    @State var showDots: Bool
     @Binding var selectedDate: Date
     
     
@@ -61,7 +60,7 @@ struct FSCustomCalendarView: View {
                 }
                 
             }
-            CalendarView(tasks: $tasks, currentPage: $currentPage, showDots: $showDots, selectedDate: $selectedDate)
+            CalendarView(tasks: $tasks, currentPage: $currentPage, selectedDate: $selectedDate)
                 .id(reloadTrigger)
         }
     }
