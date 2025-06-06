@@ -2,7 +2,7 @@ import SwiftUI
 import FSCalendar
 
 struct CalendarView: UIViewRepresentable {
-    @Binding var tasks: [TaskItem]
+    @Binding var tasks: [TaskItemEntity]
     @Binding var currentPage: Date
     @Binding var showDots: Bool
     @Binding var selectedDate: Date

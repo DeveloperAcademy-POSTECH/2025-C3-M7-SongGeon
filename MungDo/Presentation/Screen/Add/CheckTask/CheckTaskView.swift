@@ -35,7 +35,7 @@ struct CheckTaskView: View {
         HStack(spacing: 40) {
             // 왼쪽 캘린더
             VStack {
-                TestCalendarView(selectedDate: $selectedDate)
+                FSCustomCalendarView(tasks: allTaskItems, showDots: true, selectedDate: $selectedDate)
                     .aspectRatio(1.0, contentMode: .fit)
                     .padding()
                     .background(
