@@ -53,7 +53,8 @@ struct CalendarAddTaskView: View {
                     .frame(width: 628, height: 403)
                     .background(.white)
                     .cornerRadius(20)
-                TestCalendarView(showDots: false, selectedDate: $selectedDate)
+
+                TestCalendarView(selectedDate: $selectedDate)
                     .aspectRatio(1.6, contentMode: .fit)
                     .padding()
                     .background(
