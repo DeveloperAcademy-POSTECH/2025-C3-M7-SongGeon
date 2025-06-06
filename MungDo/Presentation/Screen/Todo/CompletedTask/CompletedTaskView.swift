@@ -163,13 +163,15 @@ struct CompletedTaskView: View {
                     }) {
                         HStack {
                             let isLastCard = currentIndex >= todayTasks.count - 1
-                            let buttonText = if allTasksCompleted && isLastCard {
-                                "완료!"
-                            } else if isLastCard {
-                                "처음으로"
-                            } else {
-                                "다음"
-                            }
+                            let buttonText = "완료"
+                            
+//                            if allTasksCompleted && isLastCard {
+//                                "완료!"
+//                            } else if isLastCard {
+//                                "처음으로"
+//                            } else {
+//                                "다음"
+//                            }
 
                             Text(buttonText)
                                 .font(.system(size: 16, weight: .semibold))
