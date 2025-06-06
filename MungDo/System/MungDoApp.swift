@@ -28,10 +28,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct MungDoApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
-
         WindowGroup {
             HomeView()
+                .modelContainer(for: [
+                    TaskItemEntity.self,
+                    TaskScheduleEntity.self,
+                    TaskRecurrenceEntity.self,
+                    SimpleTaskEntity.self
+                ])
         }
     }
 }
