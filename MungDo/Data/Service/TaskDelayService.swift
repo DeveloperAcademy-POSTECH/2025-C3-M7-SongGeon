@@ -57,7 +57,7 @@ struct TaskDelayService {
                 schedule.setStartDate(tomorrow)
               
                 //더미
-                tasks[index].date = schedule.startDate
+//                tasks[index].date = schedule.startDate
                 
                 //print("\(tasks[index].date) delay 수정 완")
 
