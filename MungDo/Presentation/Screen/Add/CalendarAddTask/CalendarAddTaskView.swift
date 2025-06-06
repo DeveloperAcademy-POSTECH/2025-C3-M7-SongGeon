@@ -62,70 +62,71 @@ struct CalendarAddTaskView: View {
                             .fill(Color.white)
                             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                     )
-                    .frame(maxWidth: 600)
+                    .frame(maxWidth: 800)
                 Spacer()
             }
+            .padding(.top, 50)
 
             // 반복 주기 설정
-            VStack(spacing: 16) {
-                HStack {
-                    Text("반복 주기")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.black)
-                    Spacer()
-                }
-
-                Button(action: {
-                    showingCycleOptions.toggle()
-                }) {
-                    HStack {
-                        Text(getCycleDisplayText())
-                            .font(.system(size: 16))
-                            .foregroundColor(.black)
-                        Spacer()
-                        Image(systemName: "chevron.down")
-                            .foregroundColor(.gray)
-                            .rotationEffect(.degrees(showingCycleOptions ? 180 : 0))
-                    }
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                    )
-                }
-
-                if showingCycleOptions {
-                    LazyVStack(spacing: 8) {
-                        ForEach(cycleOptions, id: \.0) { option in
-                            Button(action: {
-                                cycleDays = option.0
-                                showingCycleOptions = false
-                            }) {
-                                HStack {
-                                    Text(option.1)
-                                        .font(.system(size: 16))
-                                        .foregroundColor(.black)
-                                    Spacer()
-                                    if cycleDays == option.0 {
-                                        Image(systemName: "checkmark")
-                                            .foregroundColor(Color("ButtonPrimary"))
-                                    }
-                                }
-                                .padding()
-                                .background(Color.white)
-                            }
-                        }
-                    }
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                    )
-                    .animation(.easeInOut(duration: 0.3), value: showingCycleOptions)
-                }
-            }
+//            VStack(spacing: 16) {
+//                HStack {
+//                    Text("반복 주기")
+//                        .font(.title2)
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.black)
+//                    Spacer()
+//                }
+//
+//                Button(action: {
+//                    showingCycleOptions.toggle()
+//                }) {
+//                    HStack {
+//                        Text(getCycleDisplayText())
+//                            .font(.system(size: 16))
+//                            .foregroundColor(.black)
+//                        Spacer()
+//                        Image(systemName: "chevron.down")
+//                            .foregroundColor(.gray)
+//                            .rotationEffect(.degrees(showingCycleOptions ? 180 : 0))
+//                    }
+//                    .padding()
+//                    .background(
+//                        RoundedRectangle(cornerRadius: 12)
+//                            .fill(Color.white)
+//                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+//                    )
+//                }
+//
+//                if showingCycleOptions {
+//                    LazyVStack(spacing: 8) {
+//                        ForEach(cycleOptions, id: \.0) { option in
+//                            Button(action: {
+//                                cycleDays = option.0
+//                                showingCycleOptions = false
+//                            }) {
+//                                HStack {
+//                                    Text(option.1)
+//                                        .font(.system(size: 16))
+//                                        .foregroundColor(.black)
+//                                    Spacer()
+//                                    if cycleDays == option.0 {
+//                                        Image(systemName: "checkmark")
+//                                            .foregroundColor(Color("ButtonPrimary"))
+//                                    }
+//                                }
+//                                .padding()
+//                                .background(Color.white)
+//                            }
+//                        }
+//                    }
+//                    .background(
+//                        RoundedRectangle(cornerRadius: 12)
+//                            .fill(Color.white)
+//                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+//                    )
+//                    .animation(.easeInOut(duration: 0.3), value: showingCycleOptions)
+//                }
+//            }
 
             Spacer()
 
