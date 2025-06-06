@@ -17,20 +17,20 @@ struct TaskTagCardView: View {
             ZStack {
                 Circle()
                     .fill(Color("Secondary03"))
-                    .frame(width: 96, height: 96)
+                    .frame(width: 120, height: 120)
 
                 image
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 60, height: 60)
+                    .frame(width: 80, height: 80)
             }
             Text(title)
-                .font(.system(size: 22, weight: .semibold))
+                .font(.system(size: 26, weight: .semibold))
         }
 
-        .padding(.vertical, 46)
-        .padding(.horizontal, 41)
-        .frame(width: 316, height: 188, alignment: .topLeading)
+        .padding(.vertical, 60)
+        .padding(.horizontal, 40)
+        .frame(width: 370, height: 240, alignment: .topLeading)
         .background(Color.white)
         .cornerRadius(28)
         .overlay(
