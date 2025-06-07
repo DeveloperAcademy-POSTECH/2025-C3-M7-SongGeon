@@ -46,9 +46,9 @@ struct CalendarView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: FSCalendar, context: Context) {
-        uiView.setCurrentPage(currentPage, animated: true)
         uiView.select(selectedDate)
-        uiView.reloadData()
+        uiView.setCurrentPage(currentPage, animated: true)
+        //uiView.reloadData()
     }
 
     func makeCoordinator() -> Coordinator {
