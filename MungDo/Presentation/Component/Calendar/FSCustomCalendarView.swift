@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FSCustomCalendarView: View {
+    @Environment(\.modelContext) private var modelContext
     //task 생성 예시
     @State var tasks:[TaskItemEntity] = []
-    @State private var reloadTrigger = false
+    //@Query private var allTaskItems: [TaskItemEntity]
     @State private var currentPage: Date = Date()
     @Binding var selectedDate: Date
     
@@ -61,7 +63,6 @@ struct FSCustomCalendarView: View {
                 
             }
             CalendarView(tasks: $tasks, currentPage: $currentPage, selectedDate: $selectedDate)
-                .id(reloadTrigger)
         }
     }
     // 월 이동 함수

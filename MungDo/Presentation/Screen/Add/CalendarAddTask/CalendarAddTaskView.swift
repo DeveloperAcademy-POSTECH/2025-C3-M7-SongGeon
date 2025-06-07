@@ -16,13 +16,11 @@ struct CalendarAddTaskView: View {
     let taskType: TaskType
     var onComplete: () -> Void
     @State var selectedDate: Date
-    @State private var reloadTrigger = false
     
     
     init(taskType: TaskType, onComplete: @escaping () -> Void, selectedDate: Date) {
         self.taskType = taskType
         self.onComplete = onComplete
-        //self._selectedDate = State(initialValue: selectedDate)
         self.selectedDate = selectedDate
     }
 
@@ -47,7 +45,6 @@ struct CalendarAddTaskView: View {
 
                 FSCustomCalendarView(selectedDate: $selectedDate)
                     .frame(width: 628, height: 403)
-                    .id(reloadTrigger)
 //                TestCalendarView(selectedDate: $selectedDate)
 //                    .aspectRatio(1.6, contentMode: .fit)
 //                    .padding()
@@ -86,6 +83,7 @@ struct CalendarAddTaskView: View {
                 Button(action: {
                     saveTasks()
                     onComplete()
+                    
                 }) {
                     CustomButtonLabel(title: "완료")
                 }

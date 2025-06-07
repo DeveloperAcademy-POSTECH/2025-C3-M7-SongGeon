@@ -1,11 +1,12 @@
 import SwiftUI
 import FSCalendar
+import SwiftData
 
 struct CalendarView: UIViewRepresentable {
     @Binding var tasks: [TaskItemEntity]
     @Binding var currentPage: Date
     @Binding var selectedDate: Date
-    
+    //@Query private var allTaskItems: [TaskItemEntity]
 
     func makeUIView(context: Context) -> FSCalendar {
         let calendar = FSCalendar()
@@ -46,9 +47,9 @@ struct CalendarView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: FSCalendar, context: Context) {
+        print("뷰 다시 그려짐")
         uiView.select(selectedDate)
         uiView.setCurrentPage(currentPage, animated: true)
-        //uiView.reloadData()
     }
 
     func makeCoordinator() -> Coordinator {
@@ -84,7 +85,6 @@ struct CalendarView: UIViewRepresentable {
             } else {
                 cell.customDot.isHidden = true
             }
-
             return cell
         }
     }
