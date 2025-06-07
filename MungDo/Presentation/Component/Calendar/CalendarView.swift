@@ -73,15 +73,17 @@ struct CalendarView: UIViewRepresentable {
         func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
             let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position) as! TaskDotCell
 
-                if let taskItem = parent.tasks.first(where: {
-                    Calendar.current.isDate($0.date, inSameDayAs: date)
-                }) {
-                    cell.customDot.isHidden = false
-                    cell.customDot.backgroundColor = taskItem.isCompleted ? .checkPrimary : .buttonPrimary
-                } else {
-                    cell.customDot.isHidden = true
-                }
-            
+            let sameDayTasks = parent.tasks.filter {
+                Calendar.current.isDate($0.date, inSameDayAs: date)
+            }
+
+            if !sameDayTasks.isEmpty {
+                cell.customDot.isHidden = false
+                let allCompleted = sameDayTasks.allSatisfy { $0.isCompleted }
+                cell.customDot.backgroundColor = allCompleted ? .checkPrimary : .buttonPrimary
+            } else {
+                cell.customDot.isHidden = true
+            }
 
             return cell
         }
