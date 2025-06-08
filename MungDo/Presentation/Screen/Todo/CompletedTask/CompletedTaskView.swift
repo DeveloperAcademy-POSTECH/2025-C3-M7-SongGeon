@@ -68,18 +68,20 @@ struct CompletedTaskView: View {
                     // 카드 캐러셀
                     ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHStack(spacing: 20) {
+                            LazyHStack(spacing: 40) {
                                 // 첫 번째 셀을 가운데에 오게 하기 위한 leading spacer
                                 Spacer()
                                     .frame(width: (UIScreen.main.bounds.width - 647) / 2)
 
                                 ForEach(Array(todayTasks.enumerated()), id: \.element.id) { index, task in
-                                    TaskCardView(taskItem: task)
-                                        .frame(width: 647, height: 403)
-                                        .scaleEffect(index == currentIndex ? 1.0 : 0.9)
-                                        .opacity(index == currentIndex ? 1.0 : 0.7)
-                                        .animation(.easeInOut(duration: 0.3), value: currentIndex)
-                                        .id(index)
+                                    ZStack {
+                                        TaskCardView(taskItem: task)
+                                            .frame(width: 647, height: 403)
+                                            .scaleEffect(index == currentIndex ? 1.0 : 1.0)
+                                            .opacity(1.0)
+                                            .animation(.easeInOut(duration: 0.5), value: index == currentIndex)
+                                            .id(index)
+                                    }
                                 }
 
                                 // 마지막 셀을 가운데에 오게 하기 위한 trailing spacer
@@ -137,29 +139,7 @@ struct CompletedTaskView: View {
                             }
                         }
                     }) {
-                        HStack {
-                            let isLastCard = currentIndex >= todayTasks.count - 1
-                            let buttonText = "완료"
-                            
-//                            if allTasksCompleted && isLastCard {
-//                                "완료!"
-//                            } else if isLastCard {
-//                                "처음으로"
-//                            } else {
-//                                "다음"
-//                            }
-
-                            Text(buttonText)
-                                .font(.system(size: 16, weight: .semibold))
-                                .foregroundColor(.white)
-                        }
-                        .padding(.vertical, 16)
-                        .padding(.horizontal, 120)
-                        .background(
-                            RoundedRectangle(cornerRadius: 18)
-                                .fill(Color("ButtonPrimary"))
-                        )
-                        .shadow(color: .green.opacity(0.3), radius: 8, x: 0, y: 4)
+                        CustomButtonLabel(title: "완료")
                     }
 
                     Spacer()
