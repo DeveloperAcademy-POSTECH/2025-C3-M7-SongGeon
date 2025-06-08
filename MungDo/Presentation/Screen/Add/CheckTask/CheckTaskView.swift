@@ -13,7 +13,8 @@ struct CheckTaskView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var showTaskFlow = false
     @State private var selectedDate = Date()
-
+    @State private var reloadTrigger = UUID()
+    
     // SwiftData에서 태스크를 불러오기
     @Query private var allTaskItems: [TaskItemEntity]
 
@@ -42,7 +43,8 @@ struct CheckTaskView: View {
         HStack(spacing: 40) {
             // 왼쪽 캘린더
             VStack {
-                TestCalendarView(selectedDate: $selectedDate)
+                FSCustomCalendarView(tasks: allTaskItems, selectedDate: $selectedDate)
+                    .id(reloadTrigger)
                     .aspectRatio(1.0, contentMode: .fit)
                     .padding()
                     .background(
@@ -96,7 +98,10 @@ struct CheckTaskView: View {
         .fullScreenCover(isPresented: $showTaskFlow) {
             NavigationStack {
                 NameAddTaskView(
-                    onComplete: { showTaskFlow = false },
+                    onComplete: {
+                        showTaskFlow = false
+                        reloadTrigger = UUID() },
+                    
                     selectedDate: selectedDate
                 )
             }
@@ -158,9 +163,9 @@ struct CheckTaskView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        CheckTaskView()
-    }
-    .modelContainer(for: [TaskItemEntity.self, TaskScheduleEntity.self])
-}
+//#Preview {
+//    NavigationStack {
+//        CheckTaskView()
+//    }
+//    .modelContainer(for: [TaskItemEntity.self, TaskScheduleEntity.self])
+//}

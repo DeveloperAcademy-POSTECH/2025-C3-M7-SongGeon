@@ -11,15 +11,17 @@ import SwiftData
 struct CalendarAddTaskView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-
+    
+    
     let taskType: TaskType
     var onComplete: () -> Void
     @State var selectedDate: Date
-
+    
+    
     init(taskType: TaskType, onComplete: @escaping () -> Void, selectedDate: Date) {
         self.taskType = taskType
         self.onComplete = onComplete
-        self._selectedDate = State(initialValue: selectedDate)
+        self.selectedDate = selectedDate
     }
 
     var body: some View {
@@ -41,15 +43,19 @@ struct CalendarAddTaskView: View {
                     .background(.white)
                     .cornerRadius(20)
 
-                TestCalendarView(selectedDate: $selectedDate)
-                    .aspectRatio(1.6, contentMode: .fit)
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color.white)
-                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                    )
-                    .frame(maxWidth: 800)
+
+                FSCustomCalendarView(selectedDate: $selectedDate)
+                    .frame(width: 628, height: 403)
+//                TestCalendarView(selectedDate: $selectedDate)
+//                    .aspectRatio(1.6, contentMode: .fit)
+//                    .padding()
+//                    .background(
+//                        RoundedRectangle(cornerRadius: 20)
+//                            .fill(Color.white)
+//                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+//                    )
+//                    .frame(maxWidth: 600)
+
                 Spacer()
             }
             .padding(.top, 50)
@@ -82,6 +88,7 @@ struct CalendarAddTaskView: View {
                 Button(action: {
                     saveTasks()
                     onComplete()
+                    
                 }) {
                     CustomButtonLabel(title: "완료")
                 }

@@ -1,11 +1,12 @@
 import SwiftUI
 import FSCalendar
+import SwiftData
 
 struct CalendarView: UIViewRepresentable {
-    @Binding var tasks: [TaskItem]
+    @Binding var tasks: [TaskItemEntity]
     @Binding var currentPage: Date
-    @Binding var showDots: Bool
     @Binding var selectedDate: Date
+    //@Query private var allTaskItems: [TaskItemEntity]
 
     func makeUIView(context: Context) -> FSCalendar {
         let calendar = FSCalendar()
@@ -46,8 +47,9 @@ struct CalendarView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: FSCalendar, context: Context) {
+        print("뷰 다시 그려짐")
+        uiView.select(selectedDate)
         uiView.setCurrentPage(currentPage, animated: true)
-        uiView.reloadData()
     }
 
     func makeCoordinator() -> Coordinator {
@@ -72,20 +74,17 @@ struct CalendarView: UIViewRepresentable {
         func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
             let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position) as! TaskDotCell
 
-            // ✅ showDots가 true일 때만 점 표시
-            if parent.showDots {
-                if let taskItem = parent.tasks.first(where: {
-                    Calendar.current.isDate($0.date, inSameDayAs: date)
-                }) {
-                    cell.customDot.isHidden = false
-                    cell.customDot.backgroundColor = taskItem.isCompleted ? .checkPrimary : .buttonPrimary
-                } else {
-                    cell.customDot.isHidden = true
-                }
+            let sameDayTasks = parent.tasks.filter {
+                Calendar.current.isDate($0.date, inSameDayAs: date)
+            }
+
+            if !sameDayTasks.isEmpty {
+                cell.customDot.isHidden = false
+                let allCompleted = sameDayTasks.allSatisfy { $0.isCompleted }
+                cell.customDot.backgroundColor = allCompleted ? .checkPrimary : .buttonPrimary
             } else {
                 cell.customDot.isHidden = true
             }
-
             return cell
         }
     }
