@@ -11,7 +11,7 @@ import SwiftData
 struct CalendarAddTaskView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-    
+    @Query private var allTaskItems: [TaskItemEntity]
     
     let taskType: TaskType
     var onComplete: () -> Void
@@ -130,7 +130,11 @@ struct CalendarAddTaskView: View {
             guard let taskDate = calendar.date(byAdding: .day, value: i * cycleDays, to: selectedDate) else {
                 continue
             }
-
+            if !allTaskItems.filter{$0.date == taskDate && $0.taskType == taskType}.isEmpty{
+                print("이미 있는 태스크임")
+                continue
+            }
+            
             let newTask = TaskItemEntity(
                 taskType: taskType,
                 date: taskDate,
