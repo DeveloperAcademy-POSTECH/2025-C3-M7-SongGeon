@@ -47,9 +47,9 @@ struct CalendarAddTaskView: View {
                     }
             }
             
-                
+                // 반복 주기 수정
                 HStack {
-                    Text("일주일마다 반복됩니다")
+                    Text(taskType.defaultCycleDescription)
                         .font(.system(size: 16))
                         .foregroundColor(.gray)
                     Spacer()
