@@ -50,10 +50,9 @@ struct NameAddTaskView: View {
                             }
                         }
                     }
-                    .padding(.bottom, 76)
+//                    .padding(.bottom, 40)
                 }
-                //.padding(.bottom, 50)
-                
+                Spacer()
                 HStack {
                     Spacer()
                     if let selectedTask = selectedTaskType {

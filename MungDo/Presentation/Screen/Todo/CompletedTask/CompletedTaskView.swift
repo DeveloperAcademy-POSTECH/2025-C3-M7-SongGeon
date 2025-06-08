@@ -161,6 +161,8 @@ struct CompletedTaskView: View {
                         )
                         .shadow(color: .green.opacity(0.3), radius: 8, x: 0, y: 4)
                     }
+
+                    Spacer()
                 }
             }
         }
@@ -226,11 +228,19 @@ struct CompletedTaskView: View {
 }
 
 #Preview {
-    NavigationStack {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: TaskItemEntity.self, configurations: config)
+
+    // 더미 데이터 추가
+    let dummyTask = TaskItemEntity(
+        taskType: .walk,
+        date: Date(),
+        isCompleted: false
+    )
+    container.mainContext.insert(dummyTask)
+
+    return NavigationStack {
         CompletedTaskView()
     }
-    .modelContainer(for: [TaskItemEntity.self, TaskScheduleEntity.self])
+    .modelContainer(container)
 }
-
-
-
