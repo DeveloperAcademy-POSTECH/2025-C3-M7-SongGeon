@@ -26,15 +26,35 @@ struct CalendarAddTaskView: View {
 
     var body: some View {
         VStack(spacing: 40) {
-            // 제목
-            HStack {
-                Text("'\(taskType.displayName)' 언제부터 시작할까요?")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.black)
-                Spacer()
+            
+            VStack(spacing: 8){
+                // 제목
+                HStack {
+                    Text("'\(taskType.displayName)' 언제부터 시작할까요?")
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.black)
+                    Spacer()
+                }
+                // 주기 안내 텍스트
+                VStack {
+                    HStack {
+                        Text("반복 주기")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+                        Spacer()
+                    }
             }
-
+            
+                
+                HStack {
+                    Text("일주일마다 반복됩니다")
+                        .font(.system(size: 16))
+                        .foregroundColor(.gray)
+                    Spacer()
+                }
+            }
             // 캘린더 view
             ZStack {
                 Rectangle()
@@ -42,6 +62,7 @@ struct CalendarAddTaskView: View {
                     .frame(width: 628, height: 403)
                     .background(.white)
                     .cornerRadius(20)
+
 
                 FSCustomCalendarView(selectedDate: $selectedDate)
                     .frame(width: 628, height: 403)
@@ -54,26 +75,14 @@ struct CalendarAddTaskView: View {
 //                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
 //                    )
 //                    .frame(maxWidth: 600)
+
                 Spacer()
             }
+            .padding(.top, 50)
 
-            // 주기 안내 텍스트
-            VStack(spacing: 8) {
-                HStack {
-                    Text("반복 주기")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.black)
-                    Spacer()
-                }
-                
-                HStack {
-                    Text("일주일마다 반복됩니다")
-                        .font(.system(size: 16))
-                        .foregroundColor(.gray)
-                    Spacer()
-                }
-            }
+
+
+
 
             Spacer()
 

@@ -32,7 +32,7 @@ struct MungDoApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
-                .modelContainer(for: [
+     .modelContainer(for: [
                     TaskItemEntity.self,
                     TaskScheduleEntity.self,
                     TaskRecurrenceEntity.self,
