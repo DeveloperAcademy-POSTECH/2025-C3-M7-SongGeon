@@ -189,6 +189,8 @@ struct CheckTaskView: View {
 
         do {
             try modelContext.save()
+            // 캘린더 즉시 업데이트
+            reloadTrigger = UUID()
         } catch {
             print("Failed to save task: \(error)")
         }
