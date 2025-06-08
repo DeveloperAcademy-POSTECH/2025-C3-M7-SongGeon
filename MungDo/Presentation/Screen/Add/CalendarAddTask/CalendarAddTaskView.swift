@@ -27,42 +27,30 @@ struct CalendarAddTaskView: View {
     var body: some View {
         VStack(spacing: 40) {
             
-            VStack(spacing: 8){
-                // 제목
+            VStack(spacing: 16) {
+                // 완전히 한 문장으로 통합
                 HStack {
-                    Text("'\(taskType.displayName)' 언제부터 시작할까요?")
+                    Text("'\(taskType.displayName)'가 \(dateFormatter.string(from: selectedDate))부터 \(taskType.cycleDisplayText) 반복돼요.")
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
-                    Spacer()
-                }
-                // 주기 안내 텍스트
-                VStack {
-                    HStack {
-                        Text("반복 주기")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.black)
-                        Spacer()
-                    }
-            }
-            
-                
-                HStack {
-                    Text("일주일마다 반복됩니다")
-                        .font(.system(size: 16))
-                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.leading)
+                        .padding(.top, 50)
+                        .padding(.leading, 50)
                     Spacer()
                 }
             }
+            .padding(.horizontal)
+
+            Spacer()
+
             // 캘린더 view
             ZStack {
                 Rectangle()
                     .foregroundColor(.clear)
-                    .frame(width: 628, height: 403)
+                    .frame(width: 700, height: 450)
                     .background(.white)
                     .cornerRadius(20)
-
 
                 FSCustomCalendarView(selectedDate: $selectedDate)
                     .frame(width: 628, height: 403)
@@ -79,10 +67,7 @@ struct CalendarAddTaskView: View {
                 Spacer()
             }
             .padding(.top, 50)
-
-
-
-
+            Spacer()
 
             Spacer()
 
@@ -92,7 +77,6 @@ struct CalendarAddTaskView: View {
                 Button(action: {
                     saveTasks()
                     onComplete()
-                    
                 }) {
                     CustomButtonLabel(title: "완료")
                 }
@@ -114,12 +98,29 @@ struct CalendarAddTaskView: View {
                         .foregroundColor(Color("ButtonSecondary"))
                 }
             }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "xmark")
+
+                        .foregroundColor(Color("ButtonSecondary"))
+                }
+            }
         }
         .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
     }
 
     // MARK: - Helper Methods
+
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 M월 d일"
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter
+    }
 
     private func saveTasks() {
         let calendar = Calendar.current

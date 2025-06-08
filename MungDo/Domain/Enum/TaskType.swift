@@ -49,4 +49,18 @@ enum TaskType: String, CaseIterable, Identifiable, Hashable {
         case .walk: return 7
         }
     }
+    
+    //Mark: 주기 표시 텍스트
+    var cycleDisplayText: String {
+        let days = defaultCycle
+        if days == 1 {
+            return "매일"
+        } else if days == 7 {
+            return "일주일마다"
+        } else if days % 7 == 0 {
+            return "\(days/7)주마다"
+        } else {
+            return "\(days)일마다"
+        }
+    }
 }
