@@ -21,11 +21,17 @@ struct TaskCardView: View {
                     .frame(width: 213, height: 213)
                 
                 // TaskType의 displayIcon 사용
-                taskItem.taskType.displayIcon
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 120, height: 120)
-                    .foregroundColor(Color.pink)
+                if(taskItem.isCompleted){
+                    Image("checked")
+                }
+                else{
+                    taskItem.taskType.displayIcon
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
+                        .foregroundColor(Color.pink)
+                }
+                
             }
             // 텍스트는 이미지 바로 아래
             Text(taskItem.taskType.displayName)

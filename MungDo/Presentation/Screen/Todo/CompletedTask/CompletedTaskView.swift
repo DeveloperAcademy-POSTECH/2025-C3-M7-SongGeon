@@ -139,8 +139,12 @@ struct CompletedTaskView: View {
                             }
                         }
                     }) {
-                        CustomButtonLabel(title: "완료")
+                        // 버튼 레이블에도 상태 반영
+                        CustomButtonLabel(title: "완료", isEnabled: !allTasksCompleted)
                     }
+                    // allTasksCompleted가 true면 터치도 불가능하게
+                    .disabled(allTasksCompleted)
+
 
                     Spacer()
                 }
