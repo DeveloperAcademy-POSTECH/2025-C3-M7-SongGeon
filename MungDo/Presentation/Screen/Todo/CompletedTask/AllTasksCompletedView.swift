@@ -49,13 +49,13 @@ struct AllTasksCompletedView: View {
                     
                     Spacer()
                     
-                    // 돌아가기 버튼
-                    Button(action: {
-                        onDismiss()
-                    }) {
-                        CustomButtonLabel(title: "돌아가기")
-                    }
-                    .padding(.bottom, 50)
+//                    // 돌아가기 버튼
+//                    Button(action: {
+//                        onDismiss()
+//                    }) {
+//                        CustomButtonLabel(title: "돌아가기")
+//                    }
+//                    .padding(.bottom, 50)
                 }
             }
             .toolbar {
