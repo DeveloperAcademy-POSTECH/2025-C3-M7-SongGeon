@@ -34,9 +34,25 @@ struct CalendarAddTaskView: View {
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
-                        .multilineTextAlignment(.leading)
-                        .padding(.top, 50)
-                        .padding(.leading, 50)
+                    Spacer()
+                }
+                // 주기 안내 텍스트
+                VStack {
+                    HStack {
+                        Text("반복 주기")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+                        Spacer()
+                    }
+            }
+            
+                // 반복 주기 수정
+                HStack {
+                    Text(taskType.defaultCycleDescription)
+                        .font(.system(size: 16))
+                        .foregroundColor(.gray)
+
                     Spacer()
                 }
             }

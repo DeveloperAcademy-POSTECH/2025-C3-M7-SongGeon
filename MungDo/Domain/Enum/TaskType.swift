@@ -39,28 +39,24 @@ enum TaskType: String, CaseIterable, Identifiable, Hashable {
     }
     //임시 파일명이므로 나중에 아이콘 이미지 제작 완료 후 수정 필요
     
-    //Mark: 권장 태스크 주기 (모든 태스크가 일주일 주기)
+    //Mark: 권장 태스크 주기 (태스크당 주기)
     var defaultCycle: Int {
         switch self {
-        case .heartworm: return 7
-        case .vaccination: return 7
-        case .bath: return 7
-        case .externalParasite: return 7
+        case .heartworm: return 30
+        case .vaccination: return 365
+        case .bath: return 365
+        case .externalParasite: return 365
         case .walk: return 7
         }
     }
     
-    //Mark: 주기 표시 텍스트
-    var cycleDisplayText: String {
-        let days = defaultCycle
-        if days == 1 {
-            return "매일"
-        } else if days == 7 {
-            return "일주일마다"
-        } else if days % 7 == 0 {
-            return "\(days/7)주마다"
-        } else {
-            return "\(days)일마다"
-        }
-    }
+    //Mark: 권장 태스크 주기 설명
+    var defaultCycleDescription: String {
+        switch self {
+        case .heartworm: return "한 달마다 반복됩니다"
+        case .vaccination: return "1년마다 반복됩니다"
+        case .bath: return "1년마다 반복됩니다"
+        case .externalParasite: return "1년마다 반복됩니다"
+        case .walk: return "일주일마다 반복됩니다"
+
 }
