@@ -11,26 +11,40 @@ struct TaskTagCardView: View {
     let title: String
     let image: Image
     let isSelected: Bool
+    let cycleText: String
 
     var body: some View {
-        HStack(alignment: .center, spacing: 16){
-            ZStack {
-                Circle()
-                    .fill(Color("Secondary03"))
-                    .frame(width: 120, height: 120)
+        VStack(alignment: .center, spacing: 12) {
+            HStack(alignment: .center, spacing: 16){
+                ZStack {
+                    Circle()
+                        .fill(Color("Secondary03"))
+                        .frame(width: 120, height: 120)
 
-                image
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 80)
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                }
+
+                VStack(alignment: .leading, spacing: 20) {
+                    Text(title)
+                        .font(.system(size: 26, weight: .semibold))
+                    Text(cycleText)
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(Color.gray)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 8)
+
             }
-            Text(title)
-                .font(.system(size: 26, weight: .semibold))
+            
+
         }
 
-        .padding(.vertical, 60)
+        .padding(.vertical, 50)
         .padding(.horizontal, 40)
-        .frame(width: 370, height: 240, alignment: .topLeading)
+        .frame(width: 370, height: 280, alignment: .center)
         .background(Color.white)
         .cornerRadius(28)
         .overlay(
@@ -45,8 +59,8 @@ struct TaskTagCardView: View {
 
 #Preview {
     VStack(spacing: 20) {
-        TaskTagCardView(title: "심장사상충 약\n먹이기", image: Image("heartwormIcon"), isSelected: true)
-        TaskTagCardView(title: "산책하기", image: Image("walkIcon"), isSelected: false)
+        TaskTagCardView(title: "심장사상충 약\n먹이기", image: Image("heartwormIcon"), isSelected: true, cycleText: "매일")
+        TaskTagCardView(title: "산책하기", image: Image("walkIcon"), isSelected: false, cycleText: "매일")
     }
     .padding()
     .background(Color("BackgroundPrimary"))

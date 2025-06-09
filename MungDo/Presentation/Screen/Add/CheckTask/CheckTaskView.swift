@@ -14,7 +14,9 @@ struct CheckTaskView: View {
     @State private var showTaskFlow = false
     @State private var selectedDate = Date()
     @State private var reloadTrigger = UUID()
-    
+    @State private var showDeleteAlert = false
+    @State private var taskToDelete: TaskItem?
+
     // SwiftData에서 태스크를 불러오기
     @Query private var allTaskItems: [TaskItemEntity]
 
@@ -66,25 +68,36 @@ struct CheckTaskView: View {
                     Spacer()
                 }
 
-                ScrollView {
-                    LazyVStack(spacing: 12) {
-                        ForEach(tasksForSelectedDate, id: \.id) { taskItem in
-                            TaskListItemView(
-                                taskItem: taskItem,
-                                onToggleComplete: { updatedTask in
-                                    toggleTaskCompletion(updatedTask)
-                                }
-                            )
-                        }
-
-                        if tasksForSelectedDate.isEmpty {
-                            Text("이 날짜에는 예정된 일정이 없습니다")
-                                .foregroundColor(.gray)
-                                .padding()
+                // ScrollView 대신 List 사용
+                List {
+                    ForEach(tasksForSelectedDate, id: \.id) { taskItem in
+                        TaskListItemView(
+                            taskItem: taskItem,
+                            onToggleComplete: { updatedTask in
+                                toggleTaskCompletion(updatedTask)
+                            }
+                        )
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                deleteTask(taskItem)
+                            } label: {
+                                Label("삭제", systemImage: "trash")
+                            }
                         }
                     }
-                    .padding(.vertical)
+
+                    if tasksForSelectedDate.isEmpty {
+                        Text("이 날짜에는 예정된 일정이 없습니다")
+                            .foregroundColor(.gray)
+                            .padding()
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                    }
                 }
+                .listStyle(PlainListStyle())
+                .scrollContentBackground(.hidden)
                 .frame(maxHeight: .infinity)
 
                 Button(action: { showTaskFlow = true }) {
@@ -101,7 +114,7 @@ struct CheckTaskView: View {
                     onComplete: {
                         showTaskFlow = false
                         reloadTrigger = UUID() },
-                    
+
                     selectedDate: selectedDate
                 )
             }
@@ -121,6 +134,25 @@ struct CheckTaskView: View {
         }
         .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
+        .alert("일정 삭제", isPresented: $showDeleteAlert) {
+            Button("오늘 일정만 삭제하기", role: .destructive) {
+                if let task = taskToDelete {
+                    deleteTodayTask(task)
+                }
+                taskToDelete = nil
+            }
+            Button("전체 일정 삭제", role: .destructive) {
+                if let task = taskToDelete {
+                    deleteAllTasks(task)
+                }
+                taskToDelete = nil
+            }
+            Button("취소", role: .cancel) {
+                taskToDelete = nil
+            }
+        } message: {
+            Text("어떤 일정을 삭제하시겠습니까?")
+        }
     }
 
     // MARK: - Helper Methods
@@ -157,9 +189,45 @@ struct CheckTaskView: View {
 
         do {
             try modelContext.save()
+            // 캘린더 즉시 업데이트
+            reloadTrigger = UUID()
         } catch {
             print("Failed to save task: \(error)")
         }
+    }
+
+    private func deleteTask(_ task: TaskItem) {
+        taskToDelete = task
+        showDeleteAlert = true
+    }
+
+    private func deleteTodayTask(_ task: TaskItem) {
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: task.date)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
+
+        if let existingEntity = allTaskItems.first(where: { entity in
+            entity.taskTypeRawValue == task.taskType.rawValue &&
+            entity.date >= startOfDay && entity.date < endOfDay
+        }) {
+            modelContext.delete(existingEntity)
+            try? modelContext.save()
+            reloadTrigger = UUID() // 캘린더 업데이트
+        }
+    }
+
+    private func deleteAllTasks(_ task: TaskItem) {
+        // 해당 태스크 타입의 모든 일정 삭제 (자동 생성된 것들도 포함)
+        let tasksToDelete = allTaskItems.filter { entity in
+            entity.taskTypeRawValue == task.taskType.rawValue
+        }
+        
+        for taskEntity in tasksToDelete {
+            modelContext.delete(taskEntity)
+        }
+
+        try? modelContext.save()
+        reloadTrigger = UUID() // 캘린더 업데이트
     }
 }
 
