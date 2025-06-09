@@ -16,11 +16,10 @@ struct CustomButtonLabel: View {
     
     var body: some View {
         Text(title)
-            .font(.system(size: fontSize, weight: .bold))
-            .foregroundColor(.white)
+            .font(.bodyFontSmall)
+            .foregroundColor(.neutrals01)
             .frame(width: width, height: height)
-            .background(isEnabled ? Color.buttonPrimary : Color.buttonDisable)
+            .background(isEnabled ? Color.primary01 : Color.neutrals03)
             .cornerRadius(18)
     }
 }
-
