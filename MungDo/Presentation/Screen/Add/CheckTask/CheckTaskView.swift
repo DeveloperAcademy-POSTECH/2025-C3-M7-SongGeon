@@ -90,6 +90,7 @@ struct CheckTaskView: View {
 
                     if tasksForSelectedDate.isEmpty {
                         Text("이 날짜에는 예정된 일정이 없습니다")
+                            .font(.system(size: 36))
                             .foregroundColor(.gray)
                             .padding()
                             .listRowBackground(Color.clear)
