@@ -12,14 +12,15 @@ struct CustomButtonLabel: View {
     var isEnabled: Bool = true
     var width: CGFloat = 316
     var height: CGFloat = 64
-    var fontSize: CGFloat = 20
+    var fontSize: CGFloat = 24
     
     var body: some View {
         Text(title)
-            .font(.system(size: fontSize, weight: .semibold))
+            .font(.system(size: fontSize, weight: .bold))
             .foregroundColor(.white)
             .frame(width: width, height: height)
             .background(isEnabled ? Color.buttonPrimary : Color.buttonDisable)
             .cornerRadius(18)
     }
 }
+

@@ -25,6 +25,8 @@ struct NameAddTaskView: View {
                     .font(.largeTitle)
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
+                    .padding(.top, 50)
+                    .padding(.leading, 50)
                 Spacer()
                 
                 // 태스크 카드 그리드
@@ -40,7 +42,8 @@ struct NameAddTaskView: View {
                         TaskTagCardView(
                             title: taskType.displayName,
                             image: taskType.displayIcon,
-                            isSelected: selectedTaskType == taskType
+                            isSelected: selectedTaskType == taskType,
+                            cycleText: taskType.cycleDisplayText
                         )
                         .onTapGesture {
                             if selectedTaskType == taskType {
@@ -50,10 +53,9 @@ struct NameAddTaskView: View {
                             }
                         }
                     }
-                    .padding(.bottom, 76)
+//                    .padding(.bottom, 40)
                 }
-                //.padding(.bottom, 50)
-                
+                Spacer()
                 HStack {
                     Spacer()
                     if let selectedTask = selectedTaskType {
@@ -88,8 +90,6 @@ struct NameAddTaskView: View {
                     dismiss()
                 }) {
                     Image(systemName: "xmark")
-                        .resizable()
-                        .frame(width: 12, height: 20)
                         .foregroundColor(Color("ButtonSecondary"))
                 }
             }

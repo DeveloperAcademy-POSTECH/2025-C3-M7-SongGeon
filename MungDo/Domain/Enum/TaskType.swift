@@ -58,6 +58,5 @@ enum TaskType: String, CaseIterable, Identifiable, Hashable {
         case .bath: return "1년마다 반복됩니다"
         case .externalParasite: return "1년마다 반복됩니다"
         case .walk: return "일주일마다 반복됩니다"
-        }
-    }
+
 }
