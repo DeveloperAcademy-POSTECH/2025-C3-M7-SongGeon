@@ -13,7 +13,7 @@ struct FSCustomCalendarView: View {
     //task 생성 예시
     @State var tasks:[TaskItemEntity] = []
     //@Query private var allTaskItems: [TaskItemEntity]
-    @State private var currentPage: Date = Date()
+    @State var currentPage: Date
     @Binding var selectedDate: Date
     
     

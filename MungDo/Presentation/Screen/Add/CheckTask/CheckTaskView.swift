@@ -12,7 +12,7 @@ struct CheckTaskView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @State private var showTaskFlow = false
-    @State private var selectedDate = Date()
+    @State var selectedDate = Date()
     @State private var reloadTrigger = UUID()
     @State private var showDeleteAlert = false
     @State private var taskToDelete: TaskItem?
@@ -45,7 +45,7 @@ struct CheckTaskView: View {
         HStack(spacing: 40) {
             // 왼쪽 캘린더
             VStack {
-                FSCustomCalendarView(tasks: allTaskItems, selectedDate: $selectedDate)
+                FSCustomCalendarView(tasks: allTaskItems, currentPage: selectedDate, selectedDate: $selectedDate)
                     .id(reloadTrigger)
                     .aspectRatio(1.0, contentMode: .fit)
                     .padding()

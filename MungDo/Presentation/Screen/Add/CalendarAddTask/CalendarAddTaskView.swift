@@ -68,7 +68,7 @@ struct CalendarAddTaskView: View {
                     .background(.white)
                     .cornerRadius(20)
 
-                FSCustomCalendarView(selectedDate: $selectedDate)
+                FSCustomCalendarView(currentPage: selectedDate, selectedDate: $selectedDate)
                     .frame(width: 628, height: 403)
 //                TestCalendarView(selectedDate: $selectedDate)
 //                    .aspectRatio(1.6, contentMode: .fit)
