@@ -13,9 +13,9 @@ enum TaskType: String, CaseIterable, Identifiable, Hashable {
     case vaccination
     case bath
     case externalParasite
-
+    
     var id: String { rawValue }
-
+    
     //Mark: 태스크 텍스트로
     var displayName: String {
         switch self {
@@ -26,7 +26,7 @@ enum TaskType: String, CaseIterable, Identifiable, Hashable {
         case .externalParasite: return "외부기생충 약 먹이기"
         }
     }
-
+    
     //Mark: 태스크 아이콘 이미지
     var displayIcon: Image {
         switch self {
@@ -58,5 +58,7 @@ enum TaskType: String, CaseIterable, Identifiable, Hashable {
         case .bath: return "1년마다 반복됩니다"
         case .externalParasite: return "1년마다 반복됩니다"
         case .walk: return "일주일마다 반복됩니다"
-
+            
+        }
+    }
 }

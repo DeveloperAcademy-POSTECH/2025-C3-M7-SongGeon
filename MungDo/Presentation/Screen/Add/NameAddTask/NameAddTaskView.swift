@@ -43,7 +43,7 @@ struct NameAddTaskView: View {
                             title: taskType.displayName,
                             image: taskType.displayIcon,
                             isSelected: selectedTaskType == taskType,
-                            cycleText: taskType.cycleDisplayText
+                            cycleText: taskType.defaultCycleDescription
                         )
                         .onTapGesture {
                             if selectedTaskType == taskType {

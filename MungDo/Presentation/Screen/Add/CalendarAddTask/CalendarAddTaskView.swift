@@ -30,7 +30,7 @@ struct CalendarAddTaskView: View {
             VStack(spacing: 16) {
                 // 완전히 한 문장으로 통합
                 HStack {
-                    Text("'\(taskType.displayName)'가 \(dateFormatter.string(from: selectedDate))부터 \(taskType.cycleDisplayText) 반복돼요.")
+                    Text("'\(taskType.displayName)'가 \(dateFormatter.string(from: selectedDate))부터 \(taskType.defaultCycleDescription) 반복돼요.")
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
