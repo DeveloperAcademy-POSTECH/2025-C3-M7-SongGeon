@@ -17,7 +17,7 @@ struct HomeCardView: View {
         VStack(spacing: 16){
             ZStack{
                 RoundedRectangle(cornerRadius:20)
-                    .fill(Color("ButtonPrimary"))
+                    .fill(Color.primary01)
                 image
                     .resizable()
                     .scaledToFit()
@@ -34,8 +34,8 @@ struct HomeCardView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 50)
-                .fill(Color("ButtonSecondary"))
-                .shadow(color: Color.buttonPrimary.opacity(0.4), radius: 20, x: 4, y: 4)
+                .fill(Color.secondary01)
+                .shadow(color: Color.primary01.opacity(0.4), radius: 20, x: 4, y: 4)
             
         )
         .padding(.vertical, 32)

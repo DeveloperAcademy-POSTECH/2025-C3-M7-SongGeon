@@ -12,7 +12,7 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.backgroundPrimary.edgesIgnoringSafeArea(.all)
+                Color.primary02.edgesIgnoringSafeArea(.all)
                 VStack(spacing: 50) {
                     HStack() {
                         NavigationLink(destination: CheckTaskView()) {
