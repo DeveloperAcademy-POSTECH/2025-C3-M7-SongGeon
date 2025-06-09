@@ -23,43 +23,32 @@ struct CalendarAddTaskView: View {
         self.onComplete = onComplete
         self.selectedDate = selectedDate
     }
-
+    
     var body: some View {
         VStack(spacing: 40) {
             
             VStack(spacing: 16) {
                 // 완전히 한 문장으로 통합
                 HStack {
-                    Text("'\(taskType.displayName)'가 \(dateFormatter.string(from: selectedDate))부터 \(taskType.defaultCycleDescription) 반복돼요.")
+                    Text("'\(taskType.displayName)'가 ")
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.black)
+                    Text("\(dateFormatter.string(from: selectedDate))")
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.buttonSecondary)
+                    Text("부터 \(taskType.defaultCycleDescription) 주기로 반복돼요.")
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
                     Spacer()
                 }
-                // 주기 안내 텍스트
-                VStack {
-                    HStack {
-                        Text("반복 주기")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.black)
-                        Spacer()
-                    }
-            }
-            
-                // 반복 주기 수정
-                HStack {
-                    Text(taskType.defaultCycleDescription)
-                        .font(.system(size: 16))
-                        .foregroundColor(.gray)
-
-                    Spacer()
-                }
             }
             .padding(.horizontal)
-
+            
             Spacer()
-
+            
             // 캘린더 view
             ZStack {
                 Rectangle()
@@ -67,26 +56,26 @@ struct CalendarAddTaskView: View {
                     .frame(width: 700, height: 450)
                     .background(.white)
                     .cornerRadius(20)
-
+                
                 FSCustomCalendarView(currentPage: selectedDate, selectedDate: $selectedDate)
                     .frame(width: 628, height: 403)
-//                TestCalendarView(selectedDate: $selectedDate)
-//                    .aspectRatio(1.6, contentMode: .fit)
-//                    .padding()
-//                    .background(
-//                        RoundedRectangle(cornerRadius: 20)
-//                            .fill(Color.white)
-//                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-//                    )
-//                    .frame(maxWidth: 600)
-
+                //                TestCalendarView(selectedDate: $selectedDate)
+                //                    .aspectRatio(1.6, contentMode: .fit)
+                //                    .padding()
+                //                    .background(
+                //                        RoundedRectangle(cornerRadius: 20)
+                //                            .fill(Color.white)
+                //                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                //                    )
+                //                    .frame(maxWidth: 600)
+                
                 Spacer()
             }
             .padding(.top, 50)
             Spacer()
-
+            
             Spacer()
-
+            
             // 완료 버튼
             HStack {
                 Spacer()
@@ -94,7 +83,7 @@ struct CalendarAddTaskView: View {
                     saveTasks()
                     onComplete()
                 }) {
-                    CustomButtonLabel(title: "완료")
+                    CustomButtonLabel(title: "다 됐어요")
                 }
                 Spacer()
             }
@@ -117,10 +106,9 @@ struct CalendarAddTaskView: View {
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    dismiss()
+                    onComplete()
                 }) {
                     Image(systemName: "xmark")
-
                         .foregroundColor(Color("ButtonSecondary"))
                 }
             }
@@ -128,20 +116,20 @@ struct CalendarAddTaskView: View {
         .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
     }
-
+    
     // MARK: - Helper Methods
-
+    
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 M월 d일"
         formatter.locale = Locale(identifier: "ko_KR")
         return formatter
     }
-
+    
     private func saveTasks() {
         let calendar = Calendar.current
         let cycleDays = taskType.defaultCycle // 7일
-
+        
         // 선택한 날짜부터 3개의 태스크 생성
         for i in 0..<3 {
             guard let taskDate = calendar.date(byAdding: .day, value: i * cycleDays, to: selectedDate) else {
@@ -159,7 +147,7 @@ struct CalendarAddTaskView: View {
             )
             modelContext.insert(newTask)
         }
-
+        
         do {
             try modelContext.save()
             print("3 Tasks saved successfully for \(taskType.displayName)")
