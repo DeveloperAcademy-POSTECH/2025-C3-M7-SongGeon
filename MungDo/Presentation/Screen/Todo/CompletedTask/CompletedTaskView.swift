@@ -17,20 +17,23 @@ struct CompletedTaskView: View {
     // SwiftData에서 오늘의 태스크를 불러오기
     @Query private var allTaskItems: [TaskItemEntity]
 
-    // 오늘 저장된 태스크들만 (스케줄에서 생성된 것 제외)
+    // 오늘 저장된 태스크들만
     private var todayTasks: [TaskItem] {
         let today = Date()
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: today)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
 
-        // 저장된 태스크 중 오늘 것들만 반환 (스케줄에 따라 생성된 것 제외)
-        let savedTasks = allTaskItems.filter { entity in
-            entity.date >= startOfDay && entity.date < endOfDay
-        }.map { $0.toTaskItem() }
-
-        return savedTasks
+        return allTaskItems
+            .filter { $0.date >= startOfDay && $0.date < endOfDay }
+            .map { $0.toTaskItem() }
     }
+
+    //
+    private var taskCnt: Int {
+        todayTasks.count
+    }
+    
 
     // 모든 태스크 완료 여부 확인
     private var allTasksCompleted: Bool {
@@ -65,6 +68,22 @@ struct CompletedTaskView: View {
                             .foregroundColor(.gray)
                     }
                 } else {
+                    HStack(spacing: 16) {
+                        Text("오늘 할 일")
+                            .font(.largeTitle)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+
+                        Text("\(taskCnt)개")
+                            .font(.title2)
+                            .foregroundColor(.black)
+                            .padding(.top, 10)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)  // ← 화면 전체 너비 차지 + 왼쪽 정렬
+                    .padding(.top, 50)
+                    .padding(.leading, 50)
+                   
+                   
                     // 카드 캐러셀
                     ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false) {
