@@ -62,9 +62,9 @@ struct CheckTaskView: View {
                 Spacer()
                 HStack {
                     Text(dateFormatter.string(from: selectedDate) + "의 일정")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.black)
+                        .font(.headingFont)
+//                        .fontWeight(.bold)
+                        .foregroundColor(.primary03)
                     Spacer()
                 }
 

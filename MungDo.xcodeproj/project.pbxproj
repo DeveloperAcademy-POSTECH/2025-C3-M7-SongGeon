@@ -24,6 +24,7 @@
 		FF13BCAB2DF2F1A700A5B05F /* Exceptions for "MungDo" folder in "MungDo" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Info.plist,
 				Presentation/ReusableView/CustomButtonLabel.swift,
 				Presentation/ReusableView/TaskTagCardView.swift,
 			);
@@ -294,6 +295,7 @@
 				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MungDo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -327,6 +329,7 @@
 				DEVELOPMENT_TEAM = 2L2X5S9BFQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MungDo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
