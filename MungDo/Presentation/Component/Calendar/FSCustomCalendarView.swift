@@ -23,6 +23,7 @@ struct FSCustomCalendarView: View {
                 HStack {
                     Button {
                         currentPage = Date()
+                        selectedDate = Date()
                     } label: {
                         Text("오늘")
                             .font(.system(size: 16))
