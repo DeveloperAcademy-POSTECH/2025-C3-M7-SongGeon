@@ -18,11 +18,13 @@ struct HomeView: View {
                         NavigationLink(destination: CheckTaskView()) {
                             HomeCardView(image:Image("Home/home_add"), title:"날짜별로 모아보기")
                         }
+                        .padding(.horizontal, 24)
                         NavigationLink(destination: CompletedTaskView()) {
                             HomeCardView(image:Image("Home/home_look"), title:"오늘 할 일 열어놓기")
                         }
+                        .padding(.horizontal, 24)
                     }
-                    .padding(.horizontal, 48)
+                    .padding(24)
                 }
             }
         }
