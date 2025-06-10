@@ -13,8 +13,8 @@ struct TaskListItemView: View {
     let onToggleComplete: (TaskItem) -> Void
 
     var body: some View {
-        HStack(spacing: 16) {
-            // 아이콘
+        HStack {
+            //MARK: - 아이콘
             ZStack {
                 Circle()
                     .fill(Color("Secondary03"))
@@ -26,7 +26,7 @@ struct TaskListItemView: View {
                     .frame(width: 30, height: 30)
             }
 
-            // 제목
+            //MARK: - Task 타이틀
             VStack(alignment: .leading, spacing: 2) {
                 Text(taskItem.taskType.displayName)
                     .font(.system(size: 16, weight: .medium))
@@ -36,7 +36,7 @@ struct TaskListItemView: View {
 
             Spacer()
 
-            // 완료 체크박스
+            //MARK: - 체크 버튼
             Button(action: {
                 onToggleComplete(taskItem)
             }) {
@@ -55,9 +55,9 @@ struct TaskListItemView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
-        .background(Color.white)
-        .cornerRadius(12)
-        .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+        .background(Color.neutrals01)
+        .cornerRadius(14)
+        .shadow(color: Color(red: 1, green: 0.45, blue: 0.38).opacity(0.08), radius: 6, x: 0, y: 4)
     }
 }
 

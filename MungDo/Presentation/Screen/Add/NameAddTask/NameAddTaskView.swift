@@ -84,18 +84,22 @@ struct NameAddTaskView: View {
             selectedTaskType = nil
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "xmark")
-                        .foregroundColor(Color("ButtonSecondary"))
-                }
-            }
+        .toolbar{
+            CustomToolBar(showBack:false, onBack: {},showXMark: true, onXMark: {onComplete()})
         }
-        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+//        .navigationBarBackButtonHidden(true)
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button(action: {
+//                    dismiss()
+//                }) {
+//                    Image(systemName: "xmark")
+//                        .foregroundColor(Color("ButtonSecondary"))
+//                }
+//            }
+//        }
+//        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
+//        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 

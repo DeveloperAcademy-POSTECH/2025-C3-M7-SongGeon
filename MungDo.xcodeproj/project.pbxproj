@@ -25,7 +25,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				Presentation/ReusableView/CustomButtonLabel.swift,
 				Presentation/ReusableView/TaskTagCardView.swift,
 			);
 			target = FFCD0AC92DE809A60081B599 /* MungDo */;
