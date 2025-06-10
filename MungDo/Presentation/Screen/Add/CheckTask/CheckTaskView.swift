@@ -40,124 +40,113 @@ struct CheckTaskView: View {
 
         return savedTasks
     }
-
+    
     var body: some View {
-        HStack(spacing: 40) {
-            // 왼쪽 캘린더
-            VStack {
-                FSCustomCalendarView(tasks: allTaskItems, currentPage: selectedDate, selectedDate: $selectedDate)
-                    .id(reloadTrigger)
-                    .aspectRatio(1.0, contentMode: .fit)
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color.white)
-                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                    )
-            }
-            .frame(maxWidth: .infinity)
-
-            // 오른쪽 태스크 리스트
-            VStack(spacing: 20) {
-                Spacer()
-                HStack {
-                    Text(dateFormatter.string(from: selectedDate) + "의 일정")
-                        .font(.headingFont)
-//                        .fontWeight(.bold)
+        GeometryReader { geometry in
+            let availableHeight = geometry.size.height*0.85
+            HStack{
+                //MARK: - 왼쪽 캘린더
+                VStack(alignment: .leading) {
+                    Text("날짜별로 모아보기")
+                        .font(.headingFontMeidum)
                         .foregroundColor(.primary03)
-                    Spacer()
-                }
 
-                // ScrollView 대신 List 사용
-                List {
-                    ForEach(tasksForSelectedDate, id: \.id) { taskItem in
-                        TaskListItemView(
-                            taskItem: taskItem,
-                            onToggleComplete: { updatedTask in
-                                toggleTaskCompletion(updatedTask)
-                            }
+                    FSCustomCalendarView(tasks: allTaskItems, currentPage: selectedDate, selectedDate: $selectedDate)
+                        .frame(width: availableHeight, height: availableHeight)
+                        .id(reloadTrigger)
+                        .aspectRatio(1.0, contentMode: .fit)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.neutrals01)
+                                .shadow(color: Color(red: 1, green: 0.45, blue: 0.38).opacity(0.08), radius: 6, x: 0, y: 4)
                         )
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                deleteTask(taskItem)
-                            } label: {
-                                Label("삭제", systemImage: "trash")
-                            }
-                        }
-                    }
+                }
+                Spacer(minLength:24)
+                //MARK: - 오른쪽 태스크 리스트
+                VStack(alignment: .leading) {
+                    Text(dateFormatter.string(from: selectedDate) + "의 일정")
+                        .font(.bodyFontLarge)
+                        .foregroundColor(.neutrals03)
 
-                    if tasksForSelectedDate.isEmpty {
-                        Text("이 날 예정된 일정이 없어요.")
-                            .font(.system(size: 36))
-                            .foregroundColor(.gray)
-                            .padding()
+                    List {
+                        ForEach(tasksForSelectedDate, id: \.id) { taskItem in
+                            TaskListItemView(
+                                taskItem: taskItem,
+                                onToggleComplete: { updatedTask in
+                                    toggleTaskCompletion(updatedTask)
+                                }
+                            )
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(role: .destructive) {
+                                    deleteTask(taskItem)
+                                } label: {
+                                    Label("삭제", systemImage: "trash")
+                                }
+                            }
+                        }
+
+                        if tasksForSelectedDate.isEmpty {
+                            Text("이 날 예정된 일정이 없어요.")
+                                .font(.headingFontMeidum)
+                                .foregroundColor(.primary03)
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                        }
                     }
+                    .listStyle(PlainListStyle())
+                    .scrollContentBackground(.hidden)
+                    .frame(maxHeight: .infinity)
+                    Spacer()
+                    Button("새로운 할 일 추가하기") {
+                        showTaskFlow = true
+                    }
+                    .buttonStyle(AddTaskButtonStyle())
                 }
-                .listStyle(PlainListStyle())
-                .scrollContentBackground(.hidden)
-                .frame(maxHeight: .infinity)
-
-                Button(action: { showTaskFlow = true }) {
-                    CustomButtonLabel(title: "추가하기")
-                }
+                .frame(maxWidth: .infinity)
             }
-            .frame(maxWidth: .infinity)
-        }
-        .padding()
-        .background(Color("BackgroundPrimary"))
-        .fullScreenCover(isPresented: $showTaskFlow) {
-            NavigationStack {
-                NameAddTaskView(
-                    onComplete: {
-                        showTaskFlow = false
-                        reloadTrigger = UUID() },
-
-                    selectedDate: selectedDate
-                )
-            }
-        }
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .resizable()
-                        .frame(width: 12, height: 20)
-                        .foregroundColor(Color("ButtonSecondary"))
+            .padding(geometry.size.height*0.05)
+            .background(Color.primary02)
+            .fullScreenCover(isPresented: $showTaskFlow) {
+                NavigationStack {
+                    NameAddTaskView(
+                        onComplete: {
+                            showTaskFlow = false
+                            reloadTrigger = UUID() },
+                        selectedDate: selectedDate
+                    )
                 }
             }
-        }
-        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .alert("일정 삭제", isPresented: $showDeleteAlert) {
-            Button("오늘 일정만 삭제하기", role: .destructive) {
-                if let task = taskToDelete {
-                    deleteTodayTask(task)
+            //MARK: - Toolbar 영역
+            .navigationBarBackButtonHidden(true)
+            .toolbar{
+                CustomToolBar(onBack: {dismiss()}, onXMark: {})
+            }
+            //MARK: - Alert 영역
+            .alert("일정 삭제", isPresented: $showDeleteAlert) {
+                Button("오늘 일정만 삭제하기", role: .destructive) {
+                    if let task = taskToDelete {
+                        deleteTodayTask(task)
+                    }
+                    taskToDelete = nil
                 }
-                taskToDelete = nil
-            }
-            Button("전체 일정 삭제", role: .destructive) {
-                if let task = taskToDelete {
-                    deleteAllTasks(task)
+                Button("전체 일정 삭제", role: .destructive) {
+                    if let task = taskToDelete {
+                        deleteAllTasks(task)
+                    }
+                    taskToDelete = nil
                 }
-                taskToDelete = nil
+                Button("취소", role: .cancel) {
+                    taskToDelete = nil
+                }
+            } message: {
+                Text("어떤 일정을 삭제하시겠습니까?")
             }
-            Button("취소", role: .cancel) {
-                taskToDelete = nil
-            }
-        } message: {
-            Text("어떤 일정을 삭제하시겠습니까?")
         }
     }
 
     // MARK: - Helper Methods
-
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "M월 d일"
@@ -232,9 +221,9 @@ struct CheckTaskView: View {
     }
 }
 
-//#Preview {
-//    NavigationStack {
-//        CheckTaskView()
-//    }
-//    .modelContainer(for: [TaskItemEntity.self, TaskScheduleEntity.self])
-//}
+#Preview {
+    NavigationStack {
+        CheckTaskView(selectedDate: Date())
+    }
+    .modelContainer(for: [TaskItemEntity.self])
+}
