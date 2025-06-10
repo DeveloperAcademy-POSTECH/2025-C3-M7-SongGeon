@@ -9,7 +9,8 @@ import SwiftUI
 
 extension Font{
     //Font의 색상은 Primary03으로 지정해주세요
-    static let headingFont: Font = custom("SUIT-Bold", size: 36)
+    static let headingFontLarge: Font = custom("SUIT-Bold", size: 50)
+    static let headingFontMeidum: Font = custom("SUIT-Bold", size: 40)
     
     static let bodyFontLarge: Font = custom("SUIT-Medium", size:  32)
     static let bodyFontMedium: Font = custom("SUIT-Medium", size:  22)
