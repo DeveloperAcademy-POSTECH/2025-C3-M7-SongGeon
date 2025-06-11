@@ -90,7 +90,7 @@ struct CompletedTaskView: View {
                             LazyHStack(spacing: 40) {
                                 // 첫 번째 셀을 가운데에 오게 하기 위한 leading spacer
                                 Spacer()
-                                    .frame(width: (UIScreen.main.bounds.width - 647) / 2)
+                                    .frame(width: (UIScreen.main.bounds.width - 720) / 2)
 
                                 ForEach(Array(todayTasks.enumerated()), id: \.element.id) { index, task in
                                     ZStack {
