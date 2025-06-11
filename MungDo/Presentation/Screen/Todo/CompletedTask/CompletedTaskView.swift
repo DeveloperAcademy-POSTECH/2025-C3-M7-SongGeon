@@ -70,14 +70,13 @@ struct CompletedTaskView: View {
                 } else {
                     HStack(spacing: 16) {
                         Text("오늘 할 일")
-                            .font(.largeTitle)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.black)
+                            .font(.headingFontMeidum)
+                            .foregroundColor(.primary03)
 
                         Text("\(taskCnt)개")
-                            .font(.title2)
-                            .foregroundColor(.black)
-                            .padding(.top, 10)
+                            .font(.headingFontSmall)
+                            .foregroundColor(.neutrals03)
+                            .padding(.top, 4)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)  // ← 화면 전체 너비 차지 + 왼쪽 정렬
                     .padding(.top, 50)
