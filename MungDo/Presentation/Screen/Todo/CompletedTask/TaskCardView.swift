@@ -23,6 +23,10 @@ struct TaskCardView: View {
                 // TaskType의 displayIcon 사용
                 if(taskItem.isCompleted){
                     Image("checked")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
+                        .foregroundColor(Color.pink)
                 }
                 else{
                     taskItem.taskType.displayIcon

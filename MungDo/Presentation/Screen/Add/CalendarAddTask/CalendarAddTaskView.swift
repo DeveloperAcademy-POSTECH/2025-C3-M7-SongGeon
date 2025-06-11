@@ -83,6 +83,7 @@ struct CalendarAddTaskView: View {
                     onComplete()
                 }) {
                     CustomButtonLabel(title: "다 됐어요")
+                        .shadow(color: Color(red: 1, green: 0.44, blue: 0.38).opacity(0.2), radius: 6, x: 4, y: 4)
                 }
                 Spacer()
             }

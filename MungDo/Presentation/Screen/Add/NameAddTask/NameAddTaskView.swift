@@ -71,6 +71,7 @@ struct NameAddTaskView: View {
                     } else {
                         // 비활성화된 버튼처럼 보이도록 디자인
                         CustomButtonLabel(title: "다음", isEnabled: false)
+                            .shadow(color: Color(red: 1, green: 0.44, blue: 0.38).opacity(0.2), radius: 6, x: 4, y: 4)
                     }
                     Spacer()
                 }
