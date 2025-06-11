@@ -42,8 +42,8 @@ struct AllTasksCompletedView: View {
                     // 축하 메시지
                     VStack(spacing: 10) {
                         Text("오늘의 할일을 모두 마쳤어요!")
-                            .font(.system(size: 28, weight: .bold))
-                            .foregroundColor(.black)
+                            .font(.headingFontMeidum)
+                            .foregroundColor(.primary03)
                             .multilineTextAlignment(.center)
                     }
                     
