@@ -160,9 +160,14 @@ struct CompletedTaskView: View {
                     }) {
                         // 버튼 레이블에도 상태 반영
                         CustomButtonLabel(title: "완료", isEnabled: !allTasksCompleted)
+                            .shadow(color: allTasksCompleted ? Color.clear :Color(red: 1, green: 0.44, blue: 0.38).opacity(0.2), radius: 6, x: 4, y: 4)
                     }
                     // allTasksCompleted가 true면 터치도 불가능하게
+                    
                     .disabled(allTasksCompleted)
+                    .shadow(radius: 0)
+                    
+
 
 
                     Spacer()
