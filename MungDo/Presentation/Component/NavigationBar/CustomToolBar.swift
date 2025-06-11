@@ -19,7 +19,7 @@ struct CustomToolBar: ToolbarContent {
                 Button(action: onBack) {
                     Image(systemName: "chevron.left")
                         .resizable()
-                        .frame(width: 12, height: 20)
+                        .frame(width: 24, height: 40)
                         .foregroundColor(Color.secondary01)
                 }
             }
@@ -35,7 +35,7 @@ struct CustomToolBar: ToolbarContent {
                 Button(action: onXMark) {
                     Image(systemName: "xmark")
                         .resizable()
-                        .frame(width: 13, height: 15)
+                        .frame(width: 26, height: 30)
                         .foregroundColor(Color.secondary01)
                 }
             }

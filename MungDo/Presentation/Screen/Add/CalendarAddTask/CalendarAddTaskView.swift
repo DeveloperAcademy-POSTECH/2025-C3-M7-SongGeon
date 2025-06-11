@@ -93,28 +93,8 @@ struct CalendarAddTaskView: View {
         .background(Color("BackgroundPrimary"))
         .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .resizable()
-                        .frame(width: 12, height: 20)
-                        .foregroundColor(Color("ButtonSecondary"))
-                }
-            }
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    onComplete()
-                }) {
-                    Image(systemName: "xmark")
-                        .foregroundColor(Color("ButtonSecondary"))
-                }
-            }
+            CustomToolBar(onBack: {dismiss()}, showXMark: true, onXMark: {onComplete()})
         }
-        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
     }
     
     // MARK: - Helper Methods
