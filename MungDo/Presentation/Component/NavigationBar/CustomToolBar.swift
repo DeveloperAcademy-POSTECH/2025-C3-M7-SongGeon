@@ -35,7 +35,7 @@ struct CustomToolBar: ToolbarContent {
                 Button(action: onXMark) {
                     Image(systemName: "xmark")
                         .resizable()
-                        .frame(width: 26, height: 30)
+                        .frame(width: 26, height: 26)
                         .foregroundColor(Color.secondary01)
                 }
             }

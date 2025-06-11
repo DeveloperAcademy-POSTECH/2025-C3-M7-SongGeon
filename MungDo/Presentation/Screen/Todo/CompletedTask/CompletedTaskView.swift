@@ -176,19 +176,8 @@ struct CompletedTaskView: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .resizable()
-                        .frame(width: 12, height: 20)
-                        .foregroundColor(Color("ButtonSecondary"))
-                }
-            }
+            CustomToolBar(onBack: {dismiss()}, onXMark: {})
         }
-        .toolbarBackground(Color("BackgroundPrimary"), for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
     }
 
     // MARK: - Helper Methods
