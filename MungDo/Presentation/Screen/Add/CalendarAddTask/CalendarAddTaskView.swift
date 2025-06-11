@@ -26,7 +26,7 @@ struct CalendarAddTaskView: View {
     
     var body: some View {
         VStack(spacing: 40) {
-            
+            Spacer()
             VStack(spacing: 16) {
                 // 완전히 한 문장으로 통합
                 HStack {
@@ -45,20 +45,21 @@ struct CalendarAddTaskView: View {
                     Spacer()
                 }
             }
+            .padding(.top, 40)
             .padding(.horizontal)
             
-            Spacer()
+            //Spacer()
             
             // 캘린더 view
             ZStack {
                 Rectangle()
                     .foregroundColor(.clear)
-                    .frame(width: 700, height: 450)
+                    .frame(width: 850, height: 600)
                     .background(.white)
                     .cornerRadius(20)
                 
                 FSCustomCalendarView(currentPage: selectedDate, selectedDate: $selectedDate)
-                    .frame(width: 628, height: 403)
+                    .frame(width: 800, height: 550)
                 //                TestCalendarView(selectedDate: $selectedDate)
                 //                    .aspectRatio(1.6, contentMode: .fit)
                 //                    .padding()
@@ -69,12 +70,10 @@ struct CalendarAddTaskView: View {
                 //                    )
                 //                    .frame(maxWidth: 600)
                 
-                Spacer()
             }
-            .padding(.top, 50)
-            Spacer()
-            
-            Spacer()
+            .padding(.top, 10)
+            .padding(.bottom, 50)
+            //Spacer()
             
             // 완료 버튼
             HStack {
@@ -87,6 +86,8 @@ struct CalendarAddTaskView: View {
                 }
                 Spacer()
             }
+            .padding(.bottom, 40)
+            Spacer()
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
