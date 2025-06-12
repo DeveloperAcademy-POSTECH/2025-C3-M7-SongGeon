@@ -10,7 +10,7 @@ import SwiftUI
 struct CustomButtonLabel: View {
     let title: String
     var isEnabled: Bool = true
-    var width: CGFloat = 316
+    var width: CGFloat = 400
     var height: CGFloat = 64
     var fontSize: CGFloat = 24
     

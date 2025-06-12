@@ -30,8 +30,8 @@ struct TaskListItemView: View {
             //MARK: - Task 타이틀
             VStack(alignment: .leading, spacing: 2) {
                 Text(taskItem.taskType.displayName)
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(.black)
+                    .font(.bodyFontSmall)
+                    .foregroundColor(.primary03)
                     .multilineTextAlignment(.leading)
             }
             Spacer()

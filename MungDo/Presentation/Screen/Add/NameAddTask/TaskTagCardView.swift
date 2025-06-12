@@ -14,7 +14,7 @@ struct TaskTagCardView: View {
     let cycleText: String
 
     var body: some View {
-        VStack(alignment: .center, spacing: 12) {
+        VStack(alignment: .center) {
             HStack(alignment: .center, spacing: 16){
                 ZStack {
                     Circle()
@@ -26,25 +26,21 @@ struct TaskTagCardView: View {
                         .scaledToFit()
                         .frame(width: 80, height: 80)
                 }
-
+                
                 VStack(alignment: .leading, spacing: 20) {
                     Text(title)
-                        .font(.system(size: 26, weight: .semibold))
+                        .font(.bodyFontMedium)
+                        .foregroundColor(Color.primary03)
                     Text(cycleText)
-                        .font(.system(size: 16, weight: .medium))
+                        .font(.bodyFontLittle)
                         .foregroundColor(Color.gray)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 8)
-
             }
-            
-
         }
-
-        .padding(.vertical, 50)
         .padding(.horizontal, 40)
-        .frame(width: 370, height: 280, alignment: .center)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .background(Color.white)
         .cornerRadius(28)
         .overlay(

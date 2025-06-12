@@ -25,78 +25,62 @@ struct CalendarAddTaskView: View {
     }
     
     var body: some View {
-        VStack(spacing: 40) {
-            Spacer()
-            VStack(spacing: 16) {
-                // 완전히 한 문장으로 통합
+        GeometryReader { geometry in
+            VStack {
+                VStack {
+                    // 완전히 한 문장으로 통합
+                    HStack {
+                        Text("'\(taskType.displayName)'가 ")
+                            .font(.headingFontMeidum)
+                            .foregroundColor(.primary03)
+                        Text("\(dateFormatter.string(from: selectedDate))")
+                            .font(.headingFontMeidum)
+                            .foregroundColor(.secondary01)
+                        Text("부터 \(taskType.defaultCycleDescription) 주기로 반복돼요.")
+                            .font(.headingFontMeidum)
+                            .foregroundColor(.primary03)
+                        Spacer()
+                    }
+                }
+                Spacer()
+                
+                // 캘린더 view
+                ZStack {
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(width: geometry.size.width * 0.65, height: geometry.size.width * 0.45)
+                        .background(.white)
+                        .cornerRadius(20)
+                    
+                    FSCustomCalendarView(currentPage: selectedDate, selectedDate: $selectedDate)
+                        .frame(width: geometry.size.width * 0.6, height: geometry.size.width * 0.4)
+                }
+                .padding(geometry.size.height*0.01)
+            
+                Spacer()
+            
+                // 완료 버튼
                 HStack {
-                    Text("'\(taskType.displayName)'가 ")
-                        .font(.largeTitle)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.black)
-                    Text("\(dateFormatter.string(from: selectedDate))")
-                        .font(.largeTitle)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.buttonSecondary)
-                    Text("부터 \(taskType.defaultCycleDescription) 주기로 반복돼요.")
-                        .font(.largeTitle)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.black)
+                    Spacer()
+                    Button(action: {
+                        saveTasks()
+                        onComplete()
+                    }) {
+                        CustomButtonLabel(title: "다 됐어요")
+                            .shadow(color: Color(red: 1, green: 0.44, blue: 0.38).opacity(0.2), radius: 6, x: 4, y: 4)
+                    }
                     Spacer()
                 }
             }
-            .padding(.top, 40)
-            .padding(.horizontal)
-            
-            //Spacer()
-            
-            // 캘린더 view
-            ZStack {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 850, height: 600)
-                    .background(.white)
-                    .cornerRadius(20)
-                
-                FSCustomCalendarView(currentPage: selectedDate, selectedDate: $selectedDate)
-                    .frame(width: 800, height: 550)
-                //                TestCalendarView(selectedDate: $selectedDate)
-                //                    .aspectRatio(1.6, contentMode: .fit)
-                //                    .padding()
-                //                    .background(
-                //                        RoundedRectangle(cornerRadius: 20)
-                //                            .fill(Color.white)
-                //                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                //                    )
-                //                    .frame(maxWidth: 600)
-                
+            .padding(geometry.size.height*0.05)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color("BackgroundPrimary"))
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                CustomToolBar(onBack: {dismiss()}, showXMark: true, onXMark: {onComplete()})
             }
-            .padding(.top, 10)
-            .padding(.bottom, 50)
-            //Spacer()
-            
-            // 완료 버튼
-            HStack {
-                Spacer()
-                Button(action: {
-                    saveTasks()
-                    onComplete()
-                }) {
-                    CustomButtonLabel(title: "다 됐어요")
-                        .shadow(color: Color(red: 1, green: 0.44, blue: 0.38).opacity(0.2), radius: 6, x: 4, y: 4)
-                }
-                Spacer()
-            }
-            .padding(.bottom, 40)
-            Spacer()
         }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("BackgroundPrimary"))
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            CustomToolBar(onBack: {dismiss()}, showXMark: true, onXMark: {onComplete()})
-        }
+
     }
     
     // MARK: - Helper Methods
