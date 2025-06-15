@@ -16,4 +16,5 @@ extension Font{
     static let bodyFontLarge: Font = custom("SUIT-Medium", size:  32)
     static let bodyFontMedium: Font = custom("SUIT-Medium", size:  22)
     static let bodyFontSmall: Font = custom("SUIT-Medium", size:  18)
+    static let bodyFontLittle: Font = custom("SUIT-Medium", size:  16)
 }

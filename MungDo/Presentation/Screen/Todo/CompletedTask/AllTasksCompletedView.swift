@@ -48,28 +48,10 @@ struct AllTasksCompletedView: View {
                     }
                     
                     Spacer()
-                    
-//                    // 돌아가기 버튼
-//                    Button(action: {
-//                        onDismiss()
-//                    }) {
-//                        CustomButtonLabel(title: "돌아가기")
-//                    }
-//                    .padding(.bottom, 50)
                 }
             }
             .toolbar {
-                // X 버튼 추가
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        dismiss() // 모달 닫기
-                    }) {
-                        Image(systemName: "xmark")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(Color("ButtonSecondary"))
-                    }
-                }
+                CustomToolBar(showBack: false, onBack: {}, showXMark: true, onXMark: {dismiss()})
             }
         }
     }

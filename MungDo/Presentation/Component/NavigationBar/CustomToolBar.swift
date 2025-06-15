@@ -19,13 +19,15 @@ struct CustomToolBar: ToolbarContent {
                 Button(action: onBack) {
                     Image(systemName: "chevron.left")
                         .resizable()
-                        .frame(width: 24, height: 40)
+                        .padding(5)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 36)
                         .foregroundColor(Color.secondary01)
                 }
             }
             else {
                 Rectangle()
-                    .frame(width: 22, height: 36)
+                    .frame(width: 10, height: 10)
                     .opacity(0) // 균형 유지를 위한 빈 영역
             }
         }
@@ -35,13 +37,15 @@ struct CustomToolBar: ToolbarContent {
                 Button(action: onXMark) {
                     Image(systemName: "xmark")
                         .resizable()
-                        .frame(width: 26, height: 26)
+                        .padding(5)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 36)
                         .foregroundColor(Color.secondary01)
                 }
             }
             else {
                 Rectangle()
-                    .frame(width: 22, height: 36)
+                    .frame(width: 10, height: 10)
                     .opacity(0) // 균형 유지를 위한 빈 영역
             }
         }

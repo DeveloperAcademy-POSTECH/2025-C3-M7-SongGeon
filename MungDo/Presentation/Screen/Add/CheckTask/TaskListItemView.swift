@@ -25,15 +25,15 @@ struct TaskListItemView: View {
                     .scaledToFit()
                     .frame(width: 30, height: 30)
             }
+            .padding(.leading, 16)
 
             //MARK: - Task 타이틀
             VStack(alignment: .leading, spacing: 2) {
                 Text(taskItem.taskType.displayName)
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(.black)
+                    .font(.bodyFontSmall)
+                    .foregroundColor(.primary03)
                     .multilineTextAlignment(.leading)
             }
-
             Spacer()
 
             //MARK: - 체크 버튼
@@ -52,8 +52,8 @@ struct TaskListItemView: View {
                     }
                 }
             }
+            .padding(.trailing, 16)
         }
-        .padding(.horizontal, 16)
         .padding(.vertical, 12)
         .background(Color.neutrals01)
         .cornerRadius(14)
@@ -66,5 +66,4 @@ struct TaskListItemView: View {
         taskItem: TaskItem(taskType: .walk, date: Date(), isCompleted: false),
         onToggleComplete: { _ in }
     )
-    .padding()
 }

@@ -20,7 +20,6 @@ struct CheckTaskView: View {
     // SwiftData에서 태스크를 불러오기
     @Query private var allTaskItems: [TaskItemEntity]
 
-
     // 현재 선택된 날짜의 저장된 태스크만 필터링
     private var tasksForSelectedDate: [TaskItem] {
         let calendar = Calendar.current
@@ -47,10 +46,11 @@ struct CheckTaskView: View {
             HStack{
                 //MARK: - 왼쪽 캘린더
                 VStack(alignment: .leading) {
+                    Spacer()
                     Text("날짜별로 모아보기")
                         .font(.headingFontMeidum)
                         .foregroundColor(.primary03)
-
+                    Spacer()
                     FSCustomCalendarView(tasks: allTaskItems, currentPage: selectedDate, selectedDate: $selectedDate)
                         .frame(width: availableHeight, height: availableHeight)
                         .id(reloadTrigger)
@@ -61,52 +61,61 @@ struct CheckTaskView: View {
                                 .shadow(color: Color(red: 1, green: 0.45, blue: 0.38).opacity(0.08), radius: 6, x: 0, y: 4)
                         )
                 }
-                Spacer(minLength:24)
+                Spacer(minLength:24.0)
                 //MARK: - 오른쪽 태스크 리스트
                 VStack(alignment: .leading) {
+                    Spacer()
                     Text(dateFormatter.string(from: selectedDate) + "의 일정")
                         .font(.bodyFontLarge)
                         .foregroundColor(.neutrals03)
+                    Spacer()
+                    VStack {
+                        List {
+                            ForEach(tasksForSelectedDate, id: \.id) { taskItem in
+                                TaskListItemView(
+                                    taskItem: taskItem,
+                                    onToggleComplete: { updatedTask in
+                                        toggleTaskCompletion(updatedTask)
+                                    }
+                                )
+                                
+                                .listRowBackground(Color.clear)
+                                .listRowInsets(EdgeInsets())
+                                .listRowSeparator(.hidden)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(role: .destructive) {
+                                        deleteTask(taskItem)
+                                    } label: {
+                                        Label("삭제", systemImage: "trash")
+                                    }
+                                }
+                                .padding(.bottom, 12)
+                            }
 
-                    List {
-                        ForEach(tasksForSelectedDate, id: \.id) { taskItem in
-                            TaskListItemView(
-                                taskItem: taskItem,
-                                onToggleComplete: { updatedTask in
-                                    toggleTaskCompletion(updatedTask)
-                                }
-                            )
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button(role: .destructive) {
-                                    deleteTask(taskItem)
-                                } label: {
-                                    Label("삭제", systemImage: "trash")
-                                }
+                            if tasksForSelectedDate.isEmpty {
+                                Text("이 날 예정된 일정이 없어요.")
+                                    .font(.headingFontSmall)
+                                    .foregroundColor(.primary03)
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.hidden)
                             }
                         }
-
-                        if tasksForSelectedDate.isEmpty {
-                            Text("이 날 예정된 일정이 없어요.")
-                                .font(.headingFontMeidum)
-                                .foregroundColor(.primary03)
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
+                        .listStyle(PlainListStyle())
+                        .scrollContentBackground(.hidden)
+                        .frame(maxHeight: .infinity)
+                        Spacer()
+                        Button("새로운 할 일 추가하기") {
+                            showTaskFlow = true
                         }
+                        .buttonStyle(AddTaskButtonStyle())
                     }
-                    .listStyle(PlainListStyle())
-                    .scrollContentBackground(.hidden)
-                    .frame(maxHeight: .infinity)
-                    Spacer()
-                    Button("새로운 할 일 추가하기") {
-                        showTaskFlow = true
-                    }
-                    .buttonStyle(AddTaskButtonStyle())
+                    .frame(maxWidth: .infinity, maxHeight: availableHeight)
+                    
                 }
-                .frame(maxWidth: .infinity)
             }
-            .padding(geometry.size.height*0.05)
+            .padding(.horizontal, geometry.size.height*0.05)
+            .padding(.bottom, geometry.size.height*0.03)
+            .padding(.top, geometry.size.height*0.01)
             .background(Color.primary02)
             .fullScreenCover(isPresented: $showTaskFlow) {
                 NavigationStack {
