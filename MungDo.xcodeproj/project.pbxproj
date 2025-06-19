@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		69E014212DED67E4008A6B87 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69E014202DED67E4008A6B87 /* GoogleService-Info.plist */; };
 		69E014242DED69A2008A6B87 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 69E014232DED69A2008A6B87 /* FirebaseAnalytics */; };
 		69E014262DED69A2008A6B87 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 69E014252DED69A2008A6B87 /* FirebaseFirestore */; };
 		A17F2BA52DEDC6F600A28163 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = A17F2BA42DEDC6F600A28163 /* FSCalendar */; };
+		D5AD3FE72DFEF55500285DA2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69E014202DED67E4008A6B87 /* GoogleService-Info.plist */; };
 		FFCD0B3D2DE837270081B599 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = FFCD0B3C2DE837270081B599 /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -21,11 +21,10 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		FF13BCAB2DF2F1A700A5B05F /* Exceptions for "MungDo" folder in "MungDo" target */ = {
+		D5AD3FE62DFEF4E400285DA2 /* Exceptions for "MungDo" folder in "MungDo" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				Presentation/ReusableView/TaskTagCardView.swift,
 			);
 			target = FFCD0AC92DE809A60081B599 /* MungDo */;
 		};
@@ -35,7 +34,7 @@
 		FFCD0ACC2DE809A60081B599 /* MungDo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				FF13BCAB2DF2F1A700A5B05F /* Exceptions for "MungDo" folder in "MungDo" target */,
+				D5AD3FE62DFEF4E400285DA2 /* Exceptions for "MungDo" folder in "MungDo" target */,
 			);
 			path = MungDo;
 			sourceTree = "<group>";
@@ -145,8 +144,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5AD3FE72DFEF55500285DA2 /* GoogleService-Info.plist in Resources */,
 				FFCD0B3D2DE837270081B599 /* .gitignore in Resources */,
-				69E014212DED67E4008A6B87 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,7 +293,6 @@
 				DEVELOPMENT_TEAM = D4Z83823HG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MungDo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -328,7 +326,6 @@
 				DEVELOPMENT_TEAM = D4Z83823HG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MungDo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
