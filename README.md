@@ -73,12 +73,12 @@ https://github.com/user-attachments/assets/9525c6d2-ee5e-425b-824e-b7796a27c451
         <b>Chloe</b>
       </a>
     </td>
-<!--     <td align="center">
-      <a href="https://github.com/jomi">
-        <img src="https://github.com/jomi.png" width="60"/><br/>
+    <td align="center">
+      <a href="https://github.com/jomii812">
+        <img src="https://github.com/jomii812.png" width="60"/><br/>
         <b>Jomi</b>
       </a>
-    </td> -->
+    </td>
   </tr>
 </table>
 
