@@ -1,6 +1,6 @@
 # :iphone: 멍Do!(MungDo!)
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/dc625305-50cd-4430-a185-269a95a6f874" height="600"/>
+  <img src="https://github.com/user-attachments/assets/265b937a-b3f5-4177-a147-f4c9c0ba56d3" height="600"/>
 </div>
 
 [App statement]
