@@ -5,6 +5,9 @@
 //  Created by 제하맥 on 6/2/25.
 //
 
+// 사용하지 않는 view
+// Depth 표기를 다시 도입할 경우를 우려해서 남겨둠
+
 import SwiftUI
 
 struct DepthIndicator: View {

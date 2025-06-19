@@ -8,31 +8,46 @@
 import SwiftUI
 
 struct CustomToolBar: ToolbarContent {
-    var showDepth: Bool = false
-    var currentDepth: Int = 1
-    var totalDepth: Int = 1
+    var showBack: Bool = true
     let onBack: () -> Void
+    var showXMark: Bool = false
+    let onXMark: () -> Void
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
-            Button(action: onBack) {
-                Image(systemName: "chevron.left")
-                    .resizable()
-                    .frame(width: 22, height: 36)
-                    .foregroundColor(Color.buttonSecondary)
+            if showBack {
+                Button(action: onBack) {
+                    Image(systemName: "chevron.left")
+                        .resizable()
+                        .padding(5)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 36)
+                        .foregroundColor(Color.secondary01)
+                }
             }
-        }
-
-        ToolbarItem(placement: .principal) {
-            if showDepth {
-                DepthIndicator(current: currentDepth, total: totalDepth)
+            else {
+                Rectangle()
+                    .frame(width: 10, height: 10)
+                    .opacity(0) // 균형 유지를 위한 빈 영역
             }
         }
 
         ToolbarItem(placement: .navigationBarTrailing) {
-            Rectangle()
-                .frame(width: 22, height: 36)
-                .opacity(0) // 균형 유지를 위한 빈 영역
+            if showXMark {
+                Button(action: onXMark) {
+                    Image(systemName: "xmark")
+                        .resizable()
+                        .padding(5)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 36)
+                        .foregroundColor(Color.secondary01)
+                }
+            }
+            else {
+                Rectangle()
+                    .frame(width: 10, height: 10)
+                    .opacity(0) // 균형 유지를 위한 빈 영역
+            }
         }
     }
 }

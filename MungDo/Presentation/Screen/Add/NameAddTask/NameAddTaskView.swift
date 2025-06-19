@@ -10,80 +10,87 @@ import SwiftUI
 struct NameAddTaskView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selectedTaskType: TaskType? = nil
-    @State private var path = NavigationPath()
     
     let title: String = "어떤 일을 추가할까요?"
     var onComplete: () -> Void
+    var selectedDate: Date
     
     var body: some View {
         ZStack {
             Color.backgroundPrimary.edgesIgnoringSafeArea(.all)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    selectedTaskType = nil
-                }
-            
-            VStack(alignment: .leading, spacing: 28) {
-                Text(title)
-                    .font(.system(size: 37, weight: .semibold))
-                    .padding(28)
-                
-                //Mark: 태스크 카드를 Grid로 나열
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 28) {
-                    ForEach(TaskType.allCases) { taskType in
-                        TaskTagCardView(
-                            title: taskType.displayName,
-                            isSelected: selectedTaskType == taskType)
-                        .onTapGesture {
-                            if selectedTaskType == taskType {
-                                selectedTaskType = nil // 다시 누르면 해제
-                            } else {
-                                selectedTaskType = taskType
-                            }
-                        }
-                    }
-                }
-                .padding(.bottom, 40)
-                
-                HStack {
+            GeometryReader { geometry in
+                VStack(alignment: .leading, spacing: 16) {
+                    Text(title)
+                        .font(.headingFontMeidum)
+                        .foregroundColor(.primary03)
                     Spacer()
-                    if let selectedTask = selectedTaskType {
-                        NavigationLink(
-                            destination: CalendarAddTaskView(
-                                taskType: selectedTask,
-                                onComplete: onComplete
+                    
+                    // 태스크 카드 그리드
+                    LazyVGrid(
+                        columns: [
+                            GridItem(.flexible()),
+                            GridItem(.flexible()),
+                            GridItem(.flexible())
+                        ]
+                    ) {
+                        ForEach(TaskType.allCases) { taskType in
+                            TaskTagCardView(
+                                title: taskType.displayName,
+                                image: taskType.displayIcon,
+                                isSelected: selectedTaskType == taskType,
+                                cycleText: taskType.defaultCycleDescription
                             )
-                        ) {
-                            CustomButtonLabel(title: "다음")
+                            .onTapGesture {
+                                if selectedTaskType == taskType {
+                                    selectedTaskType = nil
+                                } else {
+                                    selectedTaskType = taskType
+                                }
+                            }
+                            .padding(geometry.size.height*0.01)
                         }
-                    } else {
-                        // 비활성화된 버튼처럼 보이도록 디자인
-                        CustomButtonLabel(title: "다음", isEnabled: false)
+                        .frame(height: geometry.size.height*0.3)
                     }
+                    
                     Spacer()
-                }
-                .padding(.bottom, 28)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(55)
-            .navigationBarBackButtonHidden(true)
-            .toolbar{
-                CustomToolBar(
-                    showDepth: true,
-                    currentDepth: 1,
-                    totalDepth: 2,
-                    onBack: {
-                        dismiss()
+                    HStack {
+                        Spacer()
+                        if let selectedTask = selectedTaskType {
+                            NavigationLink(
+                                destination: CalendarAddTaskView(
+                                    taskType: selectedTask,
+                                    onComplete: onComplete,
+                                    selectedDate: self.selectedDate
+                                )
+                            ) {
+                                CustomButtonLabel(title: "다음")
+                            }
+                        } else {
+                            // 비활성화된 버튼처럼 보이도록 디자인
+                            CustomButtonLabel(title: "다음", isEnabled: false)
+                                .shadow(color: Color(red: 1, green: 0.44, blue: 0.38).opacity(0.2), radius: 6, x: 4, y: 4)
+                        }
+                        Spacer()
                     }
-                )
+                }
+                .padding(geometry.size.height*0.05)
             }
         }
-
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("BackgroundPrimary"))
+        .contentShape(Rectangle())
+        .onTapGesture {
+            selectedTaskType = nil
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar{
+            CustomToolBar(showBack:false, onBack: {},showXMark: true, onXMark: {onComplete()})
+        }
     }
 }
 
 #Preview {
     NavigationStack {
-        NameAddTaskView(onComplete: {})
+        NameAddTaskView(onComplete: {}, selectedDate: Date())
     }
 }
