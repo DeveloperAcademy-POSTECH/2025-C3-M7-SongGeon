@@ -1,27 +1,52 @@
-# :iphone: 멍Do!(MungDo!)
+# 🐶 반려견 공동 케어 서비스, '멍Do!'
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/265b937a-b3f5-4177-a147-f4c9c0ba56d3" height="400"/>
+  <img src="https://github.com/user-attachments/assets/265b937a-b3f5-4177-a147-f4c9c0ba56d3"/>
 </div>
 
-[App statement]
+<br/>
+
+## 🍭 App Statement
+‘멍Do!’는 공동으로 반려견을 돌보는 가정에서 주양육자와 부양육자의 역할을 분리하고, **케어 일정을 자동으로 반복 생성**해 잊지 않도록 도와주는 앱입니다.
+
+<br/>
+
+## 🏖️ Overview
+**🐶 아차! 약 먹이는 걸 잊어버렸잖아!😱**
+
+<br/>
+
+여러 명이 함께 반려견을 돌보는 가정에서는 역할이 나뉘어 있는 경우가 많아요. 건강하게 키우고는 싶지만, 각자 맡은 일이 다르고 주기도 제각각이면 중요한 케어를 놓치기 쉽죠.
+
+그래서 팀 ‘송건’은 **한 번의 일정 등록만으로 주기에 맞게 자동으로 태스크를 생성해주는 앱**, ‘멍Do!’를 만들었습니다.
+
+‘멍Do!’와 함께라면 케어 목록을 복잡하게 정리하지 않아도 되고, 매번 반복 등록할 필요도 없어요. **간편하게**, **함께**, **건강하게** 반려견을 돌볼 수 있어요.
+
+<br/>
+
+## 📌 Features
+
+- 케어 일정을 등록하고, 필요할 땐 삭제할 수 있어요.
+- **프리셋**으로 지정된 태스크를 날짜 선택만으로 간편하게 등록할 수 있어요.
+- **캘린더**에서 전체 케어 일정을 한눈에 확인할 수 있어요.
+- **리스트 보기**로 오늘의 태스크를 자세히 살펴볼 수 있어요.
+- 다른 가족이 **오늘의 할 일**을 체크하며 함께 관리할 수 있어요.
+
+<br/>
 
 ## :fireworks: Screenshots
 
-Attach photos if you are available
+
+
+<br/>
 
 ## :framed_picture: Demo
 
+<div align="center">
 
 https://github.com/user-attachments/assets/9525c6d2-ee5e-425b-824e-b7796a27c451
+</div>
 
-
-
-## :pushpin: Features
-
-- Feature 1
-- Feature 2
-- Feature 3
-
+<br/>
 
 ## :sparkles: Skills & Tech Stack
 
@@ -34,6 +59,8 @@ https://github.com/user-attachments/assets/9525c6d2-ee5e-425b-824e-b7796a27c451
   
 </div>
 
+
+<br/>
 
 ## :people_hugging: Authors
 
