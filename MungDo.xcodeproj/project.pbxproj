@@ -21,7 +21,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		D5AD3FE62DFEF4E400285DA2 /* Exceptions for "MungDo" folder in "MungDo" target */ = {
+		D5AD44E92E08174600285DA2 /* Exceptions for "MungDo" folder in "MungDo" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -34,7 +34,7 @@
 		FFCD0ACC2DE809A60081B599 /* MungDo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				D5AD3FE62DFEF4E400285DA2 /* Exceptions for "MungDo" folder in "MungDo" target */,
+				D5AD44E92E08174600285DA2 /* Exceptions for "MungDo" folder in "MungDo" target */,
 			);
 			path = MungDo;
 			sourceTree = "<group>";
