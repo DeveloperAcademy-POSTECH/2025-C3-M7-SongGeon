@@ -29,6 +29,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct MungDoApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
+    init() {
+        FontManager.registerCustomFonts()
+    }
+    
     var body: some Scene {
         WindowGroup {
             HomeView()
