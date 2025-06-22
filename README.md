@@ -36,6 +36,35 @@
 ## :fireworks: Screenshots
 
 
+<div align="center">
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/988b4505-d6b4-4c2f-9788-4eba3ba3225d" width="300"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/b458d5f3-03fa-4aea-b028-98e50e549882" width="300"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/d8b3158f-6d26-4324-aa36-d4d4158f4379" width="300"/>
+    </td>
+
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/5781508d-be0d-44e4-8a1b-d2e21785d75a" width="300"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/bc329870-3497-4f8f-8960-3856d0df3899" width="300"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/90c8cbde-8872-4cba-ba8d-a140799a679b" width="300"/>
+    </td>
+  </tr>
+</table>
+
+</div>
 
 <br/>
 
